@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">SoDecApp</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="default_reading">You should never see this!</string>
     <string name="action_settings">Settings</string>
 
 </resources>
