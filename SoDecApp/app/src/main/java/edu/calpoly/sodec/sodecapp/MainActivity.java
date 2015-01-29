@@ -7,21 +7,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import de.tavendo.autobahn.WebSocketConnection;
+import de.tavendo.autobahn.WebSocketException;
+import de.tavendo.autobahn.WebSocketHandler;
 
 public class MainActivity extends ActionBarActivity {
 
-    private WebSocketClient mServerConnection;
+    private WebSocketConnection mServerConnection;
 
     private TextView mSensorReadingVw;
 
-    // TODO: Update this when backend gets hosted, currently points to locally running backend
-    private static final String SOCKET_URI = "ws://10.0.2.2:3001";
+    // Remote backend
+    private static final String SOCKET_URI = "ws://192.227.237.2:8080";
+    // Local backend when using an emulator
+    //private static final String SOCKET_URI = "ws://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,41 +34,30 @@ public class MainActivity extends ActionBarActivity {
      * Connects to the SoDec backend using a web socket.
      */
     private void connectToServer() {
-        URI connectionUri;
 
+        mServerConnection = new WebSocketConnection();
         try {
-            connectionUri = new URI(SOCKET_URI);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return;
+            mServerConnection.connect(SOCKET_URI, new WebSocketHandler() {
+
+                @Override
+                public void onOpen() {
+                    mServerConnection.sendTextMessage("One day, this will be useful information " +
+                            "from the Solar Decathlon house.");
+                }
+
+                @Override
+                public void onTextMessage(String message) {
+                    displayReading("The server says... " + message);
+                }
+
+                @Override
+                public void onClose(int code, String reason) {
+                    Log.d("Server Connection", "The connection was lost because " + reason);
+                }
+            });
+        } catch (WebSocketException e) {
+            Log.d("Server Connection", "Error: " + e.toString());
         }
-
-        mServerConnection = new WebSocketClient(connectionUri) {
-            @Override
-            public void onOpen(ServerHandshake handshakeData) {
-                Log.d("connectToServer", "open");
-                displayReading("Connecting...");
-            }
-
-            // Just display incoming readings/messages initially for vertical prototype
-            @Override
-            public void onMessage(String message) {
-                Log.d("connectToServer", message);
-                displayReading(message);
-            }
-
-            @Override
-            public void onClose(int code, String reason, boolean remote) {
-                Log.d("connectToServer", "close");
-                displayReading("Closing the connection...");
-            }
-
-            @Override
-            public void onError(Exception ex) {
-                Log.d("connectToServer", "Error: " + ex.toString());
-            }
-        };
-        mServerConnection.connect();
     }
 
     /**
@@ -82,15 +70,6 @@ public class MainActivity extends ActionBarActivity {
                 mSensorReadingVw.setText(reading);
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mServerConnection != null) {
-            mServerConnection.close();
-            mServerConnection = null;
-        }
-        super.onDestroy();
     }
 
     @Override
