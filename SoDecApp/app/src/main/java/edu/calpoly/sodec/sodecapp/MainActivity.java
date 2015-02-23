@@ -7,67 +7,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import de.tavendo.autobahn.WebSocketConnection;
-import de.tavendo.autobahn.WebSocketException;
-import de.tavendo.autobahn.WebSocketHandler;
+import edu.calpoly.sodec.sodecapp.ServerConnection.ResponseCallback;
+
+import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
-    private WebSocketConnection mServerConnection;
-
     private TextView mSensorReadingVw;
-
-    // Remote backend
-    private static final String SOCKET_URI = "ws://192.227.237.2:8080";
-    // Local backend when using an emulator
-    //private static final String SOCKET_URI = "ws://10.0.2.2:8080";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSensorReadingVw = (TextView) this.findViewById(R.id.sensorReading);
-        connectToServer();
-    }
 
-    /**
-     * Connects to the SoDec backend using a web socket.
-     */
-    private void connectToServer() {
-
-        mServerConnection = new WebSocketConnection();
-        try {
-            mServerConnection.connect(SOCKET_URI, new WebSocketHandler() {
-
-                @Override
-                public void onOpen() {
-                    mServerConnection.sendTextMessage("One day, this will be useful information " +
-                            "from the Solar Decathlon house.");
-                }
-
-                @Override
-                public void onTextMessage(String message) {
-                    displayReading("The server says... " + message);
-                }
-
-                @Override
-                public void onClose(int code, String reason) {
-                    Log.d("Server Connection", "The connection was lost because " + reason);
-                }
-            });
-        } catch (WebSocketException e) {
-            Log.d("Server Connection", "Error: " + e.toString());
-        }
-    }
-
-    /**
-     * Show the given reading.
-     */
-    private void displayReading(final String reading) {
-        runOnUiThread(new Runnable() {
+        // TODO: Move this to a service or broadcast receiver at some point
+        new ServerConnection().getPowerGenerated(new ResponseCallback<String, String>() {
             @Override
-            public void run() {
-                mSensorReadingVw.setText(reading);
+            public void execute(Map<String, String> response) {
+                mSensorReadingVw.setText(response.get("power-consumption"));
             }
         });
     }
