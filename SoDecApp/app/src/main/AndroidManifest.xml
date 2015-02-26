@@ -3,22 +3,41 @@
     package="edu.calpoly.sodec.sodecapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
-
         <activity
-            android:name="edu.calpoly.sodec.sodecapp.MainActivity"
-            android:label="@string/app_name">
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="SCHEDULE_COLLECTION" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".SensorCollectionReceiver"
+            android:exported="true"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="COLLECT_SENSOR_DATA" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
