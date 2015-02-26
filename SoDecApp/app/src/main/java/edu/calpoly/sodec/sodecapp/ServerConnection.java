@@ -12,12 +12,22 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import java.util.Map;
 
+import de.tavendo.autobahn.WebSocketConnection;
+import de.tavendo.autobahn.WebSocketException;
+import de.tavendo.autobahn.WebSocketHandler;
+
+/** Handles HTTP and WebSocket communication with the server. */
 public class ServerConnection {
+
+    private static WebSocketConnection mSocketConnection = null;
 
     // Remote backend (may not be updated currently)
     //private static final String BASE_SERVER_URI = "http://192.227.237.2:3000";
+    //private static final String SOCKET_URI = "ws://192.227.237.2:3001";
+
     // Local backend when using an emulator
     private static final String BASE_SERVER_URI = "http://10.0.2.2:3000";
+    private static final String SOCKET_URI = "ws://10.0.2.2:3001";
 
     // Server routes / endpoints
     private static final String POWER_ROUTE = "/power";
@@ -27,6 +37,8 @@ public class ServerConnection {
     // Status codes
     public static final int SUCCESS = 200;
 
+    private static final String TAG = "ServerConnection";
+
     // For now we do not need to associate any state with this class. Some will probably be added
     // as we go though.
     public ServerConnection() { }
@@ -34,6 +46,36 @@ public class ServerConnection {
     /** Indicates commands to execute once a server response is received. */
     public interface ResponseCallback<K, V> {
         public void execute(Map<K, V> json);
+    }
+
+    public static WebSocketConnection getSocketConnection() {
+        if (mSocketConnection == null || !mSocketConnection.isConnected()) {
+            mSocketConnection = new WebSocketConnection();
+            try {
+                mSocketConnection.connect(SOCKET_URI, new WebSocketHandler() {
+                    @Override
+                    public void onOpen() {
+                        mSocketConnection.sendTextMessage("One day, this will be useful information " +
+                                "from the Solar Decathlon house.");
+                    }
+
+                    @Override
+                    public void onTextMessage(String message) {
+                        // TODO: We'll want to actually do something here once we start
+                        // supporting events that have a push/notification component
+                        Log.d(TAG, "Received message: " + message);
+                    }
+
+                    @Override
+                    public void onClose(int code, String reason) {
+                        Log.d(TAG, "The connection was lost because " + reason);
+                    }
+                });
+            } catch (WebSocketException e) {
+                Log.d(TAG, "Error: " + e.toString());
+            }
+        }
+        return mSocketConnection;
     }
 
     /** Retrieve the most recent amount of power generated. */
@@ -71,7 +113,7 @@ public class ServerConnection {
                     }
                     else {
                         /* Only 23 characters allowed */
-                        Log.d("ServerConnect " + route, "Error: " +
+                        Log.d(TAG + " " + route, "Error: " +
                                 response.getStatusLine().getStatusCode());
                     }
                     response.close();

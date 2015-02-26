@@ -2,11 +2,11 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import de.tavendo.autobahn.WebSocketConnection;
 import edu.calpoly.sodec.sodecapp.ServerConnection.ResponseCallback;
 
 import java.util.Map;
@@ -14,6 +14,10 @@ import java.util.Map;
 public class MainActivity extends ActionBarActivity {
 
     private TextView mSensorReadingVw;
+    private WebSocketConnection mSocketConnection;
+
+    // Local backend when using an emulator
+    private static final String SOCKET_URI = "ws://10.0.2.2:3001";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class MainActivity extends ActionBarActivity {
                 mSensorReadingVw.setText(response.get("power-consumption"));
             }
         });
+        mSocketConnection = ServerConnection.getSocketConnection();
     }
 
     @Override
