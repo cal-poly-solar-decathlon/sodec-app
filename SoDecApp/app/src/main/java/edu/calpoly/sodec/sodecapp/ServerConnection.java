@@ -18,9 +18,13 @@ public class ServerConnection {
     //private static final String BASE_SERVER_URI = "http://192.227.237.2:3000";
     // Local backend when using an emulator
     private static final String BASE_SERVER_URI = "http://10.0.2.2:3000";
+
+    // Server routes / endpoints
     private static final String POWER_ROUTE = "/power";
     private static final String LR_TEMP_ROUTE = "/s-temp-lr";
     private static final String LR_OCC_ROUTE = "/s-occ-lr";
+
+    // Status codes
     public static final int SUCCESS = 200;
 
     // For now we do not need to associate any state with this class. Some will probably be added
@@ -34,58 +38,20 @@ public class ServerConnection {
 
     /** Retrieve the most recent amount of power generated. */
     public void getPowerGenerated(final ResponseCallback<String, String> onSuccess) {
-        new AsyncTask<Void, Void, Map>() {
-
-            @Override
-            protected Map doInBackground(Void... params) {
-
-                HttpGet request = new HttpGet(BASE_SERVER_URI + "/power");
-                CloseableHttpClient httpClient = HttpClients.createDefault();
-                CloseableHttpResponse response = null;
-                Map<String, String> jsonResponse = null;
-
-                try {
-                    response = httpClient.execute(request);
-
-                    if (response.getStatusLine().getStatusCode() == SUCCESS) {
-                        jsonResponse = new ObjectMapper().readValue(
-                                response.getEntity().getContent(), Map.class);
-                    }
-                    else {
-                        Log.d("ServerConnection power", "Error: " +
-                                response.getStatusLine().getStatusCode());
-                    }
-                    response.close();
-                    httpClient.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return jsonResponse;
-            }
-
-            @Override
-            protected void onPostExecute(Map response) {
-                if (response != null) {
-                    onSuccess.execute(response);
-                }
-            }
-        }.execute();
+        sendRequest(onSuccess, POWER_ROUTE);
     }
 
     /** Retrieve the living room temperature */
     public void getLivingRoomTemp(final ResponseCallback<String, String> onSuccess) {
-        connect(onSuccess, LR_TEMP_ROUTE);
+        sendRequest(onSuccess, LR_TEMP_ROUTE);
     }
 
     /** Retrieve the living room occupancy */
     public void getLivingRoomOcc(final ResponseCallback<String, String> onSuccess) {
-        connect(onSuccess, LR_OCC_ROUTE);
+        sendRequest(onSuccess, LR_OCC_ROUTE);
     }
 
-
-
-    private void connect(final ResponseCallback<String, String> onSuccess, final String route) {
+    private void sendRequest(final ResponseCallback<String, String> onSuccess, final String route) {
         new AsyncTask<Void, Void, Map>() {
 
             @Override
