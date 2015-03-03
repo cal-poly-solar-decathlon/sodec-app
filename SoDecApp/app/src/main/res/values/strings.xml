@@ -2,7 +2,10 @@
 <resources>
 
     <string name="app_name">SoDecApp</string>
-    <string name="default_reading">You should never see this!</string>
+    <string name="btn_see_power_generated">See Power Generated</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_power_generated">Power Generated</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

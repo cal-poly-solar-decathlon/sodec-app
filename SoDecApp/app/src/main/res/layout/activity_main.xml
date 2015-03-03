@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/sensorReading"
-        android:text="@string/default_reading"
+    <Button
+        android:id="@+id/seePowerGenerated"
+        android:text="@string/btn_see_power_generated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -23,7 +23,7 @@
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="SCHEDULE_COLLECTION" />
@@ -32,12 +32,17 @@
 
         <receiver
             android:name=".SensorCollectionReceiver"
-            android:exported="true"
-            android:enabled="true" >
+            android:enabled="true"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="COLLECT_SENSOR_DATA" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".PowerGeneratedActivity"
+            android:label="@string/title_activity_power_generated" >
+        </activity>
     </application>
 
 </manifest>

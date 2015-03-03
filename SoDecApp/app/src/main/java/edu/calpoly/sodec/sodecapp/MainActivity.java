@@ -6,16 +6,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import de.tavendo.autobahn.WebSocketConnection;
-import edu.calpoly.sodec.sodecapp.ServerConnection.ResponseCallback;
-
-import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
-    private TextView mSensorReadingVw;
+    private Button mSeePowerGenVw;
     private WebSocketConnection mSocketConnection;
 
     // Local backend when using an emulator
@@ -25,13 +24,11 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSensorReadingVw = (TextView) this.findViewById(R.id.sensorReading);
-
-        // Still keeping this here until we merge in the power generation display
-        new ServerConnection().getPowerGenerated(new ResponseCallback<String, String>() {
+        mSeePowerGenVw = (Button) this.findViewById(R.id.seePowerGenerated);
+        mSeePowerGenVw.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void execute(Map<String, String> response) {
-                mSensorReadingVw.setText(response.get("power-consumption"));
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PowerGeneratedActivity.class));
             }
         });
         mSocketConnection = ServerConnection.getSocketConnection();
