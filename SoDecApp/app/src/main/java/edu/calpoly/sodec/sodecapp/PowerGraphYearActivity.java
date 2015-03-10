@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +18,12 @@ import lecho.lib.hellocharts.view.LineChartView;
 /**
  * Created by Kyle on 3/9/2015.
  */
-public class PowerGraphMonthsActivity extends ActionBarActivity {
+public class PowerGraphYearActivity extends ActionBarActivity {
 
     private LineChartView mChart;
     private LineChartData mData;
+    private String startTime;
+    private String endTime;
 
     private static final int MONTH_VIEW = 3;
 
@@ -32,8 +35,10 @@ public class PowerGraphMonthsActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView( R.layout.power_graph_months_layout );
+        setContentView( R.layout.power_graph_months_layout);
 
+        startTime = TimestampUtils.getStartIsoForYear();
+        endTime = TimestampUtils.getIsoForNow();
 
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();

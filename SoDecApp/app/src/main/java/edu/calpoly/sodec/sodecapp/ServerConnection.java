@@ -33,6 +33,8 @@ public class ServerConnection {
     private static final String POWER_ROUTE = "/power";
     private static final String LR_TEMP_ROUTE = "/s-temp-lr";
     private static final String LR_OCC_ROUTE = "/s-occ-lr";
+    private static final String EVENTS_IN_RANGE_ROUTE = "/events-in-range";
+    private static final String LATEST_EVENT_ROUTE = "/latest-event";
 
     // Status codes
     public static final int SUCCESS = 200;
@@ -86,6 +88,16 @@ public class ServerConnection {
     /** Retrieve the living room temperature */
     public void getLivingRoomTemp(final ResponseCallback<String, String> onSuccess) {
         sendRequest(onSuccess, LR_TEMP_ROUTE);
+    }
+
+    /** Retrieve the events between a start time and end time */
+    public void getEventsInRange(final ResponseCallback<String, String> onSuccess) {
+        sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE);
+    }
+
+    /** Retrieve the events between a start time and end time */
+    public void getLatestEvents(final ResponseCallback<String, String> onSuccess) {
+        sendRequest(onSuccess, LATEST_EVENT_ROUTE);
     }
 
     /** Retrieve the living room occupancy */

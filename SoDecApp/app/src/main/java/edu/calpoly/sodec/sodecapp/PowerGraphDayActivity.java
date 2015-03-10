@@ -3,6 +3,7 @@ package edu.calpoly.sodec.sodecapp;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
+import android.util.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +15,15 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
-/**
- * Created by Kyle on 3/9/2015.
- */
-public class PowerGraphWeeksActivity extends ActionBarActivity {
+
+public class PowerGraphDayActivity extends ActionBarActivity {
 
     private LineChartView mChart;
     private LineChartData mData;
+    private String startTime;
+    private String endTime;
 
-    private static final int WEEK_VIEW = 2;
+    private static final int HOUR_VIEW = 0;
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";
@@ -32,13 +33,14 @@ public class PowerGraphWeeksActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView( R.layout.power_graph_weeks_layout );
+        setContentView( R.layout.power_graph_hours_layout );
 
-
+        startTime = TimestampUtils.getStartIsoForDay();
+        endTime = TimestampUtils.getIsoForNow();
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        initData(WEEK_VIEW);
-        initStyle(WEEK_VIEW);
+        initData(HOUR_VIEW);
+        initStyle(HOUR_VIEW);
         mChart.setLineChartData(mData);
     }
 
@@ -48,13 +50,13 @@ public class PowerGraphWeeksActivity extends ActionBarActivity {
         List<Line> lines = new ArrayList<Line>();
         Line line;
 
-        values.add(new PointValue(1, 5));
-        values.add(new PointValue(2, 4));
-        values.add(new PointValue(3, 11));
-        values.add(new PointValue(4, 9));
-        values.add(new PointValue(5, 20));
-        values.add(new PointValue(6, 15));
-        values.add(new PointValue(7, 2));
+        values.add(new PointValue(1, 3));
+        values.add(new PointValue(2, 12));
+        values.add(new PointValue(3, 6));
+        values.add(new PointValue(4, 2));
+        values.add(new PointValue(5, 7));
+        values.add(new PointValue(6, 12));
+        values.add(new PointValue(7, 11));
 
         line = new Line(values)
                 .setColor(Color.BLUE)

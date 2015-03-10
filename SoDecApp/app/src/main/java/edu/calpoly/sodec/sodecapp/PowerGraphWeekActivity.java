@@ -17,12 +17,14 @@ import lecho.lib.hellocharts.view.LineChartView;
 /**
  * Created by Kyle on 3/9/2015.
  */
-public class PowerGraphDaysActivity extends ActionBarActivity {
+public class PowerGraphWeekActivity extends ActionBarActivity {
 
     private LineChartView mChart;
     private LineChartData mData;
+    private String startTime;
+    private String endTime;
 
-    private static final int DAY_VIEW = 1;
+    private static final int WEEK_VIEW = 2;
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";
@@ -32,13 +34,15 @@ public class PowerGraphDaysActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView( R.layout.power_graph_days_layout );
+        setContentView( R.layout.power_graph_weeks_layout );
 
+        startTime = TimestampUtils.getStartIsoForWeek();
+        endTime = TimestampUtils.getIsoForNow();
 
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        initData(DAY_VIEW);
-        initStyle(DAY_VIEW);
+        initData(WEEK_VIEW);
+        initStyle(WEEK_VIEW);
         mChart.setLineChartData(mData);
     }
 
@@ -49,12 +53,12 @@ public class PowerGraphDaysActivity extends ActionBarActivity {
         Line line;
 
         values.add(new PointValue(1, 5));
-        values.add(new PointValue(2, 10));
-        values.add(new PointValue(3, 7));
-        values.add(new PointValue(4, 8));
-        values.add(new PointValue(5, 16));
-        values.add(new PointValue(6, 9));
-        values.add(new PointValue(7, 7));
+        values.add(new PointValue(2, 4));
+        values.add(new PointValue(3, 11));
+        values.add(new PointValue(4, 9));
+        values.add(new PointValue(5, 20));
+        values.add(new PointValue(6, 15));
+        values.add(new PointValue(7, 2));
 
         line = new Line(values)
                 .setColor(Color.BLUE)
