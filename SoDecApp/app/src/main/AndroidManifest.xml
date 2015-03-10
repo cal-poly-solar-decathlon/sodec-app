@@ -43,6 +43,11 @@
             android:name=".PowerGeneratedActivity"
             android:label="@string/title_activity_power_generated" >
         </activity>
+
+        <activity android:name=".PowerGraphHoursActivity" />
+        <activity android:name=".PowerGraphDaysActivity" />
+        <activity android:name=".PowerGraphWeeksActivity" />
+        <activity android:name=".PowerGraphMonthsActivity" />
     </application>
 
 </manifest>
