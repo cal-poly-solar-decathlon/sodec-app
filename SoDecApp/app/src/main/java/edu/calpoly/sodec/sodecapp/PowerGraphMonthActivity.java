@@ -39,6 +39,8 @@ public class PowerGraphMonthActivity extends ActionBarActivity {
         startTime = TimestampUtils.getStartIsoForMonth();
         endTime = TimestampUtils.getIsoForNow();
 
+
+
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
         initData(DAY_VIEW);

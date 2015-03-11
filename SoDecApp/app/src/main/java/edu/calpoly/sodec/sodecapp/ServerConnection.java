@@ -3,13 +3,16 @@ package edu.calpoly.sodec.sodecapp;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import de.tavendo.autobahn.WebSocketConnection;
@@ -82,36 +85,44 @@ public class ServerConnection {
 
     /** Retrieve the most recent amount of power generated. */
     public void getPowerGenerated(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, POWER_ROUTE);
+        sendRequest(onSuccess, POWER_ROUTE, null);
     }
 
     /** Retrieve the living room temperature */
     public void getLivingRoomTemp(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, LR_TEMP_ROUTE);
+        sendRequest(onSuccess, LR_TEMP_ROUTE, null);
     }
 
     /** Retrieve the events between a start time and end time */
     public void getEventsInRange(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE);
+        sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, null);
     }
 
     /** Retrieve the events between a start time and end time */
     public void getLatestEvents(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, LATEST_EVENT_ROUTE);
+        sendRequest(onSuccess, LATEST_EVENT_ROUTE, null);
     }
 
     /** Retrieve the living room occupancy */
     public void getLivingRoomOcc(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, LR_OCC_ROUTE);
+        sendRequest(onSuccess, LR_OCC_ROUTE, null);
     }
 
-    private void sendRequest(final ResponseCallback<String, String> onSuccess, final String route) {
+    private void sendRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
         new AsyncTask<Void, Void, Map>() {
 
             @Override
             protected Map doInBackground(Void... params) {
+                String url = BASE_SERVER_URI + route;
+                if(!url.endsWith("?"))
+                    url += "?";
+                if(parameters != null) {
+                    String paramString = URLEncodedUtils.format(parameters, "utf-8");
+                    url += paramString;
+                }
 
-                HttpGet request = new HttpGet(BASE_SERVER_URI + route);
+                HttpGet request = new HttpGet(url);
+
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 CloseableHttpResponse response = null;
                 Map<String, String> jsonResponse = null;
