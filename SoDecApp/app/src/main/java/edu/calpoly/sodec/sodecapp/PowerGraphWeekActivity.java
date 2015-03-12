@@ -49,31 +49,11 @@ public class PowerGraphWeekActivity extends ActionBarActivity {
         mData = new LineChartData();
         PowerGraphUtils.initPoints(mData, mChart, DEVICE, startTime, endTime);
 
-        initData(WEEK_VIEW);
         initStyle(WEEK_VIEW);
         mChart.setLineChartData(mData);
     }
 
-    // TODO: Need to get data from server; currently uses mock data for a week view.
-    private void initData(int viewType) {
-        List<PointValue> values = new ArrayList<PointValue>();
-        List<Line> lines = new ArrayList<Line>();
-        Line line;
 
-        values.add(new PointValue(1, 5));
-        values.add(new PointValue(2, 4));
-        values.add(new PointValue(3, 11));
-        values.add(new PointValue(4, 9));
-        values.add(new PointValue(5, 20));
-        values.add(new PointValue(6, 15));
-        values.add(new PointValue(7, 2));
-
-        line = new Line(values)
-                .setColor(Color.BLUE)
-                .setCubic(true);
-        lines.add(line);
-        mData.setLines(lines);
-    }
 
     private void initStyle(int viewType) {
         mData.setAxisYLeft(new Axis()

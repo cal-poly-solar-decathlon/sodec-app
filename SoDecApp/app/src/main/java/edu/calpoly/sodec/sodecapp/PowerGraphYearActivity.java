@@ -27,7 +27,6 @@ public class PowerGraphYearActivity extends ActionBarActivity {
     private LineChartData mData;
     private String startTime;
     private String endTime;
-    private List<NameValuePair> params;
 
     private static final int YEAR_VIEW = 3;
 
@@ -45,38 +44,16 @@ public class PowerGraphYearActivity extends ActionBarActivity {
 
         startTime = TimestampUtils.getStartIsoForYear();
         endTime = TimestampUtils.getIsoForNow();
-        params = new LinkedList<NameValuePair>();
-        params.add(new BasicNameValuePair("device", DEVICE));
-        params.add(new BasicNameValuePair("start", startTime));
-        params.add(new BasicNameValuePair("end", endTime));
 
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        initData(YEAR_VIEW);
+        PowerGraphUtils.initPoints(mData, mChart, DEVICE, startTime, endTime);
+
         initStyle(YEAR_VIEW);
         mChart.setLineChartData(mData);
     }
 
-    // TODO: Need to get data from server; currently uses mock data for a week view.
-    private void initData(int viewType) {
-        List<PointValue> values = new ArrayList<PointValue>();
-        List<Line> lines = new ArrayList<Line>();
-        Line line;
 
-        values.add(new PointValue(1, 2));
-        values.add(new PointValue(2, 1));
-        values.add(new PointValue(3, 7));
-        values.add(new PointValue(4, 8));
-        values.add(new PointValue(5, 15));
-        values.add(new PointValue(6, 9));
-        values.add(new PointValue(7, 2));
-
-        line = new Line(values)
-                .setColor(Color.BLUE)
-                .setCubic(true);
-        lines.add(line);
-        mData.setLines(lines);
-    }
 
     private void initStyle(int viewType) {
         mData.setAxisYLeft(new Axis()

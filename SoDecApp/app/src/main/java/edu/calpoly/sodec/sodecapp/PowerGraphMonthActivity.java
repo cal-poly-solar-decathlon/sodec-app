@@ -27,7 +27,6 @@ public class PowerGraphMonthActivity extends ActionBarActivity {
     private LineChartData mData;
     private String startTime;
     private String endTime;
-    private List<NameValuePair> params;
 
     private static final int MONTH_VIEW = 1;
     private static final String DEVICE = "s-temp-lr";
@@ -44,34 +43,14 @@ public class PowerGraphMonthActivity extends ActionBarActivity {
         startTime = TimestampUtils.getStartIsoForMonth();
         endTime = TimestampUtils.getIsoForNow();
 
-
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        initData(MONTH_VIEW);
+        PowerGraphUtils.initPoints(mData, mChart, DEVICE, startTime, endTime);
+
         initStyle(MONTH_VIEW);
         mChart.setLineChartData(mData);
     }
 
-    // TODO: Need to get data from server; currently uses mock data for a week view.
-    private void initData(int viewType) {
-        List<PointValue> values = new ArrayList<PointValue>();
-        List<Line> lines = new ArrayList<Line>();
-        Line line;
-
-        values.add(new PointValue(1, 5));
-        values.add(new PointValue(2, 10));
-        values.add(new PointValue(3, 7));
-        values.add(new PointValue(4, 8));
-        values.add(new PointValue(5, 16));
-        values.add(new PointValue(6, 9));
-        values.add(new PointValue(7, 7));
-
-        line = new Line(values)
-                .setColor(Color.BLUE)
-                .setCubic(true);
-        lines.add(line);
-        mData.setLines(lines);
-    }
 
     private void initStyle(int viewType) {
         mData.setAxisYLeft(new Axis()
