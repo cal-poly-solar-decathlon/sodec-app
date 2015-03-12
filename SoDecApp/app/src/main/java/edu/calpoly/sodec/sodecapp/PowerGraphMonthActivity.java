@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
@@ -23,8 +27,10 @@ public class PowerGraphMonthActivity extends ActionBarActivity {
     private LineChartData mData;
     private String startTime;
     private String endTime;
+    private List<NameValuePair> params;
 
-    private static final int DAY_VIEW = 1;
+    private static final int MONTH_VIEW = 1;
+    private static final String DEVICE = "s-temp-lr";
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";
@@ -33,18 +39,16 @@ public class PowerGraphMonthActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        setContentView( R.layout.power_graph_days_layout );
+        setContentView( R.layout.power_graph_month_layout);
 
         startTime = TimestampUtils.getStartIsoForMonth();
         endTime = TimestampUtils.getIsoForNow();
 
 
-
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        initData(DAY_VIEW);
-        initStyle(DAY_VIEW);
+        initData(MONTH_VIEW);
+        initStyle(MONTH_VIEW);
         mChart.setLineChartData(mData);
     }
 

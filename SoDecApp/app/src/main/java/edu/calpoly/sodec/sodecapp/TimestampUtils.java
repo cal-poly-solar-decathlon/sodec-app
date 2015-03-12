@@ -16,7 +16,7 @@ public class TimestampUtils {
     /**
      * Return an ISO 8601 combined date and time string for current date/time
      *
-     * @return String with format "yyyy-MM-dd'T'HH:mm:ss'Z'"
+     * @return String with format "yyyy-MM-dd'T'HH:mm:ss"
      */
     public static String getIsoForNow() {
         Date now = new Date();
@@ -60,8 +60,8 @@ public class TimestampUtils {
      * @return String with format "yyyy-MM-dd'T'HH:mm:ss'Z'"
      */
     private static String getISO(Date date) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
         return dateFormat.format(date);
     }
 

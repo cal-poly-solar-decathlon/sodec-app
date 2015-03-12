@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 
-import java.security.Timestamp;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
@@ -24,26 +27,33 @@ public class PowerGraphYearActivity extends ActionBarActivity {
     private LineChartData mData;
     private String startTime;
     private String endTime;
+    private List<NameValuePair> params;
 
-    private static final int MONTH_VIEW = 3;
+    private static final int YEAR_VIEW = 3;
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";
+    private static final String DEVICE = "s-temp-lr";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        setContentView( R.layout.power_graph_months_layout);
+        setContentView( R.layout.power_graph_year_layout);
 
         startTime = TimestampUtils.getStartIsoForYear();
         endTime = TimestampUtils.getIsoForNow();
+        params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("device", DEVICE));
+        params.add(new BasicNameValuePair("start", startTime));
+        params.add(new BasicNameValuePair("end", endTime));
 
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        initData(MONTH_VIEW);
-        initStyle(MONTH_VIEW);
+        initData(YEAR_VIEW);
+        initStyle(YEAR_VIEW);
         mChart.setLineChartData(mData);
     }
 

@@ -1,6 +1,7 @@
 package edu.calpoly.sodec.sodecapp;
 
 import android.os.AsyncTask;
+import android.provider.SyncStateContract;
 import android.util.Log;
 
 import org.apache.http.NameValuePair;
@@ -8,10 +9,16 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +36,8 @@ public class ServerConnection {
     //private static final String SOCKET_URI = "ws://192.227.237.2:3001";
 
     // Local backend when using an emulator
-    private static final String BASE_SERVER_URI = "http://10.0.2.2:3000";
-    private static final String SOCKET_URI = "ws://10.0.2.2:3001";
+    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";
+    private static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";
 
     // Server routes / endpoints
     private static final String POWER_ROUTE = "/power";
@@ -50,7 +57,9 @@ public class ServerConnection {
 
     /** Indicates commands to execute once a server response is received. */
     public interface ResponseCallback<K, V> {
-        public void execute(Map<K, V> json);
+        //public void execute(Map<K, V> json);
+        //public void execute(JSONArray array);
+        public void execute(String response);
     }
 
     public static WebSocketConnection getSocketConnection() {
@@ -94,8 +103,8 @@ public class ServerConnection {
     }
 
     /** Retrieve the events between a start time and end time */
-    public void getEventsInRange(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, null);
+    public void getEventsInRange(final ResponseCallback<String, String> onSuccess, final List<NameValuePair> parameter) {
+        sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, parameter);
     }
 
     /** Retrieve the events between a start time and end time */
@@ -109,10 +118,10 @@ public class ServerConnection {
     }
 
     private void sendRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
-        new AsyncTask<Void, Void, Map>() {
+        new AsyncTask<Void, Void, String>() {
 
             @Override
-            protected Map doInBackground(Void... params) {
+            protected String doInBackground(Void... params) {
                 String url = BASE_SERVER_URI + route;
                 if(!url.endsWith("?"))
                     url += "?";
@@ -123,33 +132,40 @@ public class ServerConnection {
 
                 HttpGet request = new HttpGet(url);
 
-                CloseableHttpClient httpClient = HttpClients.createDefault();
-                CloseableHttpResponse response = null;
-                Map<String, String> jsonResponse = null;
+                // CloseableHttpResponse response = null;
+                // Map<String, String> jsonResponse = null;
 
-                try {
-                    response = httpClient.execute(request);
+                try (CloseableHttpClient httpClient = HttpClients.createDefault();
+                     CloseableHttpResponse response = httpClient.execute(request);){
 
                     if (response.getStatusLine().getStatusCode() == SUCCESS) {
-                        jsonResponse = new ObjectMapper().readValue(
+                        BufferedReader r = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                        StringBuilder responseString = new StringBuilder();
+                        String line;
+                        while ((line = r.readLine()) != null) {
+                            responseString.append(line);
+                        }
+
+                        return responseString.toString();
+                        /*jsonResponse = new ObjectMapper().readValue(
                                 response.getEntity().getContent(), Map.class);
+                         */
                     }
                     else {
                         /* Only 23 characters allowed */
                         Log.d(TAG + " " + route, "Error: " +
                                 response.getStatusLine().getStatusCode());
                     }
-                    response.close();
-                    httpClient.close();
+
                 }
                 catch (IOException e) {
                     e.printStackTrace();
                 }
-                return jsonResponse;
+                return "";
             }
 
             @Override
-            protected void onPostExecute(Map response) {
+            protected void onPostExecute(String response) {
                 if (response != null) {
                     onSuccess.execute(response);
                 }

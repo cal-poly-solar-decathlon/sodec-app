@@ -13,10 +13,10 @@ public class PowerGeneratedActivity extends TabActivity {
 
         TabHost mTabHost = getTabHost();
 
-        mTabHost.addTab(mTabHost.newTabSpec("tabHoursGraph").setIndicator("Hours").setContent(new Intent(this,PowerGraphDayActivity.class )));
-        mTabHost.addTab(mTabHost.newTabSpec("tabDaysGraph").setIndicator("Days").setContent(new Intent(this,PowerGraphMonthActivity.class )));
-        mTabHost.addTab(mTabHost.newTabSpec("tabWeeksGraph").setIndicator("Weeks").setContent(new Intent(this,PowerGraphWeekActivity.class )));
-        mTabHost.addTab(mTabHost.newTabSpec("tabMonthsGraph").setIndicator("Months").setContent(new Intent(this, PowerGraphYearActivity.class)));
+        mTabHost.addTab(mTabHost.newTabSpec("tabDayGraph").setIndicator("Past Day").setContent(new Intent(this,PowerGraphDayActivity.class )));
+        mTabHost.addTab(mTabHost.newTabSpec("tabMonthGraph").setIndicator("Past Month").setContent(new Intent(this,PowerGraphMonthActivity.class )));
+        mTabHost.addTab(mTabHost.newTabSpec("tabWeekGraph").setIndicator("Past Week").setContent(new Intent(this,PowerGraphWeekActivity.class )));
+        mTabHost.addTab(mTabHost.newTabSpec("tabYearGraph").setIndicator("Past Year").setContent(new Intent(this, PowerGraphYearActivity.class)));
         mTabHost.setCurrentTab(0);
     }
 }

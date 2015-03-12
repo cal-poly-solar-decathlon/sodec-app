@@ -31,25 +31,25 @@
                 android:layout_height="fill_parent">
 
                 <LinearLayout
-                    android:id="@+id/tabHoursGraph"
+                    android:id="@+id/tabDayGraph"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabDaysGraph"
+                    android:id="@+id/tabMonthGraph"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabWeeksGraph"
+                    android:id="@+id/tabWeekGraph"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabMonthsGraph"
+                    android:id="@+id/tabYearGraph"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:orientation="vertical"></LinearLayout>
