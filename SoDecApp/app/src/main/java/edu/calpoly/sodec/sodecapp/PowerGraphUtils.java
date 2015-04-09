@@ -1,6 +1,7 @@
 package edu.calpoly.sodec.sodecapp;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -9,10 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -23,6 +24,12 @@ import lecho.lib.hellocharts.view.LineChartView;
  * Created by Christine on 3/11/15.
  */
 public class PowerGraphUtils {
+
+    private static final int SERIES_INTERVAL = 400;
+    private static final String BASE_TIME = "baseTimestamp";
+    private static final String BASE_POWER = "baseStatus";
+    private static final String SERIES_DATA = "seriesData";
+
     public static void initPoints(final LineChartData mData, final LineChartView mChart, String device, String startTime, String endTime) {
 
         List<NameValuePair> params = new LinkedList<NameValuePair>();
@@ -33,28 +40,26 @@ public class PowerGraphUtils {
         new ServerConnection().getEventsInRange(new ServerConnection.ResponseCallback<String, String>() {
 
             /**
-             *
-             * @param response should be array of JSONObjects for events-in-range
+             * @param response Should include a base timestamp, base power generated/usage value,
+             *                 and pairs of time deltas and power deltas.
              */
             @Override
             public void execute(String response) {
                 try {
-                    JSONArray array = new JSONArray(response);
+                    JSONObject jsonResponse = new JSONObject(response);
+                    Timestamp baseTime = new Timestamp((int) jsonResponse.get(BASE_TIME));
+                    int basePower = (int) jsonResponse.get(BASE_POWER);
+                    JSONArray dataDeltas = jsonResponse.getJSONArray(SERIES_DATA);
+
                     List<PointValue> values = new ArrayList<PointValue>();
                     List<Line> lines = new ArrayList<Line>();
                     Line line;
-                    int interval = array.length()/(array.length()/100);
-                    try {
-                        for (int i = 0, j = 0 ; i < 100 && j < array.length(); i++, j+=interval) {
+                    int numDeltas = dataDeltas.length();
 
-                            JSONObject data = (JSONObject) array.get(j);
-                            int reading = data.getInt("reading");
-                            values.add(new PointValue(i, reading));
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    for (int i = 0, j = 0 ; i < SERIES_INTERVAL && j < numDeltas; i++, j+=SERIES_INTERVAL) {
+                        values.add(new PointValue(i,
+                                ((JSONArray) dataDeltas.get(j)).getInt(1) + basePower));
                     }
-
                     line = new Line(values)
                             .setColor(Color.BLUE)
                             .setCubic(true);
@@ -66,12 +71,5 @@ public class PowerGraphUtils {
                 }
             }
         }, params);
-
-
-
-
-
     }
-
-
 }
