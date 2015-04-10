@@ -20,9 +20,7 @@ import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
-/**
- * Created by Christine on 3/11/15.
- */
+
 public class PowerGraphUtils {
 
     private static final int SERIES_INTERVAL = 400;
