@@ -5,12 +5,37 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.survivingwithandroid.weather.lib.WeatherClient;
+import com.survivingwithandroid.weather.lib.WeatherConfig;
+import com.survivingwithandroid.weather.lib.exception.WeatherProviderInstantiationException;
+import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOProviderType;
+import com.survivingwithandroid.weather.lib.provider.openweathermap.OpenweathermapProviderType;
+
 
 public class WeatherActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WeatherClient.ClientBuilder builder = new WeatherClient.ClientBuilder();
+        WeatherConfig config = new WeatherConfig();
+        config.ApiKey = "a3ef2cfa095204d246373287a54aa91a";
+        config.unitSystem = WeatherConfig.UNIT_SYSTEM.M;
+        config.lang = "en"; // Use english
+        config.maxResult = 5; // Max number of cities retrieved
+        config.numDays = 6; // Max num of days in the forecast
+
+        try {
+            WeatherClient client = builder.attach(this)
+                    .provider(new ForecastIOProviderType())
+                    .httpClient(com.survivingwithandroid.weather.lib.StandardHttpClient.class)
+                    .config(config)
+                    .build();
+        } catch (WeatherProviderInstantiationException e) {
+            e.printStackTrace();
+        }
+
         setContentView(R.layout.activity_weather);
     }
 
