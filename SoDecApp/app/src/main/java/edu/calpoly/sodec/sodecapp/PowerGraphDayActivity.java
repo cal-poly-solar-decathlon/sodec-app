@@ -45,7 +45,7 @@ public class PowerGraphDayActivity extends ActionBarActivity {
 
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
-        PowerGraphUtils.initPoints(mData, mChart, DEVICE, startTime, endTime);
+        PowerGraphUtils.initPoints(mData, mChart, DEVICE, PowerGraphUtils.BASE_POWER, startTime, endTime);
         initStyle(DAY_VIEW);
         mChart.setLineChartData(mData);
     }

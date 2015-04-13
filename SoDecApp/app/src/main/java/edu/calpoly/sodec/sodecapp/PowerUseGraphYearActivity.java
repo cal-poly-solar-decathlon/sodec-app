@@ -21,18 +21,18 @@ import lecho.lib.hellocharts.view.LineChartView;
 /**
  * Created by Kyle on 3/9/2015.
  */
-public class PowerGraphWeekActivity extends ActionBarActivity {
+public class PowerUseGraphYearActivity extends ActionBarActivity {
 
     private LineChartView mChart;
     private LineChartData mData;
     private String startTime;
     private String endTime;
 
-    private static final int WEEK_VIEW = 2;
+    private static final int YEAR_VIEW = 3;
 
-    private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
+    private static final String DEFAULT_YAXIS_NAME = "Power Used (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";
-    private static final String DEVICE = "s-temp-lr";
+    private static final String DEVICE = "egauge";
 
 
     @Override
@@ -40,16 +40,16 @@ public class PowerGraphWeekActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView( R.layout.power_graph_week_layout);
+        setContentView( R.layout.power_use_graph_year_layout);
 
-        startTime = TimestampUtils.getStartIsoForWeek();
+        startTime = TimestampUtils.getStartIsoForYear();
         endTime = TimestampUtils.getIsoForNow();
 
-        mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
+        mChart = (LineChartView) findViewById(R.id.powerUsedChart);
         mData = new LineChartData();
-        PowerGraphUtils.initPoints(mData, mChart, DEVICE, PowerGraphUtils.BASE_POWER, startTime, endTime);
+        PowerGraphUtils.initPoints(mData, mChart, DEVICE, PowerGraphUtils.BASE_USAGE, startTime, endTime);
 
-        initStyle(WEEK_VIEW);
+        initStyle(YEAR_VIEW);
         mChart.setLineChartData(mData);
     }
 

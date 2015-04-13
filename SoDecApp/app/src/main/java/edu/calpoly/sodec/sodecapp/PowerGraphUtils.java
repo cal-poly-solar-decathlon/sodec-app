@@ -25,10 +25,12 @@ public class PowerGraphUtils {
 
     private static final int SERIES_INTERVAL = 400;
     private static final String BASE_TIME = "baseTimestamp";
-    private static final String BASE_POWER = "baseStatus";
+    public static final String BASE_POWER = "baseStatus"; // power generated
+    public static final String BASE_USAGE = "baseUsage"; // power used
     private static final String SERIES_DATA = "seriesData";
 
-    public static void initPoints(final LineChartData mData, final LineChartView mChart, String device, String startTime, String endTime) {
+    public static void initPoints(final LineChartData mData, final LineChartView mChart,
+                                  String device, final String usage, String startTime, String endTime) {
 
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("device", device));
@@ -46,7 +48,7 @@ public class PowerGraphUtils {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
                     Timestamp baseTime = new Timestamp((int) jsonResponse.get(BASE_TIME));
-                    int basePower = (int) jsonResponse.get(BASE_POWER);
+                    int basePower = (int) jsonResponse.get(usage);
                     JSONArray dataDeltas = jsonResponse.getJSONArray(SERIES_DATA);
 
                     List<PointValue> values = new ArrayList<PointValue>();

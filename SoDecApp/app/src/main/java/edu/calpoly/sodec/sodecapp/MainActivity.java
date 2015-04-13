@@ -15,6 +15,7 @@ import de.tavendo.autobahn.WebSocketConnection;
 public class MainActivity extends ActionBarActivity {
 
     private Button mSeePowerGenVw;
+    private Button mSeePowerUseVw;
     private WebSocketConnection mSocketConnection;
 
     // Local backend when using an emulator
@@ -31,6 +32,15 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(new Intent(MainActivity.this, PowerGeneratedActivity.class));
             }
         });
+
+        mSeePowerUseVw = (Button) this.findViewById(R.id.seePowerUsed);
+        mSeePowerUseVw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PowerGeneratedActivity.class));
+            }
+        });
+
         mSocketConnection = ServerConnection.getSocketConnection();
         initSensorCollection();
     }
