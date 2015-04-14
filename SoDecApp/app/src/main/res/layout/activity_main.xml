@@ -18,7 +18,17 @@
         android:id="@+id/seePowerUsed"
         android:layout_below="@+id/seePowerGenerated"
         android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/seePowerGenerated"
         android:text="@string/btn_see_power_used" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lighting"
+        android:id="@+id/seeLighting"
+        android:layout_below="@+id/seePowerUsed"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/seePowerGenerated" />
 
     EditText
         android:layout_width="wrap_content"

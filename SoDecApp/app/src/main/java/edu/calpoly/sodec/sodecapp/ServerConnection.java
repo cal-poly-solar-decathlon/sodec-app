@@ -1,7 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
 import android.os.AsyncTask;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
 import org.apache.http.NameValuePair;
@@ -9,18 +8,14 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketException;
@@ -45,6 +40,34 @@ public class ServerConnection {
     private static final String LR_OCC_ROUTE = "/s-occ-lr";
     private static final String EVENTS_IN_RANGE_ROUTE = "/events-in-range";
     private static final String LATEST_EVENT_ROUTE = "/latest-event";
+
+    // Ambient lighting server routes / endpoints
+    private static final String AMB_BED_ROUTE = "s-amb-bed";
+    private static final String AMB_MECH_ROUTE = "s-amb-mech";
+    private static final String AMB_LR_ROUTE = "s-amb-lr";
+    private static final String AMB_BATH_ROUTE = "s-amb-bath";
+
+    public enum AmbientLightDevice {
+        AMB_BED ("Bedroom", "s-amb-bed"),
+        AMB_MECH ("Mechanical Room", "s-amb-mech"),
+        AMB_LR ("Living Room", "s-amb-lr"),
+        AMB_BATH ("Bathroom", "s-amb-bath");
+
+        private String id;
+        private String label;
+        AmbientLightDevice(String label, String id) {
+            this.label = label;
+            this.id = id;
+        }
+
+        public String getLabel() {
+            return this.label;
+        }
+
+        public String getId() {
+            return this.id;
+        }
+    }
 
     // Status codes
     public static final int SUCCESS = 200;
@@ -115,6 +138,12 @@ public class ServerConnection {
     /** Retrieve the living room occupancy */
     public void getLivingRoomOcc(final ResponseCallback<String, String> onSuccess) {
         sendRequest(onSuccess, LR_OCC_ROUTE, null);
+    }
+
+    public void getAmbientLight(final ResponseCallback<String, String> onSuccess, AmbientLightDevice device) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("device", device.getId()));
+        sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }
 
     private void sendRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {

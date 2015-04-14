@@ -6,8 +6,9 @@
     <string name="btn_see_power_used">See Power Used</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_power_generated">Power Generated</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_weather">WeatherActivity</string>
+    <string name="title_activity_lighting">LightingActivity</string>
+    <string name="title_activity_lighting_utils">LightingUtils</string>
 
 </resources>

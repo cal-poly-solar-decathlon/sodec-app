@@ -51,6 +51,22 @@
             android:name=".WeatherActivity"
             android:label="@string/title_activity_weather" >
         </activity>
+        <activity
+            android:name=".LightingActivity"
+            android:label="@string/title_activity_lighting"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.calpoly.sodec.sodecapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".LightingUtils"
+            android:label="@string/title_activity_lighting_utils"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.calpoly.sodec.sodecapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

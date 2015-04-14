@@ -2,13 +2,12 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import de.tavendo.autobahn.WebSocketConnection;
 
@@ -16,6 +15,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Button mSeePowerGenVw;
     private Button mSeePowerUseVw;
+    private Button mSeeLighting;
     private WebSocketConnection mSocketConnection;
 
     // Local backend when using an emulator
@@ -38,6 +38,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, PowerGeneratedActivity.class));
+            }
+        });
+
+        mSeeLighting = (Button) this.findViewById(R.id.seeLighting);
+        mSeeLighting.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LightingActivity.class));
             }
         });
 
