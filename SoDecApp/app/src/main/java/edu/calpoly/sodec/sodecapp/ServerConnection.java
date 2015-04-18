@@ -26,13 +26,8 @@ public class ServerConnection {
 
     private static WebSocketConnection mSocketConnection = null;
 
-    // Remote backend (may not be updated currently)
-    //private static final String BASE_SERVER_URI = "http://192.227.237.2:3000";
-    //private static final String SOCKET_URI = "ws://192.227.237.2:3001";
-
-    // Local backend when using an emulator
-    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";/*"192.168.2.3";*/
-    public static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";/*"192.168.2.3:3000";(*/
+    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";
+    private static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";
 
     // Server routes / endpoints
     private static final String POWER_ROUTE = "/power";

@@ -1,0 +1,83 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/dashPowerGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:orientation="vertical"
+        android:layout_weight="0.33"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/dash_title_power" />
+
+        <lecho.lib.hellocharts.view.LineChartView
+            android:id="@+id/dashPowerChart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/dashLightsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:orientation="vertical"
+        android:layout_weight="0.33"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/dashLightsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/dash_title_lights" />
+
+        <ImageView
+            android:id="@+id/dashLightsImage"
+            android:layout_width="@dimen/dash_light_icon"
+            android:layout_height="@dimen/dash_light_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/dashLightsTitle"
+            android:scaleType="fitXY"
+            android:src="@drawable/dash_light_icon" />
+
+        <TextView
+            android:id="@+id/dashLightsOnCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@id/dashLightsImage"
+            android:layout_marginTop="@dimen/dash_light_count_margin"
+            android:textSize="@dimen/dash_light_count_size"
+            android:text="@string/dash_default_light_count" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/dashTempGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:orientation="vertical"
+        android:layout_weight="0.33"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/dash_title_temp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
         <activity
-            android:name=".MainActivity"
+            android:name=".DashboardActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,14 +54,6 @@
         <activity
             android:name=".LightingActivity"
             android:label="@string/title_activity_lighting"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.calpoly.sodec.sodecapp.MainActivity" />
-        </activity>
-        <activity
-            android:name=".LightingUtils"
-            android:label="@string/title_activity_lighting_utils"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
