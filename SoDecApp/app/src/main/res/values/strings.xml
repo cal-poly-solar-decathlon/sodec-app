@@ -22,5 +22,6 @@
     <string name="dash_title_lights">Lighting</string>
     <string name="dash_title_temp">Temperature</string>
     <string name="dash_default_light_count">0</string>
+    <string name="degree_notation">°F</string>
 
 </resources>
