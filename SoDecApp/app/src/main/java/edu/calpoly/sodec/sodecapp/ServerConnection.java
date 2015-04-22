@@ -31,8 +31,8 @@ public class ServerConnection {
     //private static final String SOCKET_URI = "ws://192.227.237.2:3001";
 
     // Local backend when using an emulator
-    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";
-    private static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";
+    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";/*"192.168.2.3";*/
+    public static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";/*"192.168.2.3:3000";(*/
 
     // Server routes / endpoints
     private static final String POWER_ROUTE = "/power";
@@ -94,6 +94,7 @@ public class ServerConnection {
                     public void onOpen() {
                         mSocketConnection.sendTextMessage("One day, this will be useful information " +
                                 "from the Solar Decathlon house.");
+                        Log.i("ServerConnection", "web socket opened");
                     }
 
                     @Override

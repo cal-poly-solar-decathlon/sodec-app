@@ -29,7 +29,7 @@ public class PowerGraphMonthActivity extends ActionBarActivity {
     private String endTime;
 
     private static final int MONTH_VIEW = 1;
-    private static final String DEVICE = "s-temp-lr";
+    private static final String DEVICE = "egauge";
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";

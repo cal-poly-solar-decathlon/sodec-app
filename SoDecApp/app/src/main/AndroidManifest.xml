@@ -67,6 +67,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.calpoly.sodec.sodecapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".PowerActivity"
+            android:label="@string/title_activity_power" >
+        </activity>
     </application>
 
 </manifest>

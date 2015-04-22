@@ -10,5 +10,11 @@
     <string name="title_activity_weather">WeatherActivity</string>
     <string name="title_activity_lighting">LightingActivity</string>
     <string name="title_activity_lighting_utils">LightingUtils</string>
+    <string name="title_activity_power">PowerActivity</string>
+
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
 
 </resources>

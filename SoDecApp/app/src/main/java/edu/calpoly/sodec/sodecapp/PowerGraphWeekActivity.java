@@ -32,7 +32,7 @@ public class PowerGraphWeekActivity extends ActionBarActivity {
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";
     private static final String DEFAULT_XAXIS_NAME = "Date";
-    private static final String DEVICE = "s-temp-lr";
+    private static final String DEVICE = "egauge";
 
 
     @Override

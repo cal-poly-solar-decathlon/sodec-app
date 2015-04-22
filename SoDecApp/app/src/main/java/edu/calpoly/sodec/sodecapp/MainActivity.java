@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import de.tavendo.autobahn.WebSocketConnection;
+import android.util.Log;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -23,13 +24,15 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MainActivity", "testing log");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSeePowerGenVw = (Button) this.findViewById(R.id.seePowerGenerated);
         mSeePowerGenVw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, PowerGeneratedActivity.class));
+                // temporary changed to access new power screen
+                startActivity(new Intent(MainActivity.this, /*PowerGeneratedActivity*/PowerActivity.class));
             }
         });
 
