@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,15 +13,8 @@ import android.widget.TextView;
 import com.survivingwithandroid.weather.lib.WeatherClient;
 import com.survivingwithandroid.weather.lib.WeatherConfig;
 import com.survivingwithandroid.weather.lib.client.okhttp.WeatherDefaultClient;
-import com.survivingwithandroid.weather.lib.exception.WeatherLibException;
 import com.survivingwithandroid.weather.lib.exception.WeatherProviderInstantiationException;
-import com.survivingwithandroid.weather.lib.model.City;
-import com.survivingwithandroid.weather.lib.model.CurrentWeather;
-import com.survivingwithandroid.weather.lib.model.Weather;
 import com.survivingwithandroid.weather.lib.provider.yahooweather.YahooProviderType;
-import com.survivingwithandroid.weather.lib.request.WeatherRequest;
-
-import java.util.List;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -39,7 +30,9 @@ public class DashboardActivity extends ActionBarActivity {
     private TextView mNumLightsOn;
 
     private LinearLayout mTemperatureGroup;
-    private TextView mCurrentTemperature;
+    private TextView mGenAreaTemp;
+    private TextView mInsideTemp;
+    private TextView mOutsideTemp;
     private WeatherClient mWeather;
 
     private WebSocketConnection mSocketConnection;
@@ -93,7 +86,9 @@ public class DashboardActivity extends ActionBarActivity {
         mNumLightsOn = (TextView) this.findViewById(R.id.dashLightsOnCount);
 
         mTemperatureGroup = (LinearLayout) this.findViewById(R.id.dashTempGroup);
-        mCurrentTemperature = (TextView) this.findViewById(R.id.dashTempCurrent);
+        mGenAreaTemp = (TextView) this.findViewById(R.id.dashTempGenArea);
+        mInsideTemp = (TextView) this.findViewById(R.id.dashTempInside);
+        mOutsideTemp = (TextView) this.findViewById(R.id.dashTempOutside);
     }
 
     private void loadPowerInfo() {
@@ -115,42 +110,27 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void loadWeatherInfo() {
-        // TODO: Look for alternative ways to get weather info by lat/long
-        //       Currently, none of the supported providers play nicely with lat/long
-        mWeather.searchCity("San Luis Obispo", new WeatherClient.CityEventListener() {
+        WeatherUtils.getInsideTemp(new ServerConnection.ResponseCallback() {
             @Override
-            public void onCityListRetrieved(List<City> cities) {
-                if (cities.size() > 0) {
-                    mWeather.getCurrentCondition(new WeatherRequest(cities.get(0).getId()),
-                            new WeatherClient.WeatherEventListener() {
-                        @Override
-                        public void onWeatherRetrieved(CurrentWeather cWeather) {
-                            mCurrentTemperature.setText(WeatherUtils.celsiusToFahrenheit(
-                                    cWeather.weather.temperature.getTemp()) +
-                                    getString(R.string.degree_notation));
-                        }
-
-                        @Override
-                        public void onWeatherError(WeatherLibException ex) {
-                            Log.d(TAG, "weather error " + ex.getMessage());
-                        }
-
-                        @Override
-                        public void onConnectionError(Throwable t) {
-                            Log.d(TAG, "connection error " + t.getMessage());
-                        }
-                    });
-                }
+            public void execute(String response) {
+                mInsideTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)) +
+                        " " + getString(R.string.dash_temp_inside));
             }
+        });
 
+        WeatherUtils.getOutsideTemp(new ServerConnection.ResponseCallback() {
             @Override
-            public void onWeatherError(WeatherLibException ex) {
-                Log.d(TAG, "weather error " + ex.getMessage());
+            public void execute(String response) {
+                mOutsideTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)) +
+                        " " + getString(R.string.dash_temp_outside));
             }
+        });
 
+        WeatherUtils.getGeneralAreaTemp(mWeather, new ServerConnection.ResponseCallback() {
             @Override
-            public void onConnectionError(Throwable t) {
-                Log.d(TAG, "connection error " + t.getMessage());
+            public void execute(String response) {
+                mGenAreaTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)) +
+                        " " + getString(R.string.dash_temp_general));
             }
         });
     }

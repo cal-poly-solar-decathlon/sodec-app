@@ -79,12 +79,31 @@
             android:text="@string/dash_title_temp" />
 
         <TextView
-            android:id="@+id/dashTempCurrent"
+            android:id="@+id/dashTempInside"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/dash_curr_temp_margin"
-            android:textSize="@dimen/dash_curr_temp_size" />
+            android:textSize="@dimen/dash_curr_temp_size"
+            android:text="@string/inside_temp_missing"/>
+
+        <TextView
+            android:id="@+id/dashTempOutside"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dash_curr_temp_margin"
+            android:textSize="@dimen/dash_curr_temp_size"
+            android:text="@string/outside_temp_missing"/>
+
+        <TextView
+            android:id="@+id/dashTempGenArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dash_curr_temp_margin"
+            android:textSize="@dimen/dash_curr_temp_size"
+            android:text="@string/general_temp_missing"/>
 
     </LinearLayout>
 

@@ -22,6 +22,12 @@
     <string name="dash_title_lights">Lighting</string>
     <string name="dash_title_temp">Temperature</string>
     <string name="dash_default_light_count">0</string>
-    <string name="degree_notation">°F</string>
+    <string name="dash_temp_inside">Inside</string>
+    <string name="dash_temp_outside">Outside</string>
+    <string name="dash_temp_general">In your area</string>
+
+    <string name="inside_temp_missing">No inside temperature available.</string>
+    <string name="outside_temp_missing">No outside temperature available.</string>
+    <string name="general_temp_missing">No general temperature available.</string>
 
 </resources>

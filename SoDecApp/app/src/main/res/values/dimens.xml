@@ -7,6 +7,6 @@
     <dimen name="dash_light_icon">170dp</dimen>
     <dimen name="dash_light_count_size">70sp</dimen>
     <dimen name="dash_light_count_margin">15dp</dimen>
-    <dimen name="dash_curr_temp_size">70sp</dimen>
+    <dimen name="dash_curr_temp_size">25sp</dimen>
     <dimen name="dash_curr_temp_margin">15dp</dimen>
 </resources>
