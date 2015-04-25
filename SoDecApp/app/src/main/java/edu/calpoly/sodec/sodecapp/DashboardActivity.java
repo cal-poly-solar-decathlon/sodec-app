@@ -98,12 +98,13 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void loadPowerInfo() {
-        String startTime = TimestampUtils.getStartIsoForDay();
+        // Stick with graph placeholder for now because the power section is a little cramped
+        /*String startTime = TimestampUtils.getStartIsoForDay();
         String endTime = TimestampUtils.getIsoForNow();
 
         mPowerData = new LineChartData();
         PowerGraphUtils.initPoints(mPowerData, mPowerGenChart, PowerGeneratedActivity.DEVICE,
-                PowerGraphUtils.BASE_POWER, startTime, endTime);
+                PowerGraphUtils.BASE_POWER, startTime, endTime);*/
     }
 
     private void loadLightingInfo() {
