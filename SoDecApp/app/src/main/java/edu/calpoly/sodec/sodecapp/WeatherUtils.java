@@ -68,6 +68,23 @@ public class WeatherUtils {
         }
     }
 
+    public static void getTempByID(String deviceId, final ServerConnection.ResponseCallback onFinish) {
+        new ServerConnection().getLatestEvent(new ServerConnection.ResponseCallback<String, String>() {
+                @Override
+                public void execute(String response) {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+
+                        onFinish.execute(Float.toString(celsiusToFahrenheit(jsonResponse.getInt(TEMP) * TEMP_CONV_MULT)));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, deviceId);
+
+    }
+
     public static void getOutsideTemp(final ServerConnection.ResponseCallback onFinish) {
         new ServerConnection().getLatestEvent(new ServerConnection.ResponseCallback<String, String>() {
             @Override

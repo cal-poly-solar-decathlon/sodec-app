@@ -4,15 +4,23 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.survivingwithandroid.weather.lib.WeatherClient;
 import com.survivingwithandroid.weather.lib.WeatherConfig;
 import com.survivingwithandroid.weather.lib.exception.WeatherProviderInstantiationException;
 import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOProviderType;
-import com.survivingwithandroid.weather.lib.provider.openweathermap.OpenweathermapProviderType;
 
 
 public class WeatherActivity extends ActionBarActivity {
+    private static final String DEVICE_OUTSIDE = "s-temp-out";
+    private static final String DEVICE_BED = "s-temp-bed";
+    private static final String DEVICE_BATH = "s-temp-bath";
+    private static final String DEVICE_LIVING_ROOM = "s-temp-lr";
+    private TextView mBedroomTempTextView;
+    private TextView mBathroomTempTextVIew;
+    private TextView mLivingRoomTempTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +44,9 @@ public class WeatherActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        setContentView(R.layout.activity_weather);
+        initLayout();
     }
+
 
 
     @Override
@@ -60,5 +69,45 @@ public class WeatherActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadTempInfo();
+    }
+
+    private void initLayout() {
+        setContentView(R.layout.activity_weather);
+
+        mBedroomTempTextView = (TextView) this.findViewById(R.id.bedroomTemp);
+        mBathroomTempTextVIew = (TextView) this.findViewById(R.id.bathroomTemp);
+        mLivingRoomTempTextView = (TextView) this.findViewById(R.id.livingRoomTemp);
+
+
+    }
+
+    private void loadTempInfo() {
+        WeatherUtils.getTempByID(DEVICE_BED, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mBedroomTempTextView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
+        WeatherUtils.getTempByID(DEVICE_BATH, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mBathroomTempTextVIew.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
+        WeatherUtils.getTempByID(DEVICE_LIVING_ROOM, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mLivingRoomTempTextView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
     }
 }
