@@ -26,18 +26,10 @@ public class ServerConnection {
 
     private static WebSocketConnection mSocketConnection = null;
 
-    // Remote backend (may not be updated currently)
-    //private static final String BASE_SERVER_URI = "http://192.227.237.2:3000";
-    //private static final String SOCKET_URI = "ws://192.227.237.2:3001";
-
-    // Local backend when using an emulator
-    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";/*"192.168.2.3";*/
-    public static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";/*"192.168.2.3:3000";(*/
+    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:8080/srv";
+    private static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";
 
     // Server routes / endpoints
-    private static final String POWER_ROUTE = "/power";
-    private static final String LR_TEMP_ROUTE = "/s-temp-lr";
-    private static final String LR_OCC_ROUTE = "/s-occ-lr";
     private static final String EVENTS_IN_RANGE_ROUTE = "/events-in-range";
     private static final String LATEST_EVENT_ROUTE = "/latest-event";
 
@@ -80,8 +72,6 @@ public class ServerConnection {
 
     /** Indicates commands to execute once a server response is received. */
     public interface ResponseCallback<K, V> {
-        //public void execute(Map<K, V> json);
-        //public void execute(JSONArray array);
         public void execute(String response);
     }
 
@@ -116,29 +106,17 @@ public class ServerConnection {
         return mSocketConnection;
     }
 
-    /** Retrieve the most recent amount of power generated. */
-    public void getPowerGenerated(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, POWER_ROUTE, null);
-    }
-
-    /** Retrieve the living room temperature */
-    public void getLivingRoomTemp(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, LR_TEMP_ROUTE, null);
-    }
-
     /** Retrieve the events between a start time and end time */
     public void getEventsInRange(final ResponseCallback<String, String> onSuccess, final List<NameValuePair> parameter) {
         sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, parameter);
     }
 
     /** Retrieve the events between a start time and end time */
-    public void getLatestEvents(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, LATEST_EVENT_ROUTE, null);
-    }
+    public void getLatestEvent(final ResponseCallback<String, String> onSuccess, String device) {
+        List params = new ArrayList<NameValuePair>();
 
-    /** Retrieve the living room occupancy */
-    public void getLivingRoomOcc(final ResponseCallback<String, String> onSuccess) {
-        sendRequest(onSuccess, LR_OCC_ROUTE, null);
+        params.add(new BasicNameValuePair("device", device));
+        sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }
 
     public void getAmbientLight(final ResponseCallback<String, String> onSuccess, AmbientLightDevice device) {

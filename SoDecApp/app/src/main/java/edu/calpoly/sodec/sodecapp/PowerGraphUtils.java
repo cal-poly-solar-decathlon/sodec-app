@@ -1,7 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -19,7 +18,6 @@ import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
-
 
 public class PowerGraphUtils {
 

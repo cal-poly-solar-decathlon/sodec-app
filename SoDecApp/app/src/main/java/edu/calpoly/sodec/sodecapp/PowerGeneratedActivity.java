@@ -7,6 +7,9 @@ import android.content.Intent;
 
 public class PowerGeneratedActivity extends TabActivity {
 
+    // TODO: We need to change this when eguage gets split into multiple devices
+    public static final String DEVICE = "s-temp-lr";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

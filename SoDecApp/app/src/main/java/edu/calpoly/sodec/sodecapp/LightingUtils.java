@@ -19,6 +19,19 @@ public class LightingUtils {
     private static final String STATUS = "status";
     private static final String TIMESTAMP = "timestamp";
 
+    public static void getNumLightsOn(ServerConnection.ResponseCallback<String, String> onFinish) {
+        HashMap<AmbientLightDevice, Integer> lights = new HashMap<>();
+        Integer numLightsOn = 0;
+
+        getAllAmbientLightData(lights);
+        for (int state : lights.values()) {
+            if (state == 1) {
+                numLightsOn++;
+            }
+        }
+        onFinish.execute(numLightsOn.toString());
+    }
+
     public static void getAllAmbientLightData(final HashMap<AmbientLightDevice,  Integer> lights) {
         for (AmbientLightDevice device : AmbientLightDevice.values()) {
             if (hasData) {
