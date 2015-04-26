@@ -32,4 +32,10 @@
     <string name="general_temp_missing">No general temperature available.</string>
     <string name="description">description</string>
 
+    <string name="view_temp">View Temperature</string>
+    <string name="view_humidity">View Humidity</string>
+    <string name="temperature_title">Inside Temperature</string>
+    <string name="humidity_title">Inside Humidity</string>
+
+
 </resources>

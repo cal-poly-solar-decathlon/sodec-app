@@ -18,20 +18,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/bedroomTemp"
+        android:text="bedroom temp"
+        android:id="@+id/bedroomWeather"
         android:layout_alignTop="@+id/weatherFloorplan"
         android:layout_alignParentStart="true"
         android:layout_marginStart="356dp"
-        android:layout_marginTop="198dp" />
+        android:layout_marginTop="198dp"
+        android:layout_alignParentTop="false" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/livingRoomTemp"
+        android:text="livingroom temp"
+        android:id="@+id/livingRoomWeather"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="124dp" />
@@ -39,11 +38,35 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/bathroomTemp"
+        android:text="bathroom temp"
+        android:id="@+id/bathroomWeather"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/livingRoomTemp" />
+        android:layout_toStartOf="@+id/livingRoomWeather" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_humidity"
+        android:id="@+id/button_view_humidity"
+        android:layout_alignTop="@+id/button_view_temp"
+        android:layout_toEndOf="@+id/button_view_temp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/temperature_title"
+        android:id="@+id/weather_title"
+        android:layout_alignTop="@+id/weatherFloorplan"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_temp"
+        android:id="@+id/button_view_temp"
+        android:layout_alignTop="@+id/livingRoomWeather"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

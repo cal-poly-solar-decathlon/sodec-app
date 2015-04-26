@@ -33,6 +33,8 @@ public class WeatherUtils {
     private static final String TAG = "WeatherUtils";
 
     private static final String DEGREE_NOTATION = "°F";
+    private static final String PERCENT_NOTATION = "%";
+
 
     public static float celsiusToFahrenheit(float degreesCelsius) {
         return FAHR_CONV_MULT * degreesCelsius + FAHR_CONV_BASE;
@@ -40,6 +42,10 @@ public class WeatherUtils {
 
     public static String formatTemp(float degrees) {
         return new DecimalFormat("#.#").format(degrees) + DEGREE_NOTATION;
+    }
+
+    public static String formatHumidity(float percentage) {
+        return new DecimalFormat("#.#").format(percentage) + PERCENT_NOTATION;
     }
 
     public static void getInsideTemp(final ServerConnection.ResponseCallback onFinish) {

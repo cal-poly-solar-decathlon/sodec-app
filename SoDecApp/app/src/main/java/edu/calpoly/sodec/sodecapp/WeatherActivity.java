@@ -1,9 +1,12 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.survivingwithandroid.weather.lib.WeatherClient;
@@ -14,12 +17,20 @@ import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOProvid
 
 public class WeatherActivity extends ActionBarActivity {
     private static final String DEVICE_OUTSIDE = "s-temp-out";
-    private static final String DEVICE_BED = "s-temp-bed";
-    private static final String DEVICE_BATH = "s-temp-bath";
-    private static final String DEVICE_LIVING_ROOM = "s-temp-lr";
-    private TextView mBedroomTempTextView;
-    private TextView mBathroomTempTextVIew;
-    private TextView mLivingRoomTempTextView;
+    private static final String DEVICE_TEMP_BED = "s-temp-bed";
+    private static final String DEVICE_TEMP_BATH = "s-temp-bath";
+    private static final String DEVICE_TEMP_LIVINGROOM = "s-temp-lr";
+    private static final String DEVICE_HUM_BED = "s-hum-bed";
+    private static final String DEVICE_HUM_BATH = "s-hum-bath";
+    private static final String DEVICE_HUM_LIVINGROOM = "s-hum-lr";
+
+    private TextView mBedroomWeatherView;
+    private TextView mBathroomWeatherView;
+    private TextView mLivingRoomWeatherView;
+    private TextView mWeatherTitleView;
+
+    private Button mViewTempButton;
+    private Button mViewHumidityButton;
 
 
     @Override
@@ -45,6 +56,7 @@ public class WeatherActivity extends ActionBarActivity {
         }
 
         initLayout();
+        initListeners();
     }
 
 
@@ -80,32 +92,79 @@ public class WeatherActivity extends ActionBarActivity {
     private void initLayout() {
         setContentView(R.layout.activity_weather);
 
-        mBedroomTempTextView = (TextView) this.findViewById(R.id.bedroomTemp);
-        mBathroomTempTextVIew = (TextView) this.findViewById(R.id.bathroomTemp);
-        mLivingRoomTempTextView = (TextView) this.findViewById(R.id.livingRoomTemp);
+        mBedroomWeatherView = (TextView) this.findViewById(R.id.bedroomWeather);
+        mBathroomWeatherView = (TextView) this.findViewById(R.id.bathroomWeather);
+        mLivingRoomWeatherView = (TextView) this.findViewById(R.id.livingRoomWeather);
+        mWeatherTitleView = (TextView) this.findViewById(R.id.weather_title);
+        mViewTempButton = (Button) this.findViewById(R.id.button_view_temp);
+        mViewHumidityButton = (Button) this.findViewById(R.id.button_view_humidity);
+
+    }
+
+    private void initListeners() {
+        mViewHumidityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadHumidityInfo();
+            }
+        });
+
+        mViewTempButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadTempInfo();
+            }
+        });
+    }
+
+    private void loadTempInfo() {
+        mWeatherTitleView.setText("Inside Temperature");
+
+        WeatherUtils.getTempByID(DEVICE_TEMP_BED, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mBedroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
+        WeatherUtils.getTempByID(DEVICE_TEMP_BATH, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mBathroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
+        WeatherUtils.getTempByID(DEVICE_TEMP_LIVINGROOM, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mLivingRoomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
 
 
     }
 
-    private void loadTempInfo() {
-        WeatherUtils.getTempByID(DEVICE_BED, new ServerConnection.ResponseCallback() {
+    private void loadHumidityInfo() {
+        mWeatherTitleView.setText("Inside Humidity");
+
+        WeatherUtils.getTempByID(DEVICE_HUM_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mBedroomTempTextView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+                mBedroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
-        WeatherUtils.getTempByID(DEVICE_BATH, new ServerConnection.ResponseCallback() {
+        WeatherUtils.getTempByID(DEVICE_HUM_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mBathroomTempTextVIew.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+                mBathroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
-        WeatherUtils.getTempByID(DEVICE_LIVING_ROOM, new ServerConnection.ResponseCallback() {
+        WeatherUtils.getTempByID(DEVICE_HUM_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mLivingRoomTempTextView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+                mLivingRoomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
