@@ -26,7 +26,7 @@ public class ServerConnection {
 
     private static WebSocketConnection mSocketConnection = null;
 
-    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:8080/srv";
+    private static final String BASE_SERVER_URI = "http://calpolysolardecathlon.org:3000/srv";
     private static final String SOCKET_URI = "http://calpolysolardecathlon.org:3001/srv";
 
     // Server routes / endpoints
