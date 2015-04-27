@@ -40,6 +40,7 @@ public class DashboardActivity extends ActionBarActivity {
     private WebSocketConnection mSocketConnection;
 
     private static final String TAG = "Dashboard";
+    private LightingUtils lightUtils = new LightingUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,10 +109,10 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void loadLightingInfo() {
-        LightingUtils.getNumLightsOn(new ServerConnection.ResponseCallback<String, String>() {
+        lightUtils.getAllLightData(new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mNumLightsOn.setText(response);
+                mNumLightsOn.setText(lightUtils.numLightsOn.toString());
             }
         });
     }

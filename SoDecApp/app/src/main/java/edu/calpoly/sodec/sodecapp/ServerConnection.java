@@ -33,21 +33,15 @@ public class ServerConnection {
     private static final String EVENTS_IN_RANGE_ROUTE = "/events-in-range";
     private static final String LATEST_EVENT_ROUTE = "/latest-event";
 
-    // Ambient lighting server routes / endpoints
-    private static final String AMB_BED_ROUTE = "s-amb-bed";
-    private static final String AMB_MECH_ROUTE = "s-amb-mech";
-    private static final String AMB_LR_ROUTE = "s-amb-lr";
-    private static final String AMB_BATH_ROUTE = "s-amb-bath";
-
-    public enum AmbientLightDevice {
+    /*public enum LightDevices {
         AMB_BED ("Bedroom", "s-amb-bed"),
         AMB_MECH ("Mechanical Room", "s-amb-mech"),
         AMB_LR ("Living Room", "s-amb-lr"),
-        AMB_BATH ("Bathroom", "s-amb-bath");
+        AMB_BATH ("Bathroom", "s-amb-bath"),
 
         private String id;
         private String label;
-        AmbientLightDevice(String label, String id) {
+        LightDevices(String label, String id) {
             this.label = label;
             this.id = id;
         }
@@ -59,7 +53,7 @@ public class ServerConnection {
         public String getId() {
             return this.id;
         }
-    }
+    }*/
 
     // Status codes
     public static final int SUCCESS = 200;
@@ -119,9 +113,15 @@ public class ServerConnection {
         sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }
 
-    public void getAmbientLight(final ResponseCallback<String, String> onSuccess, AmbientLightDevice device) {
+    /*public void getAmbientLight(final ResponseCallback<String, String> onSuccess, AmbientLightDevice device) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("device", device.getId()));
+        sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
+    }*/
+
+    public void getLight(final ResponseCallback<String, String> onSuccess, final edu.calpoly.sodec.sodecapp.LightDevice device) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("device", device.id));
         sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }
 
