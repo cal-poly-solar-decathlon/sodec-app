@@ -2,6 +2,7 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -36,9 +37,19 @@ public class LightingActivity extends ActionBarActivity {
             @Override
             public void execute(String response) {
                 reloadData();
-                //recreate();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Integer orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            pageLayout.setOrientation(LinearLayout.VERTICAL);
+        } else {
+            pageLayout.setOrientation(LinearLayout.HORIZONTAL);
+        }
     }
 
     @Override
@@ -48,17 +59,27 @@ public class LightingActivity extends ActionBarActivity {
         pageLayout = new LinearLayout(this);
         pageLayout.setOrientation(LinearLayout.HORIZONTAL);
         pageLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        pageLayout.setWeightSum(2);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);//pageLayout.getLayoutParams();
+        params.weight = 2;
+        pageLayout.setLayoutParams(params);
 
         floorplanLayout = new LinearLayout(pageLayout.getContext());
         floorplanLayout.setGravity(Gravity.CENTER);
+        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        params.weight = 1;
+        floorplanLayout.setLayoutParams(params);
 
         view = new ScrollView(pageLayout.getContext());
+        view.setLayoutParams(params);
         floorplanView = new ImageView(floorplanLayout.getContext());
         floorplanView.setImageResource(R.drawable.floorplan);
-        floorplanView.setScaleType(ImageView.ScaleType.FIT_XY);
-
+        floorplanView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         listLayout = new LinearLayout(view.getContext());
         listLayout.setOrientation(LinearLayout.VERTICAL);
+        listLayout.setWeightSum(1);
+        listLayout.setLayoutParams(params);
 
         view.addView(listLayout);
 
@@ -68,14 +89,11 @@ public class LightingActivity extends ActionBarActivity {
         //setupView();
         floorplanLayout.addView(floorplanView);
 
-        pageLayout.addView(view);
         pageLayout.addView(floorplanLayout);
+        pageLayout.addView(view);
         setContentView(pageLayout);
 
         initSensorCollection();
-        //AmbientLightDevice[] test = new AmbientLightDevice[ambientLights.size()];
-        //AmbientLightDevice[] devices = ambientLights.keySet().toArray(test);
-
     }
 
     public void setupLightList() {
@@ -85,14 +103,6 @@ public class LightingActivity extends ActionBarActivity {
             LinearLayout labelLayout = new LinearLayout(listLayout.getContext());
             labelLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-            //image.setImageResource(R.drawable.light_on);
-
-            /*int status = ambientLights.get(light);
-            String lightStatus = "On";
-            if (status == 0) {
-                lightStatus = "Off";
-                image.setImageResource(R.drawable.light_off);
-            }*/
             if (light.isOn) {
                 image.setImageResource(R.drawable.light_on);
             } else {
@@ -102,7 +112,6 @@ public class LightingActivity extends ActionBarActivity {
             image.setScaleX(0.5f);
             image.setScaleY(0.5f);
 
-            //text += lightStatus;
             ambLight.setText(light.description);
             ambLight.setGravity(Gravity.CENTER);
 

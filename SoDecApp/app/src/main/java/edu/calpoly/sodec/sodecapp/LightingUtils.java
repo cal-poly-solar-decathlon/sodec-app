@@ -51,51 +51,21 @@ public class LightingUtils {
 
     public void getAllLightData(ServerConnection.ResponseCallback<String, String> onFinish) {
         numLightsOn = 0;
-        for (edu.calpoly.sodec.sodecapp.LightDevice device: lights) {
+        for (edu.calpoly.sodec.sodecapp.LightDevice device : lights) {
             if (hasData) {
                 getLightData(onFinish, device);
             } else {
                 Random rand = new Random();
                 device.isOn = rand.nextInt(2) == 0 ? false : true;
+                numLightsOn += device.isOn ? 1 : 0;
+                LIGHT_REQUESTS++;
+                if (LIGHT_REQUESTS >= lights.size()) {
+                    LIGHT_REQUESTS = 0;
+                    onFinish.execute(lights.toString());
+                }
             }
         }
     }
-
-
-    /*public static void getAllAmbientLightData(final List<LightDevice> lights) {
-        for (AmbientLightDevice device : AmbientLightDevice.values()) {
-            if (hasData) {
-                getAmbientLightData(lights, device);
-            } else {
-                Random rand = new Random();
-                lights.put(device, rand.nextInt(2));
-            }
-        }
-    }*/
-
-    /*public static void getAmbientLightData(final HashMap<AmbientLightDevice, Integer> lights, final AmbientLightDevice device) {
-
-        new ServerConnection().getAmbientLight(new ServerConnection.ResponseCallback<String, String>() {
-
-            /**
-             * @param response Should include a base timestamp, base power generated/usage value,
-             *                 and pairs of time deltas and power deltas.
-             */
-            /*@Override
-            public void execute(String response) {
-                try {
-                    JSONObject jsonResponse = new JSONObject(response);
-                    int status = (int) jsonResponse.get(STATUS);
-                    String id = (String) jsonResponse.get(DEVICE_ID);
-
-                    lights.put(device, status);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, device);
-    }*/
 
     private void getLightData(final ServerConnection.ResponseCallback<String, String> onFinish, final LightDevice device) {
 
