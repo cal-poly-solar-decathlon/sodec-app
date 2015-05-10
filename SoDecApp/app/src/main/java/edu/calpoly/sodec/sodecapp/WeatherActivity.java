@@ -122,21 +122,21 @@ public class WeatherActivity extends ActionBarActivity {
         DatabaseUtils.getTempByID(DEVICE_TEMP_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mBedroomWeatherView.setText(DatabaseUtils.formatTemp(Float.parseFloat(response)));
+                mBedroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
         DatabaseUtils.getTempByID(DEVICE_TEMP_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mBathroomWeatherView.setText(DatabaseUtils.formatTemp(Float.parseFloat(response)));
+                mBathroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
         DatabaseUtils.getTempByID(DEVICE_TEMP_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mLivingRoomWeatherView.setText(DatabaseUtils.formatTemp(Float.parseFloat(response)));
+                mLivingRoomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
@@ -149,21 +149,21 @@ public class WeatherActivity extends ActionBarActivity {
         DatabaseUtils.getTempByID(DEVICE_HUM_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mBedroomWeatherView.setText(DatabaseUtils.formatHumidity(Float.parseFloat(response)));
+                mBedroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
         DatabaseUtils.getTempByID(DEVICE_HUM_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mBathroomWeatherView.setText(DatabaseUtils.formatHumidity(Float.parseFloat(response)));
+                mBathroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
         DatabaseUtils.getTempByID(DEVICE_HUM_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mLivingRoomWeatherView.setText(DatabaseUtils.formatHumidity(Float.parseFloat(response)));
+                mLivingRoomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 

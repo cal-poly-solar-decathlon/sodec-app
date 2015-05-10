@@ -48,14 +48,14 @@ public class SuggestionsActivity extends ActionBarActivity {
         DatabaseUtils.getInsideTemp(new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                currInsideTemp = Double.parseDouble(DatabaseUtils.formatTemp(Float.parseFloat(response)));
+                currInsideTemp = Double.parseDouble(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
         DatabaseUtils.getOutsideTemp(new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                currOutsideTemp = Double.parseDouble(DatabaseUtils.formatTemp(Float.parseFloat(response)));
+                currOutsideTemp = Double.parseDouble(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
     }
