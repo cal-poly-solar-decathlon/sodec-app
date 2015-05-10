@@ -20,6 +20,7 @@
     <string name="dash_title_power">Power</string>
     <string name="dash_title_lights">Lighting</string>
     <string name="dash_title_temp">Temperature</string>
+    <string name="dash_title_insights">Insights</string>
     <string name="dash_default_light_count">0</string>
     <string name="dash_temp_inside">Inside</string>
     <string name="dash_temp_outside">Outside</string>

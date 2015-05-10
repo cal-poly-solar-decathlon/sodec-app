@@ -15,17 +15,14 @@ import com.survivingwithandroid.weather.lib.client.okhttp.WeatherDefaultClient;
 import com.survivingwithandroid.weather.lib.exception.WeatherProviderInstantiationException;
 import com.survivingwithandroid.weather.lib.provider.yahooweather.YahooProviderType;
 
-import de.tavendo.autobahn.WebSocketConnection;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.view.LineChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class DashboardActivity extends ActionBarActivity {
 
-    private LinearLayout mPowerGenGroup;
-    private LinearLayout mPowerUseGroup;
-    private PieChartView mPowerUseChart;
-    private LineChartView mPowerGenChart;
+    private PieChartView mPowerPieChart;
+    private LineChartView mPowerLineChart;
     private LineChartData mPowerData;
 
     private RelativeLayout mLightsGroup;
@@ -36,8 +33,6 @@ public class DashboardActivity extends ActionBarActivity {
     private TextView mInsideTemp;
     private TextView mOutsideTemp;
     private WeatherClient mWeather;
-
-    private WebSocketConnection mSocketConnection;
 
     private static final String TAG = "Dashboard";
     private LightingUtils lightUtils = new LightingUtils();
@@ -67,7 +62,6 @@ public class DashboardActivity extends ActionBarActivity {
 
         initLayout();
         initListeners();
-        mSocketConnection = ServerConnection.getSocketConnection();
         initSensorCollection();
     }
 
@@ -81,14 +75,8 @@ public class DashboardActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_dashboard);
-        mPowerGenGroup = (LinearLayout) this.findViewById(R.id.dashPowerGen);
-        mPowerGenChart = (LineChartView) findViewById(R.id.dashPowerGenChart);
-        mPowerGenChart.setInteractive(false);
-
-        mPowerUseGroup = (LinearLayout) this.findViewById(R.id.dashPowerUse);
-        mPowerUseChart = (PieChartView) this.findViewById(R.id.dashPowerUseChart);
-        mPowerUseChart.setInteractive(false);
-
+        mPowerLineChart = (LineChartView) findViewById(R.id.dashPowerLineChart);
+        mPowerPieChart = (PieChartView) this.findViewById(R.id.dashPowerPieChart);
         mLightsGroup = (RelativeLayout) this.findViewById(R.id.dashLightsGroup);
         mNumLightsOn = (TextView) this.findViewById(R.id.dashLightsOnCount);
 
@@ -104,12 +92,12 @@ public class DashboardActivity extends ActionBarActivity {
         String endTime = TimestampUtils.getIsoForNow();
 
         mPowerData = new LineChartData();
-        PowerGraphUtils.initPoints(mPowerData, mPowerGenChart, PowerGeneratedActivity.DEVICE,
+        PowerGraphUtils.initPoints(mPowerData, mPowerLineChart, PowerGeneratedActivity.DEVICE,
                 PowerGraphUtils.BASE_POWER, startTime, endTime);*/
     }
 
     private void loadLightingInfo() {
-        lightUtils.getAllLightData(new ServerConnection.ResponseCallback() {
+        lightUtils.getAllLightData(new ServerConnection.ResponseCallback<String, String>() {
             @Override
             public void execute(String response) {
                 mNumLightsOn.setText(lightUtils.numLightsOn.toString());
@@ -144,13 +132,13 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void initListeners() {
-        mPowerGenGroup.setOnClickListener(new View.OnClickListener() {
+        mPowerLineChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DashboardActivity.this, PowerGeneratedActivity.class));
             }
         });
-        mPowerUseGroup.setOnClickListener(new View.OnClickListener() {
+        mPowerPieChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DashboardActivity.this, PowerActivity.class));
