@@ -63,6 +63,10 @@
             android:name=".PowerActivity"
             android:label="@string/title_activity_power" >
         </activity>
+        <activity
+            android:name=".SuggestionsActivity"
+            android:label="@string/title_activity_suggestions" >
+        </activity>
     </application>
 
 </manifest>

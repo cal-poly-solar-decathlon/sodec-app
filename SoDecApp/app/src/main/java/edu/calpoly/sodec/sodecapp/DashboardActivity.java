@@ -118,26 +118,26 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void loadWeatherInfo() {
-        WeatherUtils.getInsideTemp(new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getInsideTemp(new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mInsideTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)) +
+                mInsideTemp.setText(DatabaseUtils.formatTemp(Float.parseFloat(response)) +
                         " " + getString(R.string.dash_temp_inside));
             }
         });
 
-        WeatherUtils.getOutsideTemp(new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getOutsideTemp(new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mOutsideTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)) +
+                mOutsideTemp.setText(DatabaseUtils.formatTemp(Float.parseFloat(response)) +
                         " " + getString(R.string.dash_temp_outside));
             }
         });
 
-        WeatherUtils.getGeneralAreaTemp(mWeather, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getGeneralAreaTemp(mWeather, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
-                mGenAreaTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)) +
+                mGenAreaTemp.setText(DatabaseUtils.formatTemp(Float.parseFloat(response)) +
                         " " + getString(R.string.dash_temp_general));
             }
         });

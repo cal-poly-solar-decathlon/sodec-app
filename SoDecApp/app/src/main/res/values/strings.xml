@@ -36,6 +36,7 @@
     <string name="view_humidity">View Humidity</string>
     <string name="temperature_title">Inside Temperature</string>
     <string name="humidity_title">Inside Humidity</string>
+    <string name="title_activity_suggestions">SuggestionsActivity</string>
 
 
 </resources>

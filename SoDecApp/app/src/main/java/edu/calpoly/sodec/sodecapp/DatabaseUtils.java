@@ -1,5 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import com.survivingwithandroid.weather.lib.WeatherClient;
@@ -8,25 +9,38 @@ import com.survivingwithandroid.weather.lib.model.City;
 import com.survivingwithandroid.weather.lib.model.CurrentWeather;
 import com.survivingwithandroid.weather.lib.request.WeatherRequest;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class WeatherUtils {
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.PointValue;
+
+public class DatabaseUtils {
     private static final float FAHR_CONV_MULT = 9f / 5f;
     private static final int FAHR_CONV_BASE = 32;
+
+    private static final String BASE_TIME = "baseTimestamp";
+    private static final String BASE_STATUS = "baseStatus";
+    private static final String SERIES_DATA = "seriesData";
+
+
 
     private static final String DEVICE_OUTSIDE = "s-temp-out";
     private static final String DEVICE_BED = "s-temp-bed";
     private static final String DEVICE_BATH = "s-temp-bath";
     private static final String DEVICE_LIVING_ROOM = "s-temp-lr";
-
     private static final String TEMP = "status";
     // All temperatures we receive are in tenths of degrees
     private static final float TEMP_CONV_MULT = 1f / 10f;
@@ -91,6 +105,53 @@ public class WeatherUtils {
 
     }
 
+    public static void getTrendByID(String deviceId, String usage, String startTime, String endTime) {
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("device", deviceId));
+        params.add(new BasicNameValuePair("start", startTime));
+        params.add(new BasicNameValuePair("end", endTime));
+
+        new ServerConnection().getEventsInRange(new ServerConnection.ResponseCallback<String, String>() {
+
+            /**
+             * @param response Should include a base timestamp, base power generated/usage value,
+             *                 and pairs of time deltas and power deltas.
+             */
+            @Override
+            public void execute(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    Timestamp baseTime = new Timestamp((int) jsonResponse.get(BASE_TIME));
+                    int baseStatus = (int) jsonResponse.get(BASE_STATUS);
+                    JSONArray dataDeltas = jsonResponse.getJSONArray(SERIES_DATA);
+                    List<PointValue> values = new ArrayList<PointValue>();
+                    List<PointValue> incrValues = new ArrayList<PointValue>();
+
+                    int numDeltas = dataDeltas.length();
+                    int status = baseStatus;
+                    int delta;
+
+                    for (int i = 0 ; i < numDeltas; i++) {
+                        if (i != 0) {
+                            delta = ((JSONArray) dataDeltas.get(i)).getInt(1);
+                            status += delta;
+                        }
+
+                        values.add(new PointValue(i,status));
+                    }
+                    // Getting every 10 minutes assuming it's time deltas of 5 seconds
+                    for (int i = 0; i < values.size(); i += 120) {
+                        incrValues.add(values.get(i));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, params);
+
+    }
+
     public static void getOutsideTemp(final ServerConnection.ResponseCallback onFinish) {
         new ServerConnection().getLatestEvent(new ServerConnection.ResponseCallback<String, String>() {
             @Override
@@ -150,4 +211,37 @@ public class WeatherUtils {
             }
         });
     }
+
+    private int findSlopeOfBestFitLine(List<PointValue> values) {
+        int xMean;
+        int xSum = 0;
+        int yMean;
+        int ySum = 0;
+
+        int sumNominator = 0;
+        int sumDenominator = 0;
+
+
+        for(int i = 0; i < values.size(); i ++) {
+            xSum += (int) values.get(i).getX();
+        }
+        for(int i = 0; i < values.size(); i ++) {
+            ySum += (int) values.get(i).getY();
+        }
+        xMean = xSum / values.size();
+        yMean = ySum/values.size();
+
+        for(int i = 0; i < values.size(); i++) {
+            PointValue point = values.get(i);
+            int productNominator = (int)((point.getX() - xMean) * (point.getY() - yMean));
+            sumNominator += productNominator;
+
+            int productDenominator = (int)((point.getX() - xMean) * (point.getX() - xMean));
+            sumDenominator += productDenominator;
+        }
+
+        return sumNominator/sumDenominator;
+    }
+
+
 }
