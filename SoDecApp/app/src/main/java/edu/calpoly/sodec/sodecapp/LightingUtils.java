@@ -1,9 +1,12 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.graphics.Point;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -22,17 +25,26 @@ public class LightingUtils {
     public List<LightDevice> lights = new ArrayList<LightDevice>();
     public Integer numLightsOn = 0;
 
-    private String[] lightIds = new String[]{"s-light-entry-bookend-1A", "s-light-chandelier-1B", "s-light-tv-light-2A", "s-light-kitchen-uplight-3A", "s-light-under-counter-3B", "s-light-under-counter-3B", "s-light-under-counter-3B", "s-light-under-counter-3B", "s-light-flexspace-uplight-5A", "s-light-flexspace-uplight-5A", "s-light-bedroom-uplight-6A", "s-light-bedroom-cabinet-6B", "s-light-bedroom-cabinet-6B", "s-light-bedroom-cabinet-6B"};
+    private String[] lightIds = new String[]{"s-light-entry-bookend-1A", "s-light-chandelier-1B", "s-light-tv-light-2A", "s-light-kitchen-uplight-3A", "s-light-under-counter-3B", "s-light-pendant-bar-lights-3C", "s-light-bathroom-ambient-4A", "s-light-mirror-4B", "s-light-flexspace-uplight-5A", "s-light-flexspace-cabinet-5B", "s-light-bedroom-uplight-6A", "s-light-bedroom-cabinet-6B", "s-light-porch-lights-8A", "s-light-uplights-and-pot-lights-8B"};
     private String[] lightDescriptions = new String[]{"Entry Bookend Light", "Chandelier Light", "TV Light", "Kitchen Uplight Light", "Kitchen Under-Counter Light", "Kitchen Pendant Bar Lights", "Bathroom Light", "Bathroom Mirror Light", "Flexspace Uplight Light", "Flexspace Cabinet Light", "Bedroom Uplight Light", "Bedroom Cabinet Light", "Porch Lights", "Uplights/Pot Lights"};
+    private String[] roomNumbers = new String[]{"1A", "1B", "2A", "3A", "3B", "3C", "4A", "4B", "5A", "5B", "6A", "6B", "8A", "8B"};
+    private Point[] positions = new Point[]{new Point(70, 10), new Point(80, 20), new Point(50, 10), new Point(60, 50), new Point(67, 50), new Point(75, 50), new Point(40, 50), new Point(45, 50), new Point(50, 80), new Point(60, 80), new Point(30, 80), new Point(40, 80), new Point(20, 20), new Point(40, 20)};
 
     private void getLightDevices() {
         for(int idx = 0; idx < lightIds.length; idx++) {
-            lights.add(new LightDevice(lightIds[idx], lightDescriptions[idx]));
+            lights.add(new LightDevice(lightIds[idx], lightDescriptions[idx], getPositionFromID(lightIds[idx])));
         }
     }
 
     public LightingUtils() {
         getLightDevices();
+    }
+
+    private Point getPositionFromID(String id) {
+        String[] sections = id.split("-");
+        String roomNum = sections[sections.length - 1];
+        int positionIdx = Arrays.asList(roomNumbers).indexOf(roomNum);
+        return positions[positionIdx];
     }
 
     /*public void getNumLightsOn(ServerConnection.ResponseCallback<String, String> onFinish) {

@@ -2,12 +2,12 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -20,7 +20,7 @@ public class LightingActivity extends ActionBarActivity {
 
     private LinearLayout pageLayout;
     private LinearLayout listLayout;
-    private LinearLayout floorplanLayout;
+    private FrameLayout floorplanLayout;
 
     private List<TextView> lightTexts = new ArrayList<TextView>();
     private List<ImageView> lightImages = new ArrayList<ImageView>();
@@ -44,64 +44,41 @@ public class LightingActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Integer orientation = getResources().getConfiguration().orientation;
+        /*Integer orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             pageLayout.setOrientation(LinearLayout.VERTICAL);
         } else {
             pageLayout.setOrientation(LinearLayout.HORIZONTAL);
-        }
+        }*/
+
+        //setupLightList();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        setupLightList();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pageLayout = new LinearLayout(this);
-        pageLayout.setOrientation(LinearLayout.HORIZONTAL);
-        pageLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-        pageLayout.setWeightSum(2);
+        floorplanLayout = new FrameLayout(this);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);//pageLayout.getLayoutParams();
-        params.weight = 2;
-        pageLayout.setLayoutParams(params);
-
-        floorplanLayout = new LinearLayout(pageLayout.getContext());
-        floorplanLayout.setGravity(Gravity.CENTER);
-        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        params.weight = 1;
-        floorplanLayout.setLayoutParams(params);
-
-        view = new ScrollView(pageLayout.getContext());
-        view.setLayoutParams(params);
         floorplanView = new ImageView(floorplanLayout.getContext());
         floorplanView.setImageResource(R.drawable.floorplan);
-        floorplanView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        listLayout = new LinearLayout(view.getContext());
-        listLayout.setOrientation(LinearLayout.VERTICAL);
-        listLayout.setWeightSum(1);
-        listLayout.setLayoutParams(params);
-
-        view.addView(listLayout);
-
-
-        setupLightList();
-
-        //setupView();
+        floorplanView.setScaleType(ImageView.ScaleType.FIT_XY);
         floorplanLayout.addView(floorplanView);
 
-        pageLayout.addView(floorplanLayout);
-        pageLayout.addView(view);
-        setContentView(pageLayout);
+        setContentView(floorplanLayout);
 
         initSensorCollection();
     }
 
     public void setupLightList() {
         for (LightDevice light : lightUtils.lights) {
-            TextView ambLight = new TextView(listLayout.getContext());
-            ImageView image = new ImageView(listLayout.getContext());
-            LinearLayout labelLayout = new LinearLayout(listLayout.getContext());
-            labelLayout.setOrientation(LinearLayout.HORIZONTAL);
+            ImageView image = new ImageView(floorplanLayout.getContext());
 
             if (light.isOn) {
                 image.setImageResource(R.drawable.light_on);
@@ -109,24 +86,31 @@ public class LightingActivity extends ActionBarActivity {
                 image.setImageResource(R.drawable.light_off);
             }
 
-            image.setScaleX(0.5f);
-            image.setScaleY(0.5f);
+            image.setScaleX(0.05f);
+            image.setScaleY(0.05f);
 
-            ambLight.setText(light.description);
-            ambLight.setGravity(Gravity.CENTER);
+            double width = (double) floorplanLayout.getWidth();
+            double height = (double) floorplanLayout.getHeight();
+            int xTrans = (int) ((((double) light.location.x) / 100.0) * width);
+            xTrans = xTrans - ((int) (width / 2));
+            int yTrans = (int) (((double) (light.location.y) / 100.0) * height);
+            yTrans = yTrans - ((int) (height / 2));
+
+            image.setTranslationX(xTrans);
+            image.setTranslationY(-yTrans);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(image.getWidth(), image.getHeight());
+            params.leftMargin = xTrans;
+            params.bottomMargin = yTrans;
+            params.gravity = Gravity.TOP;
 
             lightImages.add(image);
-            lightTexts.add(ambLight);
 
-            labelLayout.addView(image);
-            labelLayout.addView(ambLight);
-            labelLayout.setGravity(Gravity.CENTER_VERTICAL);
-            listLayout.addView(labelLayout);
+            floorplanLayout.addView(image);
         }
     }
 
     public void reloadData() {
-        for (int idx = 0; idx < lightTexts.size(); idx++) {
+        for (int idx = 0; idx < lightImages.size(); idx++) {
             ImageView image = lightImages.get(idx);
 
             if (lightUtils.lights.get(idx).isOn) {
