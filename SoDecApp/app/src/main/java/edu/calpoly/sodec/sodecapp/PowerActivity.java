@@ -3,12 +3,14 @@ package edu.calpoly.sodec.sodecapp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
@@ -59,11 +61,13 @@ public class PowerActivity extends ActionBarActivity {
     private TextView dining_power;
     private TextView mech_power;
 
-    PieChartData mData;
-    PieChartView mChart;
+    private PieChartData mData;
+    private PieChartView mChart;
 
-    String[] mRooms = {"Bedroom", "Kitchen", "Living Room", "Dining Room", "Bathroom",
-            "Mechanical"};
+    private RelativeLayout mLayout;
+
+    private String[] mRooms = {"Bedroom", "Kitchen", "Living Room", "Dining Room", "Bathroom",
+                               "Mechanical"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +85,24 @@ public class PowerActivity extends ActionBarActivity {
         initLayout();
         mData = new PieChartData();
         mChart = (PieChartView) findViewById(R.id.roomPowerChart);
+        mLayout = (RelativeLayout) findViewById(R.id.PowerLayout);
 
         setData();
+
+        mLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {
+            }
+
+            public void onSwipeRight() {
+            }
+
+            public void onSwipeLeft() {
+                startActivity(new Intent(PowerActivity.this, PowerGeneratedActivity.class));
+            }
+
+            public void onSwipeBottom() {
+            }
+        });
     }
 
     private void initLayout() {

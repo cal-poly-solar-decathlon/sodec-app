@@ -4,7 +4,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="edu.calpoly.sodec.sodecapp.PowerActivity">
+    tools:context="edu.calpoly.sodec.sodecapp.PowerActivity"
+    android:id="@+id/PowerLayout"
+    android:focusable="true">
 
     <view
         android:layout_width="231dp"

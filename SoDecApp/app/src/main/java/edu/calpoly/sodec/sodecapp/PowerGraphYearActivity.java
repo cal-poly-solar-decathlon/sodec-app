@@ -1,5 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
@@ -40,7 +41,7 @@ public class PowerGraphYearActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView( R.layout.power_graph_year_layout);
+        setContentView(R.layout.power_graph_year_layout);
 
         startTime = TimestampUtils.getStartIsoForYear();
         endTime = TimestampUtils.getIsoForNow();
@@ -51,6 +52,21 @@ public class PowerGraphYearActivity extends ActionBarActivity {
 
         initStyle(YEAR_VIEW);
         mChart.setLineChartData(mData);
+
+        mChart.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {
+            }
+
+            public void onSwipeRight() {
+                startActivity(new Intent(PowerGraphYearActivity.this, PowerActivity.class));
+            }
+
+            public void onSwipeLeft() {
+            }
+
+            public void onSwipeBottom() {
+            }
+        });
     }
 
 

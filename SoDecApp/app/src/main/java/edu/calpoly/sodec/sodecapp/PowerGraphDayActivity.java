@@ -1,8 +1,10 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.LinearLayout;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,16 +40,30 @@ public class PowerGraphDayActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.power_graph_day_layout);
+        setContentView(R.layout.power_graph_day_layout);
 
         startTime = TimestampUtils.getStartIsoForDay();
         endTime = TimestampUtils.getIsoForNow();
-
         mChart = (LineChartView) findViewById(R.id.powerGeneratedChart);
         mData = new LineChartData();
         PowerGraphUtils.initPoints(mData, mChart, DEVICE, PowerGraphUtils.BASE_POWER, startTime, endTime);
         initStyle(DAY_VIEW);
         mChart.setLineChartData(mData);
+
+        mChart.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {
+            }
+
+            public void onSwipeRight() {
+                startActivity(new Intent(PowerGraphDayActivity.this, PowerActivity.class));
+            }
+
+            public void onSwipeLeft() {
+            }
+
+            public void onSwipeBottom() {
+            }
+        });
     }
 
 
