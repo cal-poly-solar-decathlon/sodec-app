@@ -33,7 +33,6 @@ public class PowerUseGraphDayActivity extends ActionBarActivity {
     private static final String DEFAULT_XAXIS_NAME = "Date";
     private static final String DEVICE = "egauge";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,8 +49,6 @@ public class PowerUseGraphDayActivity extends ActionBarActivity {
         mChart.setLineChartData(mData);
     }
 
-
-
     private void initStyle(int viewType) {
         mData.setAxisYLeft(new Axis()
                 .setName(DEFAULT_YAXIS_NAME)
@@ -63,4 +60,6 @@ public class PowerUseGraphDayActivity extends ActionBarActivity {
                         .setPrependedText("Mar ".toCharArray()))
                 .setTextColor(Color.BLACK));
     }
+
+
 }

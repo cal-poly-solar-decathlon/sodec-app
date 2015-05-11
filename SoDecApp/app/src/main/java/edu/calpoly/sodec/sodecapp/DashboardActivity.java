@@ -28,6 +28,8 @@ public class DashboardActivity extends ActionBarActivity {
     private RelativeLayout mLightsGroup;
     private TextView mNumLightsOn;
 
+    private LinearLayout mInsightsGroup;
+
     private LinearLayout mTemperatureGroup;
     private TextView mGenAreaTemp;
     private TextView mInsideTemp;
@@ -84,6 +86,8 @@ public class DashboardActivity extends ActionBarActivity {
         mGenAreaTemp = (TextView) this.findViewById(R.id.dashTempGenArea);
         mInsideTemp = (TextView) this.findViewById(R.id.dashTempInside);
         mOutsideTemp = (TextView) this.findViewById(R.id.dashTempOutside);
+
+        mInsightsGroup = (LinearLayout) this.findViewById(R.id.dashInsightsGroup);
     }
 
     private void loadPowerInfo() {
@@ -154,6 +158,12 @@ public class DashboardActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DashboardActivity.this, WeatherActivity.class));
+            }
+        });
+        mInsightsGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashboardActivity.this, SuggestionsActivity.class));
             }
         });
     }

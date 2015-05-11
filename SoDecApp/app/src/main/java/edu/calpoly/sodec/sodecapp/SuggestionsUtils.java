@@ -19,7 +19,8 @@ public class SuggestionsUtils {
     private static final String BASE_STATUS = "baseStatus";
     private static final String SERIES_DATA = "seriesData";
 
-    public static void getTrendByID(String deviceId, String startTime, String endTime) {
+    public static double getTrendByID(String deviceId, String startTime, String endTime) {
+        final List<PointValue> incrValues = new ArrayList<PointValue>();
         List<NameValuePair> params = new LinkedList<NameValuePair>();
         params.add(new BasicNameValuePair("device", deviceId));
         params.add(new BasicNameValuePair("start", startTime));
@@ -39,7 +40,6 @@ public class SuggestionsUtils {
                     int baseStatus = (int) jsonResponse.get(BASE_STATUS);
                     JSONArray dataDeltas = jsonResponse.getJSONArray(SERIES_DATA);
                     List<PointValue> values = new ArrayList<PointValue>();
-                    List<PointValue> incrValues = new ArrayList<PointValue>();
 
                     int numDeltas = dataDeltas.length();
                     int status = baseStatus;
@@ -64,8 +64,10 @@ public class SuggestionsUtils {
             }
         }, params);
 
+        return SuggestionsUtils.findSlopeOfBestFitLine(incrValues);
+
     }
-    private double findSlopeOfBestFitLine(List<PointValue> values) {
+    private static double findSlopeOfBestFitLine(List<PointValue> values) {
         double xMean;
         double xSum = 0;
         double yMean;
