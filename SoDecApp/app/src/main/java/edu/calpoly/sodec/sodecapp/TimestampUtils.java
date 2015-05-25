@@ -19,8 +19,7 @@ public class TimestampUtils {
      * @return String with format "yyyy-MM-dd'T'HH:mm:ss"
      */
     public static String getIsoForNow() {
-        Date now = new Date();
-        return getISO(now);
+        return Long.toString(System.currentTimeMillis()/1000);
     }
 
 
@@ -28,14 +27,14 @@ public class TimestampUtils {
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_MONTH, -30);
         Date lastMonth = cal.getTime();
-        return getISO(lastMonth);
+        return Long.toString(lastMonth.getTime()/1000);
     }
 
     public static String getStartIsoForWeek() {
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_MONTH, -7);
         Date lastWeek = cal.getTime();
-        return getISO(lastWeek);
+        return Long.toString(lastWeek.getTime()/1000);
 
     }
 
@@ -43,13 +42,13 @@ public class TimestampUtils {
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_MONTH, -1);
         Date lastDay = cal.getTime();
-        return getISO(lastDay);
+        return Long.toString(lastDay.getTime()/1000);
     }
     public static String getStartIsoForYear(){
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_MONTH, -365);
         Date lastDay = cal.getTime();
-        return getISO(lastDay);
+        return Long.toString(lastDay.getTime()/1000);
     }
 
     /**

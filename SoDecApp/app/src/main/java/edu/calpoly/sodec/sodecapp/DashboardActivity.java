@@ -139,7 +139,7 @@ public class DashboardActivity extends ActionBarActivity {
         mPowerLineChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashboardActivity.this, PowerGeneratedActivity.class));
+                startActivity(new Intent(DashboardActivity.this, PowergraphActivity.class));
             }
         });
         mPowerPieChart.setOnClickListener(new View.OnClickListener() {

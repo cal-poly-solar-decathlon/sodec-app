@@ -38,6 +38,20 @@
     <string name="temperature_title">Inside Temperature</string>
     <string name="humidity_title">Inside Humidity</string>
     <string name="title_activity_suggestions">SuggestionsActivity</string>
+    <string name="title_activity_powergraph">powergraph</string>
+
+    <string-array name="time">
+        <item>Day</item>
+        <item>Week</item>
+        <item>Month</item>
+        <item>Year</item>
+    </string-array>
+
+    <string-array name="usegen">
+        <item>Power Generated</item>
+        <item>Power Used</item>
+    </string-array>
+
 
     <string name="enter_pref_temp">Enter your preferred inside temperature:</string>
     <string name="open_window">Open your windows</string>

@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,8 +43,8 @@ public class PowerGraphUtils {
             public void execute(String response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
-                    Timestamp baseTime = new Timestamp((int) jsonResponse.get(BASE_TIME));
-                    int basePower = (int) jsonResponse.get(usage);
+                   //Timestamp baseTime = new Timestamp((int) jsonResponse.get(BASE_TIME));
+                   // int basePower = (int) jsonResponse.get(usage);
                     JSONArray dataDeltas = jsonResponse.getJSONArray(SERIES_DATA);
 
                     List<PointValue> values = new ArrayList<PointValue>();
@@ -56,7 +54,8 @@ public class PowerGraphUtils {
 
                     for (int i = 0, j = 0 ; i < SERIES_INTERVAL && j < numDeltas; i++, j+=SERIES_INTERVAL) {
                         values.add(new PointValue(i,
-                                ((JSONArray) dataDeltas.get(j)).getInt(1) + basePower));
+                                ((JSONArray) dataDeltas.get(j)).getInt(1)));
+                                System.out.println(values.get(i));
                     }
                     line = new Line(values)
                             .setColor(Color.BLUE)
