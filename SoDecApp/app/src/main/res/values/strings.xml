@@ -56,6 +56,7 @@
     <string name="enter_pref_temp">Enter your preferred inside temperature:</string>
     <string name="open_window">Open your windows</string>
     <string name="close_window">Close your windows</string>
+    <string name="title_activity_power_used_room">PowerUsedRoomActivity</string>
 
 
 

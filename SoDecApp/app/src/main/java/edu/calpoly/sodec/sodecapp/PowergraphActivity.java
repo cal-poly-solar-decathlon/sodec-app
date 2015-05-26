@@ -1,5 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.view.LineChartView;
+
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +25,7 @@ public class PowergraphActivity extends ActionBarActivity {
 
     private LineChartView mChart;
     private LineChartData mData;
+    private RelativeLayout mLayout;
     private String pug;
     private String time;
     private String startTime;
@@ -124,14 +128,18 @@ public class PowergraphActivity extends ActionBarActivity {
                 time = (String) parent.getItemAtPosition(position);
                 System.out.println(time);
 
-                switch(time) {
-                    case "Day": startTime = TimestampUtils.getStartIsoForDay();
+                switch (time) {
+                    case "Day":
+                        startTime = TimestampUtils.getStartIsoForDay();
                         break;
-                    case "Week": startTime = TimestampUtils.getStartIsoForWeek();
+                    case "Week":
+                        startTime = TimestampUtils.getStartIsoForWeek();
                         break;
-                    case "Month": startTime = TimestampUtils.getStartIsoForMonth();
+                    case "Month":
+                        startTime = TimestampUtils.getStartIsoForMonth();
                         break;
-                    case "Year": startTime = TimestampUtils.getStartIsoForYear();
+                    case "Year":
+                        startTime = TimestampUtils.getStartIsoForYear();
                         break;
                 }
 
@@ -142,6 +150,23 @@ public class PowergraphActivity extends ActionBarActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        mLayout = (RelativeLayout) findViewById(R.id.powergraphLayout);
+
+        mLayout.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {
+            }
+
+            public void onSwipeRight() {
+                startActivity(new Intent(PowergraphActivity.this, PowerActivity.class));
+            }
+
+            public void onSwipeLeft() {
+            }
+
+            public void onSwipeBottom() {
             }
         });
     }

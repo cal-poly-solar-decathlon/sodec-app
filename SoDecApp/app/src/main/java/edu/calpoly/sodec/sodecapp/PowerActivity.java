@@ -97,7 +97,7 @@ public class PowerActivity extends ActionBarActivity {
             }
 
             public void onSwipeLeft() {
-                startActivity(new Intent(PowerActivity.this, PowerGeneratedActivity.class));
+                startActivity(new Intent(PowerActivity.this, PowergraphActivity.class));
             }
 
             public void onSwipeBottom() {
@@ -381,5 +381,20 @@ public class PowerActivity extends ActionBarActivity {
         mData.setHasLabels(true);
         mData.setValues(slices);
         mChart.setPieChartData(mData);
+
+        mChart.setValueTouchEnabled(true);
+        mChart.setOnValueTouchListener(new PieChartOnValueSelectListener() {
+            @Override
+            public void onValueSelected(int i, SliceValue sliceValue) {
+                Intent intent = new Intent(PowerActivity.this, PowerUsedRoomActivity.class);
+                intent.putExtra("room", mRooms[i]);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onValueDeselected() {
+
+            }
+        });
     }
 }

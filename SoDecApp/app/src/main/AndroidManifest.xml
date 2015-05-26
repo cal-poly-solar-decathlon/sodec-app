@@ -71,6 +71,10 @@
             android:name=".PowergraphActivity"
             android:label="@string/title_activity_powergraph" >
         </activity>
+        <activity
+            android:name=".PowerUsedRoomActivity"
+            android:label="@string/title_activity_power_used_room" >
+        </activity>
     </application>
 
 </manifest>
