@@ -2,12 +2,12 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -18,9 +18,12 @@ public class SuggestionsActivity extends ActionBarActivity {
     private static final String DEVICE_LIVING_ROOM = "s-temp-lr";
 
 
-    private EditText inputPreferredTemp;
-    private TextView preferredTemp;
-    private TextView windowSuggestion;
+    private EditText editTextInputPreferredTemp;
+    private TextView textViewPreferredTemp;
+    private TextView textViewWindowSuggestion;
+    private Button buttonSubmitPreferredTemp;
+    private ImageView imageViewWindowSuggestion;
+    private ImageView imageViewTempTrend;
 
     private double preferredTempValue;
     private double currInsideTemp;
@@ -28,27 +31,24 @@ public class SuggestionsActivity extends ActionBarActivity {
     private double trendBedroomTemp;
     private double trendBathroomTemp;
     private double trendLivingRoomTemp;
+    private double trendOverallInsideTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggestions);
-
-        this.loadTemp();
         this.initLayout();
-        this.inputPreferredTemp.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        this.loadTemp();
+
+
+        buttonSubmitPreferredTemp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView wrappedTextValue, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    preferredTempValue = Double.parseDouble(wrappedTextValue.getText().toString());
-                    preferredTemp.setText(wrappedTextValue.getText().toString());
-                    loadSuggestion();
-                    handled = true;
-                }
-                return handled;
+            public void onClick(View v) {
+                loadSuggestion();
             }
         });
+
+
     }
 
 
@@ -76,10 +76,12 @@ public class SuggestionsActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_suggestions);
-        inputPreferredTemp = (EditText) this.findViewById(R.id.inputPreferredTemp);
-        preferredTemp = (TextView) this.findViewById(R.id.textPreferredTemp);
-        windowSuggestion = (TextView) this.findViewById(R.id.textWindowSuggestion);
-
+        editTextInputPreferredTemp = (EditText) this.findViewById(R.id.editTextInputPreferredTemp);
+        textViewWindowSuggestion = (TextView) this.findViewById(R.id.textViewWindowSuggestion);
+        textViewPreferredTemp = (TextView) this.findViewById(R.id.textViewPrefTemp);
+        buttonSubmitPreferredTemp = (Button) this.findViewById((R.id.buttonSubmitPreferredTemp));
+        imageViewWindowSuggestion = (ImageView) this.findViewById(R.id.imageViewWindowSuggestion);
+        imageViewTempTrend = (ImageView) this.findViewById(R.id.imageViewTempTrend);
     }
 
     private void loadTemp() {
@@ -97,19 +99,36 @@ public class SuggestionsActivity extends ActionBarActivity {
             }
         });
 
-        trendBathroomTemp = SuggestionsUtils.getTrendByID(DEVICE_BATH, TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
-        trendBedroomTemp = SuggestionsUtils.getTrendByID(DEVICE_BED, TimestampUtils.getStartIsoForDay(),TimestampUtils.getIsoForNow());
-        trendLivingRoomTemp = SuggestionsUtils.getTrendByID(DEVICE_LIVING_ROOM,TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
 
+        this.trendBathroomTemp = SuggestionsUtils.getTrendByID(DEVICE_BATH, TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
+        this.trendBedroomTemp = SuggestionsUtils.getTrendByID(DEVICE_BED, TimestampUtils.getStartIsoForDay(),TimestampUtils.getIsoForNow());
+        this.trendLivingRoomTemp = SuggestionsUtils.getTrendByID(DEVICE_LIVING_ROOM,TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
+        this.trendOverallInsideTemp = (this.trendBathroomTemp+this.trendBedroomTemp+this.trendLivingRoomTemp)/3;
+
+        if (this.trendOverallInsideTemp > 0) {
+            this.imageViewTempTrend.setImageResource(R.drawable.temp_rising);
+        } else {
+            this.imageViewTempTrend.setImageResource(R.drawable.temp_falling);
+
+        }
     }
 
     private void loadSuggestion() {
-        if (this.currInsideTemp > this.preferredTempValue && this.currOutsideTemp < this.currInsideTemp)
+        this.preferredTempValue = Double.parseDouble(editTextInputPreferredTemp.getText().toString());
+        this.textViewPreferredTemp.setText(Double.toString(this.preferredTempValue));
+
+        // It's too hot inside and it's colder outside, or it's too cold inside and it's hotter outside.
+        if (this.currInsideTemp > this.preferredTempValue && this.currOutsideTemp < this.currInsideTemp ||
+            this.currInsideTemp < this.preferredTempValue && this.currOutsideTemp > this.currInsideTemp)
         {
-            this.windowSuggestion.setText("Open your windows");
+            this.textViewWindowSuggestion.setText("Open your window.");
+            this.imageViewWindowSuggestion.setImageResource(R.drawable.open_window);
         }
+
         else {
-            this.windowSuggestion.setText(("Close your windows"));
+            this.textViewWindowSuggestion.setText(("Close your windows"));
+            this.imageViewWindowSuggestion.setImageResource(R.drawable.closed_window);
+
             //TODO: Needs refining. 
         }
     }

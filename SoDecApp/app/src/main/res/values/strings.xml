@@ -54,9 +54,14 @@
 
 
     <string name="enter_pref_temp">Enter your preferred inside temperature:</string>
+    <string name="pref_temp">Your preferred temp is: </string>
+
     <string name="open_window">Open your windows</string>
     <string name="close_window">Close your windows</string>
     <string name="title_activity_power_used_room">PowerUsedRoomActivity</string>
+    <string name="no_suggestions">No suggestions at this time.</string>
+
+    <string name="trend_in_one_hour">Your inside temperature in 1 hour will be: </string>
 
 
 

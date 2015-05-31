@@ -6,30 +6,93 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.calpoly.sodec.sodecapp.SuggestionsActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_pref_temp"
+        android:id="@+id/textViewEnterPreferredTemp"
+        android:textSize="@dimen/dash_curr_temp_size"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/inputPreferredTemp"
-        android:layout_alignParentTop="true"
+        android:id="@+id/editTextInputPreferredTemp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="88dp" />
+        android:layout_marginTop="108dp" />
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textPreferredTemp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignTop="@+id/inputPreferredTemp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textWindowSuggestion"
-        android:layout_marginBottom="251dp"
-        android:layout_alignParentBottom="true"
+        android:text="@string/no_suggestions"
+        android:textSize="@dimen/dash_curr_temp_size"
+        android:id="@+id/textViewWindowSuggestion"
+        android:textStyle="bold"
+        android:layout_below="@+id/textViewYourPrefIs"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/buttonSubmitPreferredTemp"
+        android:layout_below="@+id/editTextInputPreferredTemp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pref_temp"
+        android:textSize="@dimen/dash_curr_temp_size"
+        android:id="@+id/textViewYourPrefIs"
+        android:layout_below="@+id/imageViewTempTrend"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:id="@+id/textViewPrefTemp"
+        android:textSize="@dimen/dash_curr_temp_size"
+        android:layout_above="@+id/textViewWindowSuggestion"
+        android:layout_toEndOf="@+id/textViewYourPrefIs" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/imageViewWindowSuggestion"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/imageViewTempTrend"
+        android:layout_alignStart="@+id/imageViewTempTrend" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trend_in_one_hour"
+        android:textSize="@dimen/dash_curr_temp_size"
+        android:id="@+id/textViewOneHour"
+        android:layout_alignTop="@+id/imageViewTempTrend"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:id="@+id/textViewTrendInOneHour"
+        android:textSize="@dimen/dash_curr_temp_size"
+        android:layout_toEndOf="@+id/textViewOneHour" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/imageViewTempTrend"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
