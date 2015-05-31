@@ -20,9 +20,9 @@ import lecho.lib.hellocharts.view.LineChartView;
 public class PowerGraphUtils {
 
     private static final int SERIES_INTERVAL = 400;
-    private static final String BASE_TIME = /*"baseTimestamp"*/"timestamp";
-    public static final String BASE_POWER = /*"baseStatus"*/"generation"; // power generated
-    public static final String BASE_USAGE = /*"baseUsage"*/"usage"; // power used
+    private static final String BASE_TIME = "baseTimestamp";
+    public static final String BASE_POWER = "baseStatus"; // base power generated or used
+    public static final String BASE_USAGE = "baseUsage";
     private static final String SERIES_DATA = "seriesData";
 
     public static void initPoints(final LineChartData mData, final LineChartView mChart,

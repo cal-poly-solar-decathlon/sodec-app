@@ -13,6 +13,11 @@ import java.util.TimeZone;
  */
 public class TimestampUtils {
 
+    private static final int END_MILLIS = 999;
+    private static final int END_SECONDS = 59;
+    private static final int END_MINUTES = 59;
+    private static final int END_HOURS = 23;
+
     /**
      * Return an ISO 8601 combined date and time string for current date/time
      *
@@ -21,7 +26,6 @@ public class TimestampUtils {
     public static String getIsoForNow() {
         return Long.toString(System.currentTimeMillis()/1000);
     }
-
 
     public static String getStartIsoForMonth() {
         Calendar cal = new GregorianCalendar();
@@ -35,7 +39,6 @@ public class TimestampUtils {
         cal.add(Calendar.DAY_OF_MONTH, -7);
         Date lastWeek = cal.getTime();
         return Long.toString(lastWeek.getTime()/1000);
-
     }
 
     public static String getStartIsoForDay(){
@@ -44,6 +47,39 @@ public class TimestampUtils {
         Date lastDay = cal.getTime();
         return Long.toString(lastDay.getTime()/1000);
     }
+
+    /**
+     * @param dayDifference Difference between today and the desired day. (0 for today, -1 for yesterday, etc)
+     * @return Calendar instance at the beginning of the specified day.
+     */
+    public static Calendar getStartOfDay(int dayDifference) {
+        Calendar dayStart = new GregorianCalendar();
+
+        dayStart.add(Calendar.DAY_OF_MONTH, dayDifference);
+        dayStart.set(Calendar.HOUR_OF_DAY, 0);
+        dayStart.set(Calendar.MINUTE, 0);
+        dayStart.set(Calendar.SECOND, 0);
+        dayStart.set(Calendar.MILLISECOND, 0);
+
+        return dayStart;
+    }
+
+    /**
+     * @param dayDifference Difference between today and the desired day. (0 for today, -1 for yesterday, etc)
+     * @return Calendar instance at the end of the specified day.
+     */
+    public static Calendar getEndOfDay(int dayDifference) {
+        Calendar dayEnd = new GregorianCalendar();
+
+        dayEnd.add(Calendar.DAY_OF_MONTH, dayDifference);
+        dayEnd.set(Calendar.HOUR_OF_DAY, END_HOURS);
+        dayEnd.set(Calendar.MINUTE, END_MINUTES);
+        dayEnd.set(Calendar.SECOND, END_SECONDS);
+        dayEnd.set(Calendar.MILLISECOND, END_MILLIS);
+
+        return dayEnd;
+    }
+
     public static String getStartIsoForYear(){
         Calendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_MONTH, -365);

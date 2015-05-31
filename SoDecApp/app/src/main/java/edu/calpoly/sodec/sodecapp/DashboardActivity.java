@@ -175,7 +175,7 @@ public class DashboardActivity extends ActionBarActivity {
      * */
     private void initSensorCollection() {
         boolean sensorCollectionStarted = (PendingIntent.getBroadcast(this, 0,
-                new Intent(SensorCollectionReceiver.ACTION_COLLECT_SENSOR_DATA),
+                new Intent(PowerCacheIntentService.ACTION_UPDATE),
                 PendingIntent.FLAG_NO_CREATE) != null);
 
         if (!sensorCollectionStarted) {
