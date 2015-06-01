@@ -62,6 +62,8 @@
     <string name="no_suggestions">No suggestions at this time.</string>
 
     <string name="trend_in_one_hour">Your inside temperature in 1 hour will be: </string>
+    <string name="trend_decreasing_temp">Based on current trends, your inside temperature is decreasing.</string>
+    <string name="trend_increasing_temp">Based on current trends, your inside temperature is increasing.</string>
 
 
 

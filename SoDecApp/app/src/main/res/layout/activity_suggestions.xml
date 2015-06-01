@@ -73,9 +73,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/trend_in_one_hour"
+        android:text=" "
         android:textSize="@dimen/dash_curr_temp_size"
-        android:id="@+id/textViewOneHour"
+        android:id="@+id/textViewTempTrend"
         android:layout_alignTop="@+id/imageViewTempTrend"
         android:layout_alignParentStart="true" />
 
@@ -85,7 +85,7 @@
         android:text=" "
         android:id="@+id/textViewTrendInOneHour"
         android:textSize="@dimen/dash_curr_temp_size"
-        android:layout_toEndOf="@+id/textViewOneHour" />
+        android:layout_toEndOf="@+id/textViewTempTrend" />
 
     <ImageView
         android:layout_width="120dp"

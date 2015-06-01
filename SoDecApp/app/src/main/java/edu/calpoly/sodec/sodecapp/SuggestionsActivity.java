@@ -20,6 +20,7 @@ public class SuggestionsActivity extends ActionBarActivity {
 
     private EditText editTextInputPreferredTemp;
     private TextView textViewPreferredTemp;
+    private TextView textViewTempTrend;
     private TextView textViewWindowSuggestion;
     private Button buttonSubmitPreferredTemp;
     private ImageView imageViewWindowSuggestion;
@@ -82,6 +83,8 @@ public class SuggestionsActivity extends ActionBarActivity {
         buttonSubmitPreferredTemp = (Button) this.findViewById((R.id.buttonSubmitPreferredTemp));
         imageViewWindowSuggestion = (ImageView) this.findViewById(R.id.imageViewWindowSuggestion);
         imageViewTempTrend = (ImageView) this.findViewById(R.id.imageViewTempTrend);
+        textViewTempTrend = (TextView) this.findViewById(R.id.textViewTempTrend);
+
     }
 
     private void loadTemp() {
@@ -107,8 +110,11 @@ public class SuggestionsActivity extends ActionBarActivity {
 
         if (this.trendOverallInsideTemp > 0) {
             this.imageViewTempTrend.setImageResource(R.drawable.temp_rising);
+            this.textViewTempTrend.setText(R.string.trend_increasing_temp);
         } else {
             this.imageViewTempTrend.setImageResource(R.drawable.temp_falling);
+            this.textViewTempTrend.setText(R.string.trend_decreasing_temp);
+
 
         }
     }
