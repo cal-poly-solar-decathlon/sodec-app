@@ -33,7 +33,7 @@
         android:textSize="@dimen/dash_curr_temp_size"
         android:id="@+id/textViewWindowSuggestion"
         android:textStyle="bold"
-        android:layout_below="@+id/textViewYourPrefIs"
+        android:layout_alignBottom="@+id/imageViewWindowSuggestion"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -59,8 +59,9 @@
         android:text=" "
         android:id="@+id/textViewPrefTemp"
         android:textSize="@dimen/dash_curr_temp_size"
-        android:layout_above="@+id/textViewWindowSuggestion"
-        android:layout_toEndOf="@+id/textViewYourPrefIs" />
+        android:layout_alignTop="@+id/textViewYourPrefIs"
+        android:layout_toEndOf="@+id/textViewYourPrefIs"
+        android:layout_alignBottom="@+id/textViewYourPrefIs" />
 
     <ImageView
         android:layout_width="120dp"
@@ -94,5 +95,37 @@
         android:scaleType="fitXY"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inside Temperature: "
+        android:id="@+id/textViewInsideTempIs"
+        android:layout_below="@+id/textViewOutsideTempIs"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Outside Temperature: "
+        android:id="@+id/textViewOutsideTempIs"
+        android:layout_below="@+id/textViewYourPrefIs"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:id="@+id/textViewOutsideTemp"
+        android:layout_toEndOf="@+id/textViewOutsideTempIs"
+        android:layout_alignTop="@+id/textViewOutsideTempIs" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:id="@+id/textViewInsideTemp"
+        android:layout_toEndOf="@+id/textViewOutsideTempIs"
+        android:layout_alignTop="@+id/textViewInsideTempIs" />
 
 </RelativeLayout>

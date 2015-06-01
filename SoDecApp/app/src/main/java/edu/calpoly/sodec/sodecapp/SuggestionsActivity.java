@@ -22,6 +22,9 @@ public class SuggestionsActivity extends ActionBarActivity {
     private TextView textViewPreferredTemp;
     private TextView textViewTempTrend;
     private TextView textViewWindowSuggestion;
+    private TextView textViewInsideTemp;
+    private TextView textViewOutsideTemp;
+
     private Button buttonSubmitPreferredTemp;
     private ImageView imageViewWindowSuggestion;
     private ImageView imageViewTempTrend;
@@ -84,10 +87,27 @@ public class SuggestionsActivity extends ActionBarActivity {
         imageViewWindowSuggestion = (ImageView) this.findViewById(R.id.imageViewWindowSuggestion);
         imageViewTempTrend = (ImageView) this.findViewById(R.id.imageViewTempTrend);
         textViewTempTrend = (TextView) this.findViewById(R.id.textViewTempTrend);
+        textViewInsideTemp = (TextView) this.findViewById(R.id.textViewInsideTemp);
+        textViewOutsideTemp = (TextView) this.findViewById(R.id.textViewOutsideTemp);
 
     }
 
     private void loadTemp() {
+
+        DatabaseUtils.getInsideTemp(new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                textViewInsideTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
+        DatabaseUtils.getOutsideTemp(new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                textViewOutsideTemp.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
+            }
+        });
+
         DatabaseUtils.getInsideTemp(new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
@@ -121,7 +141,7 @@ public class SuggestionsActivity extends ActionBarActivity {
 
     private void loadSuggestion() {
         this.preferredTempValue = Double.parseDouble(editTextInputPreferredTemp.getText().toString());
-        this.textViewPreferredTemp.setText(Double.toString(this.preferredTempValue));
+        this.textViewPreferredTemp.setText(Double.toString(this.preferredTempValue) + "°F");
 
         // It's too hot inside and it's colder outside, or it's too cold inside and it's hotter outside.
         if (this.currInsideTemp > this.preferredTempValue && this.currOutsideTemp < this.currInsideTemp ||
@@ -134,8 +154,6 @@ public class SuggestionsActivity extends ActionBarActivity {
         else {
             this.textViewWindowSuggestion.setText(("Close your windows"));
             this.imageViewWindowSuggestion.setImageResource(R.drawable.closed_window);
-
-            //TODO: Needs refining. 
         }
     }
 }
