@@ -15,11 +15,14 @@ import com.survivingwithandroid.weather.lib.client.okhttp.WeatherDefaultClient;
 import com.survivingwithandroid.weather.lib.exception.WeatherProviderInstantiationException;
 import com.survivingwithandroid.weather.lib.provider.yahooweather.YahooProviderType;
 
+import edu.calpoly.sodec.sodecapp.PowerCache.CacheManager;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.view.LineChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class DashboardActivity extends ActionBarActivity {
+
+    private CacheManager mCache;
 
     private PieChartView mPowerPieChart;
     private LineChartView mPowerLineChart;
@@ -65,6 +68,7 @@ public class DashboardActivity extends ActionBarActivity {
         initLayout();
         initListeners();
         initSensorCollection();
+        mCache = CacheManager.getInstance(this);
     }
 
     @Override

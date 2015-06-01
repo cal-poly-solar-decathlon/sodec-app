@@ -18,6 +18,11 @@ public class TimestampUtils {
     private static final int END_MINUTES = 59;
     private static final int END_HOURS = 23;
 
+    public static final int DAYS_PER_WEEK = 7;
+    // Generally we will always want the past 30 days regardless of actual month length
+    public static final int DAYS_PER_MONTH = 30;
+    public static final int DAYS_PER_YEAR = 365;
+
     /**
      * Return an ISO 8601 combined date and time string for current date/time
      *

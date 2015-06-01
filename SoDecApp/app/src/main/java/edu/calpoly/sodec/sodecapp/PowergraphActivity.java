@@ -124,6 +124,8 @@ public class PowergraphActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
+                long startMillis = 0;
+                long endMillis = 0;
                 Log.v("item", (String) parent.getItemAtPosition(position));
                 time = (String) parent.getItemAtPosition(position);
                 System.out.println(time);
@@ -133,17 +135,23 @@ public class PowergraphActivity extends ActionBarActivity {
                         startTime = TimestampUtils.getStartIsoForDay();
                         break;
                     case "Week":
-                        startTime = TimestampUtils.getStartIsoForWeek();
+                        startMillis = TimestampUtils.getStartOfDay(-TimestampUtils.DAYS_PER_WEEK).getTimeInMillis();
                         break;
                     case "Month":
-                        startTime = TimestampUtils.getStartIsoForMonth();
+                        startMillis = TimestampUtils.getStartOfDay(-TimestampUtils.DAYS_PER_MONTH).getTimeInMillis();
                         break;
                     case "Year":
-                        startTime = TimestampUtils.getStartIsoForYear();
+                        startMillis = TimestampUtils.getStartOfDay(-TimestampUtils.DAYS_PER_YEAR).getTimeInMillis();
                         break;
                 }
+                if (time.equals("Day")) {
+                    PowerGraphUtils.initPoints(mData, mChart, device, PowerGraphUtils.BASE_POWER, startTime, endTime);
+                }
+                else {
+                    endMillis = TimestampUtils.getEndOfDay(-1).getTimeInMillis();
+                    PowerGraphUtils.initPointsFromCache(mData, mChart, device, startMillis, endMillis);
+                }
 
-                PowerGraphUtils.initPoints(mData, mChart, device, PowerGraphUtils.BASE_POWER, startTime, endTime);
                 initStyle(DAY_VIEW);
                 mChart.setLineChartData(mData);
             }

@@ -1,6 +1,7 @@
 package edu.calpoly.sodec.sodecapp;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.calpoly.sodec.sodecapp.PowerCache.CacheManager;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
@@ -68,5 +70,21 @@ public class PowerGraphUtils {
                 }
             }
         }, params);
+    }
+
+    public static void initPointsFromCache(LineChartData lineData, LineChartView lineChart,
+                                           String device, long startMillis, long endMillis) {
+        ArrayList<Long> readings = CacheManager.getInstance(null)
+                .getReadingsForDevice(device, startMillis);
+        ArrayList<PointValue> points = new ArrayList<>();
+        List<Line> lines = new ArrayList<Line>();
+
+        // TODO: Do we want to aggregate readings for the month and year views?
+        for (int day = 0; day < readings.size(); day++) {
+            points.add(new PointValue(day, readings.get(day)));
+        }
+        lines.add(new Line(points).setColor(Color.BLUE).setCubic(true));
+        lineData.setLines(lines);
+        lineChart.setLineChartData(lineData);
     }
 }
