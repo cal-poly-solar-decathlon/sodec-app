@@ -40,6 +40,8 @@ public class PowerTask implements Runnable {
     private static final long MILLIS_PER_SEC = TimeUnit.SECONDS.toMillis(1);
     private static final long MILLIS_PER_DAY = TimeUnit.DAYS.toMillis(1);
     private static final int SENSOR_READINGS_PER_DAY = 5760;
+    // We want to save readings every 15 minutes which comes out to every 60 readings
+    private static final int SAVE_INCREMENT = 60;
 
     public static final int TYPE_GET_GEN = 1;
     public static final int TYPE_GET_USE = 2;
@@ -86,7 +88,12 @@ public class PowerTask implements Runnable {
             dayData = new ContentValues();
 
             dayData.put(PowerContract.PowerGen.COLUMN_BASE_TIMESTAMP, startTime);
-            dayData.put(mCacheManager.getColForDevice(mDevice), getTotalPower(day, dayDeltas));
+            try {
+                dayData.put(mCacheManager.getColForDevice(mDevice), getAggregatedPowerJson(day, dayDeltas));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
             if (mType == TYPE_GET_GEN) {
                 mCacheManager.addDayToGenBuffer(mDevice, dayData);
             }
@@ -113,17 +120,29 @@ public class PowerTask implements Runnable {
         }
     }
 
-    private long getTotalPower(int day, JSONArray genDeltas) {
+    /**
+     * Produces a JSON array of power values. The first value will always be the total power for
+     * the specified day. The rest of the values will be readings from 15 minute intervals
+     * throughout the day.
+     * */
+    private String getAggregatedPowerJson(int day, JSONArray genDeltas) throws JSONException {
         long total = 0;
+        long readingVal = 0;
+        JSONArray aggPower = new JSONArray();
 
+        // Reserve first spot for the total
+        aggPower.put(0, 0);
         for (int reading = SENSOR_READINGS_PER_DAY * day; reading < SENSOR_READINGS_PER_DAY * (day+1)
                 && reading < genDeltas.length(); reading++) {
-            try {
-                total += ((JSONArray) genDeltas.get(reading)).getLong(1);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            readingVal = ((JSONArray) genDeltas.get(reading)).getLong(1);
+            total += readingVal;
+
+            if ((reading+1) % SAVE_INCREMENT == 0) {
+                aggPower.put(readingVal);
             }
         }
-        return total;
+        aggPower.put(0, total);
+
+        return aggPower.toString();
     }
 }

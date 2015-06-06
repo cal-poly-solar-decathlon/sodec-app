@@ -46,7 +46,7 @@ public class PowerCacheIntentService extends IntentService {
         int dayIncr = dayToStopBefore.before(TimestampUtils.getStartOfDay(-2)) ? WEEK_INCREMENT : 1;
         Calendar calDayStart = TimestampUtils.getStartOfDay(-dayIncr);
         Calendar calDayEnd = TimestampUtils.getEndOfDay(-1);
-        int numDaysToCache = calcDaysToCache(dayToStopBefore, (Calendar) calDayStart.clone());
+        int numDaysToCache = calcDaysToCache(dayToStopBefore, TimestampUtils.getStartOfDay(-1));
 
         if (numDaysToCache == 0) {
             Log.i(TAG, "Nothing new to cache yet.");

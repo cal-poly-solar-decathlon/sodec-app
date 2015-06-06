@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -113,7 +116,7 @@ public class CacheManager {
         if (buffer.containsKey(timestamp)) {
             String insertCol = mDeviceToCol.get(device);
 
-            buffer.get(timestamp).put(insertCol, (Long) dayData.get(insertCol));
+            buffer.get(timestamp).put(insertCol, (String) dayData.get(insertCol));
         }
         else {
             buffer.put(timestamp, dayData);
@@ -159,9 +162,31 @@ public class CacheManager {
         return lastDay;
     }
 
-    public ArrayList<Long> getReadingsForDevice(String device, long oldestDay) {
+    public ArrayList<Long> getTotalsForDevice(String device, long oldestDay) {
+        ArrayList<Long> totals = new ArrayList<>();
+        ArrayList<JSONArray> readings = getReadingsForDevice(device, oldestDay);
+
+        for (JSONArray day : readings) {
+            try {
+                totals.add(day.getLong(0));
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return totals;
+    }
+
+    /**
+     * @param oldestDay Timestamp in milliseconds. Readings will not be returned for any days older
+     *                  than this.
+     * @return Arrays for each day of device readings. The first reading of each returned array is
+     *         the total for its respective day.
+     */
+    public ArrayList<JSONArray> getReadingsForDevice(String device, long oldestDay) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        ArrayList<Long> readings = new ArrayList<>();
+        ArrayList<JSONArray> readings = new ArrayList<>();
         String deviceCol = getColForDevice(device);
 
         String sortOrder = PowerUse.COLUMN_BASE_TIMESTAMP + " DESC";
@@ -182,7 +207,12 @@ public class CacheManager {
             int timeColIndex = dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_BASE_TIMESTAMP);
 
             while (!dayCursor.isAfterLast() && dayCursor.getLong(timeColIndex) >= oldestDay) {
-                readings.add(dayCursor.getLong(deviceColIndex));
+                try {
+                    readings.add(new JSONArray(dayCursor.getString(deviceColIndex)));
+                }
+                catch (JSONException e) {
+                    readings.add(new JSONArray().put(0L));
+                }
                 dayCursor.moveToNext();
             }
         }
@@ -218,8 +248,8 @@ public class CacheManager {
                 Log.d(TAG, "----");
                 Log.d(TAG, dateFormat.format(new Date(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_BASE_TIMESTAMP)))));
                 Log.d(TAG, Long.toString(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_BASE_TIMESTAMP))));
-                Log.d(TAG, Long.toString(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_USE_BEDROOM_RECEPS_1))));
-                Log.d(TAG, Long.toString(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_USE_DISHWASHER))));
+                Log.d(TAG, "bedroom receps: " + dayCursor.getString(dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_USE_BEDROOM_RECEPS_1)));
+                Log.d(TAG, "dishwasher: " + dayCursor.getString(dayCursor.getColumnIndexOrThrow(PowerUse.COLUMN_USE_DISHWASHER)));
             } while (dayCursor.moveToNext());
         }
         else {
@@ -252,8 +282,8 @@ public class CacheManager {
                 Log.d(TAG, "----");
                 Log.d(TAG, dateFormat.format(new Date(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerGen.COLUMN_BASE_TIMESTAMP)))));
                 Log.d(TAG, Long.toString(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerGen.COLUMN_BASE_TIMESTAMP))));
-                Log.d(TAG, Long.toString(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerGen.COLUMN_GEN_MAIN))));
-                Log.d(TAG, Long.toString(dayCursor.getLong(dayCursor.getColumnIndexOrThrow(PowerGen.COLUMN_GEN_BIFACIAL))));
+                Log.d(TAG, "main: " + dayCursor.getString(dayCursor.getColumnIndexOrThrow(PowerGen.COLUMN_GEN_MAIN)));
+                Log.d(TAG, "bifacial: " + dayCursor.getString(dayCursor.getColumnIndexOrThrow(PowerGen.COLUMN_GEN_BIFACIAL)));
             } while (dayCursor.moveToNext());
         }
         else {

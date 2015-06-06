@@ -1,7 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -75,7 +74,7 @@ public class PowerGraphUtils {
     public static void initPointsFromCache(LineChartData lineData, LineChartView lineChart,
                                            String device, long startMillis, long endMillis) {
         ArrayList<Long> readings = CacheManager.getInstance(null)
-                .getReadingsForDevice(device, startMillis);
+                .getTotalsForDevice(device, startMillis);
         ArrayList<PointValue> points = new ArrayList<>();
         List<Line> lines = new ArrayList<Line>();
 

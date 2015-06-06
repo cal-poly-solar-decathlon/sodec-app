@@ -17,38 +17,38 @@ public class PowerDbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + PowerGen.TABLE_NAME + " (" +
             PowerGen._ID + " INTEGER PRIMARY KEY," +
             PowerGen.COLUMN_BASE_TIMESTAMP  + INT_TYPE + COMMA_SEP +
-            PowerGen.COLUMN_GEN_MAIN        + INT_TYPE + COMMA_SEP +
-            PowerGen.COLUMN_GEN_BIFACIAL    + INT_TYPE + COMMA_SEP +
+            PowerGen.COLUMN_GEN_MAIN        + TEXT_TYPE + COMMA_SEP +
+            PowerGen.COLUMN_GEN_BIFACIAL    + TEXT_TYPE + COMMA_SEP +
             " UNIQUE(" + PowerGen.COLUMN_BASE_TIMESTAMP + ") ON CONFLICT IGNORE)";
 
     private static final String SQL_CREATE_USE_ENTRIES =
             "CREATE TABLE " + PowerUse.TABLE_NAME + " (" +
             PowerUse._ID + " INTEGER PRIMARY KEY," +
             PowerUse.COLUMN_BASE_TIMESTAMP                          + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_LAUNDRY                             + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_DISHWASHER                          + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_REFRIGERATOR                        + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_INDUCTION_STOVE                     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_EWH_SOLAR_WATER_HEATER              + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_KITCHEN_RECEPS_1                    + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_KITCHEN_RECEPS_2                    + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_LIVING_RECEPS                       + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_DINING_RECEPS_1                     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_DINING_RECEPS_2                     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_BATHROOM_RECEPS                     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_BEDROOM_RECEPS_1                    + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_BEDROOM_RECEPS_2                    + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_MECHANICAL_RECEPS                   + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_ENTRY_RECEPS                        + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_EXTERIOR_RECEPS                     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_GREY_WATER_PUMP_RECEP               + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_BLACK_WATER_PUMP_RECEP              + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_THERMAL_LOOP_PUMP_RECEP             + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_WATER_SUPPLY_PUMP_RECEP             + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_WATER_SUPPLY_BOOSTER_PUMP_RECEP     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_VEHICLE_CHARGING_RECEP              + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_HEAT_PUMP_RECEP                     + INT_TYPE + COMMA_SEP +
-            PowerUse.COLUMN_USE_AIR_HANDLER_RECEP                   + INT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_LAUNDRY                             + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_DISHWASHER                          + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_REFRIGERATOR                        + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_INDUCTION_STOVE                     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_EWH_SOLAR_WATER_HEATER              + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_KITCHEN_RECEPS_1                    + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_KITCHEN_RECEPS_2                    + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_LIVING_RECEPS                       + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_DINING_RECEPS_1                     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_DINING_RECEPS_2                     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_BATHROOM_RECEPS                     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_BEDROOM_RECEPS_1                    + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_BEDROOM_RECEPS_2                    + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_MECHANICAL_RECEPS                   + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_ENTRY_RECEPS                        + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_EXTERIOR_RECEPS                     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_GREY_WATER_PUMP_RECEP               + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_BLACK_WATER_PUMP_RECEP              + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_THERMAL_LOOP_PUMP_RECEP             + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_WATER_SUPPLY_PUMP_RECEP             + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_WATER_SUPPLY_BOOSTER_PUMP_RECEP     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_VEHICLE_CHARGING_RECEP              + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_HEAT_PUMP_RECEP                     + TEXT_TYPE + COMMA_SEP +
+            PowerUse.COLUMN_USE_AIR_HANDLER_RECEP                   + TEXT_TYPE + COMMA_SEP +
             " UNIQUE(" + PowerUse.COLUMN_BASE_TIMESTAMP + ") ON CONFLICT IGNORE)";
 
     private static final String SQL_DELETE_GEN_ENTRIES =
