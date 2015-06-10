@@ -1,10 +1,11 @@
 package edu.calpoly.sodec.sodecapp;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ public class SuggestionsActivity extends ActionBarActivity {
     private static final String DEVICE_BATH = "s-temp-bath";
     private static final String DEVICE_LIVING_ROOM = "s-temp-lr";
 
+    private BannerLayout bannerLayout;
 
     private EditText editTextInputPreferredTemp;
     private TextView textViewPreferredTemp;
@@ -80,6 +82,16 @@ public class SuggestionsActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_suggestions);
+
+        bannerLayout = new BannerLayout(this);
+
+        View view = findViewById(R.id.suggestionslayout);
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Suggestions");
+
         editTextInputPreferredTemp = (EditText) this.findViewById(R.id.editTextInputPreferredTemp);
         textViewWindowSuggestion = (TextView) this.findViewById(R.id.textViewWindowSuggestion);
         textViewPreferredTemp = (TextView) this.findViewById(R.id.textViewPrefTemp);

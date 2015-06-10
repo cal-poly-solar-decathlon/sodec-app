@@ -1,23 +1,23 @@
 package edu.calpoly.sodec.sodecapp;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class PowerActivity extends ActionBarActivity {
@@ -76,6 +76,7 @@ public class PowerActivity extends ActionBarActivity {
     private PieChartView mChart;
 
     private RelativeLayout mLayout;
+    private BannerLayout bannerLayout;
 
     private String[] mRooms = {"Bedroom", "Kitchen", "Living Room", "Dining Room", "Bathroom",
                                "Mechanical"};
@@ -118,6 +119,15 @@ public class PowerActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_power);
+        bannerLayout = new BannerLayout(this);
+        //bannerLayout.addView(R.layout.activity_main);
+
+        View view = findViewById(R.id.PowerLayout);
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Power");
 
         bedroom_power = (TextView) this.findViewById(R.id.bedroom_power);
         bathroom_power = (TextView) this.findViewById(R.id.bathroom_power);

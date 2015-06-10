@@ -2,9 +2,10 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,12 +40,26 @@ public class DashboardActivity extends ActionBarActivity {
     private TextView mOutsideTemp;
     private WeatherClient mWeather;
 
+    private BannerLayout bannerLayout;
+
     private static final String TAG = "Dashboard";
     private LightingUtils lightUtils = new LightingUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        bannerLayout = new BannerLayout(this);
+        //bannerLayout.addView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_dashboard);
+        View view = findViewById(R.id.toplayout);
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Main Page");
+        //setContentView(bannerLayout);
 
         WeatherClient.ClientBuilder builder = new WeatherClient.ClientBuilder();
         WeatherConfig config = new WeatherConfig();
@@ -80,7 +95,7 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void initLayout() {
-        setContentView(R.layout.activity_dashboard);
+        //setContentView(R.layout.activity_dashboard);
         mPowerLineChart = (LineChartView) findViewById(R.id.dashPowerLineChart);
         mPowerPieChart = (PieChartView) this.findViewById(R.id.dashPowerPieChart);
         mLightsGroup = (RelativeLayout) this.findViewById(R.id.dashLightsGroup);

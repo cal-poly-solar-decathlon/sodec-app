@@ -4,13 +4,13 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import de.tavendo.autobahn.WebSocketConnection;
-import android.util.Log;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -18,6 +18,7 @@ public class MainActivity extends ActionBarActivity {
     private Button mSeePowerUseVw;
     private Button mSeeLighting;
     private WebSocketConnection mSocketConnection;
+    BannerLayout bannerLayout;
 
     // Local backend when using an emulator
     private static final String SOCKET_URI = "ws://10.0.2.2:3001";
@@ -26,7 +27,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("MainActivity", "testing log");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        bannerLayout = new BannerLayout(this);
+        //bannerLayout.addView(R.layout.activity_main);
+
+        bannerLayout.addView(getWindow().getDecorView().getRootView());
+        bannerLayout.setPageTitleText("Main Page");
+        setContentView(bannerLayout);
         mSeePowerGenVw = (Button) this.findViewById(R.id.seePowerGenerated);
         mSeePowerGenVw.setOnClickListener(new View.OnClickListener() {
             @Override

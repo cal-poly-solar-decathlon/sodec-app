@@ -1,10 +1,11 @@
 package edu.calpoly.sodec.sodecapp;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class WeatherActivity extends ActionBarActivity {
 
     private Button mViewTempButton;
     private Button mViewHumidityButton;
+    private BannerLayout bannerLayout;
 
 
     @Override
@@ -90,7 +92,14 @@ public class WeatherActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_weather);
+        bannerLayout = new BannerLayout(this);
 
+        View view = findViewById(R.id.weatherlayout);
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Weather");
         mBedroomWeatherView = (TextView) this.findViewById(R.id.bedroomWeather);
         mBathroomWeatherView = (TextView) this.findViewById(R.id.bathroomWeather);
         mLivingRoomWeatherView = (TextView) this.findViewById(R.id.livingRoomWeather);

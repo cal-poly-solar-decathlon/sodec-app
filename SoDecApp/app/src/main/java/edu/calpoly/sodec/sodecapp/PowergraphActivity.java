@@ -2,24 +2,23 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.view.LineChartView;
-
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.util.Log;
-import android.view.View;
-
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class PowergraphActivity extends ActionBarActivity {
 
@@ -31,6 +30,7 @@ public class PowergraphActivity extends ActionBarActivity {
     private String startTime;
     private String endTime;
     private String device;
+    private BannerLayout bannerLayout;
 
     private String[] gens = {"s-elec-gen-main-array", "s-elec-gen-bifacial"};
     private String[] uses = {"s-elec-used-laundry",
@@ -67,7 +67,15 @@ public class PowergraphActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_powergraph);
+        bannerLayout = new BannerLayout(this);
+        //bannerLayout.addView(R.layout.activity_main);
 
+        View view = findViewById(R.id.powergraphLayout);
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Power");
         Spinner susegen = (Spinner) findViewById(R.id.usegen);
         Spinner stime = (Spinner) findViewById(R.id.time);
 

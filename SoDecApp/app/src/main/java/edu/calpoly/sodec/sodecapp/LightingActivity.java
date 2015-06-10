@@ -18,6 +18,7 @@ import java.util.List;
 
 public class LightingActivity extends ActionBarActivity {
 
+    private BannerLayout bannerLayout;
     private LinearLayout pageLayout;
     private LinearLayout listLayout;
     private FrameLayout floorplanLayout;
@@ -64,6 +65,10 @@ public class LightingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bannerLayout = new BannerLayout(this);
+        bannerLayout.setPageTitleText("Lighting");
+        //bannerLayout.setOrientation(LinearLayout.VERTICAL);
+
         floorplanLayout = new FrameLayout(this);
 
         floorplanView = new ImageView(floorplanLayout.getContext());
@@ -71,7 +76,8 @@ public class LightingActivity extends ActionBarActivity {
         floorplanView.setScaleType(ImageView.ScaleType.FIT_XY);
         floorplanLayout.addView(floorplanView);
 
-        setContentView(floorplanLayout);
+        bannerLayout.addView(floorplanLayout);
+        setContentView(bannerLayout);
 
         initSensorCollection();
     }
