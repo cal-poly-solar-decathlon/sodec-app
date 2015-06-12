@@ -14,10 +14,6 @@ import android.widget.TextView;
 
 
 public class SuggestionsActivity extends ActionBarActivity {
-    private static final String DEVICE_OUTSIDE = "s-temp-out";
-    private static final String DEVICE_BED = "s-temp-bed";
-    private static final String DEVICE_BATH = "s-temp-bath";
-    private static final String DEVICE_LIVING_ROOM = "s-temp-lr";
 
     private BannerLayout bannerLayout;
 
@@ -137,9 +133,12 @@ public class SuggestionsActivity extends ActionBarActivity {
         });
 
 
-        this.trendBathroomTemp = SuggestionsUtils.getTrendByID(DEVICE_BATH, TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
-        this.trendBedroomTemp = SuggestionsUtils.getTrendByID(DEVICE_BED, TimestampUtils.getStartIsoForDay(),TimestampUtils.getIsoForNow());
-        this.trendLivingRoomTemp = SuggestionsUtils.getTrendByID(DEVICE_LIVING_ROOM,TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
+        this.trendBathroomTemp = SuggestionsUtils.getTrendByID(Device.TEMP_BATH,
+                TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
+        this.trendBedroomTemp = SuggestionsUtils.getTrendByID(Device.TEMP_BED,
+                TimestampUtils.getStartIsoForDay(),TimestampUtils.getIsoForNow());
+        this.trendLivingRoomTemp = SuggestionsUtils.getTrendByID(Device.TEMP_LIVINGROOM,
+                TimestampUtils.getStartIsoForDay() ,TimestampUtils.getIsoForNow());
         this.trendOverallInsideTemp = (this.trendBathroomTemp+this.trendBedroomTemp+this.trendLivingRoomTemp)/3;
 
         if (this.trendOverallInsideTemp > 0) {

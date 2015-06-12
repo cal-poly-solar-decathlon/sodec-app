@@ -32,31 +32,6 @@ public class PowergraphActivity extends ActionBarActivity {
     private String device;
     private BannerLayout bannerLayout;
 
-    private String[] gens = {"s-elec-gen-main-array", "s-elec-gen-bifacial"};
-    private String[] uses = {"s-elec-used-laundry",
-            "s-elec-used-dishwasher",
-            "s-elec-used-refrigerator",
-            "s-elec-used-induction-stove",
-            "s-elec-used-ewh-solar-water-heater",
-            "s-elec-used-kitchen-receps-1",
-            "s-elec-used-kitchen-receps-2",
-            "s-elec-used-dining-receps-1",
-            "s-elec-used-dining-receps-2",
-            "s-elec-used-bathroom-receps",
-            "s-elec-used-bedroom-receps-1",
-            "s-elec-used-bedroom-receps-2",
-            "s-elec-used-mechanical-receps",
-            "s-elec-used-entry-receps",
-            "s-elec-used-exterior-receps",
-            "s-elec-used-grey-water-pump-recep",
-            "s-elec-used-black-water-pump-recep",
-            "s-elec-used-thermal-loop-pump-recep",
-            "s-elec-used-water-supply-pump-recep",
-            "s-elec-used-water-supply-booster-pump-recep",
-            "s-elec-used-vehicle-charging-recep",
-            "s-elec-used-heat-pump-recep",
-            "s-elec-used-air-handler-recep"};
-
     private static final int DAY_VIEW = 0;
 
     private static final String DEFAULT_YAXIS_NAME = "Power Generated (kW)";

@@ -108,12 +108,12 @@ public class PowerTask implements Runnable {
     private void checkForFinalTask() {
         int tasksCompleted = mTasksCompleted.incrementAndGet();
 
-        if (tasksCompleted >= mMaxCombinedDays * Device.GEN_DEVICES.length &&
+        if (tasksCompleted >= mMaxCombinedDays * Device.POW_GEN_DEVICES.length &&
                 mType == TYPE_GET_GEN) {
             Log.i(TAG, "Caching done for power generated");
             mCacheManager.updateGenTable();
         }
-        else if (tasksCompleted >= mMaxCombinedDays * Device.USE_DEVICES.length &&
+        else if (tasksCompleted >= mMaxCombinedDays * Device.POW_USE_DEVICES.length &&
                 mType == TYPE_GET_USE) {
             Log.i(TAG, "Caching done for power usage");
             mCacheManager.updateUseTable();

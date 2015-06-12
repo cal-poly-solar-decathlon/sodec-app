@@ -114,7 +114,7 @@ public class DashboardActivity extends ActionBarActivity {
         String endTime = TimestampUtils.getIsoForNow();
 
         mPowerData = new LineChartData();
-        PowerGraphUtils.initPoints(mPowerData, mPowerLineChart, Device.GEN_MAIN,
+        PowerGraphUtils.initPoints(mPowerData, mPowerLineChart, Device.POW_GEN_MAIN,
                 PowerGraphUtils.BASE_POWER, startTime, endTime);*/
     }
 

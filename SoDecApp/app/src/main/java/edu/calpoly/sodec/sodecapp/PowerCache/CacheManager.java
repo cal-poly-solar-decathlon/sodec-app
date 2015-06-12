@@ -191,7 +191,7 @@ public class CacheManager {
 
         String sortOrder = PowerUse.COLUMN_BASE_TIMESTAMP + " DESC";
         String[] projection = {PowerUse.COLUMN_BASE_TIMESTAMP, deviceCol};
-        String table = device.equals(Device.GEN_BIFACIAL) || device.equals(Device.GEN_MAIN) ?
+        String table = device.equals(Device.POW_GEN_BIFACIAL) || device.equals(Device.POW_GEN_MAIN) ?
                 PowerGen.TABLE_NAME : PowerUse.TABLE_NAME;
 
         db.beginTransaction();
@@ -302,37 +302,37 @@ public class CacheManager {
     private void initDeviceToColMap() {
         if (mDeviceToCol == null) {
             mDeviceToCol = new HashMap<>();
-            mDeviceToCol.put(Device.GEN_MAIN, PowerGen.COLUMN_GEN_MAIN);
-            mDeviceToCol.put(Device.GEN_BIFACIAL, PowerGen.COLUMN_GEN_BIFACIAL);
-            mDeviceToCol.put(Device.DEVICE_LAUNDRY, PowerUse.COLUMN_USE_LAUNDRY);
-            mDeviceToCol.put(Device.DEVICE_DISHWASHER, PowerUse.COLUMN_USE_DISHWASHER);
+            mDeviceToCol.put(Device.POW_GEN_MAIN, PowerGen.COLUMN_GEN_MAIN);
+            mDeviceToCol.put(Device.POW_GEN_BIFACIAL, PowerGen.COLUMN_GEN_BIFACIAL);
+            mDeviceToCol.put(Device.POW_USE_LAUNDRY, PowerUse.COLUMN_USE_LAUNDRY);
+            mDeviceToCol.put(Device.POW_USE_DISHWASHER, PowerUse.COLUMN_USE_DISHWASHER);
 
-            mDeviceToCol.put(Device.DEVICE_REFRIGERATOR, PowerUse.COLUMN_USE_REFRIGERATOR);
-            mDeviceToCol.put(Device.DEVICE_INDUCTION_STOVE, PowerUse.COLUMN_USE_INDUCTION_STOVE);
-            mDeviceToCol.put(Device.DEVICE_EWH_SOLAR_WATER_HEATER, PowerUse.COLUMN_USE_EWH_SOLAR_WATER_HEATER);
-            mDeviceToCol.put(Device.DEVICE_KITCHEN_RECEPS_1, PowerUse.COLUMN_USE_KITCHEN_RECEPS_1);
-            mDeviceToCol.put(Device.DEVICE_KITCHEN_RECEPS_2, PowerUse.COLUMN_USE_KITCHEN_RECEPS_2);
+            mDeviceToCol.put(Device.POW_USE_REFRIGERATOR, PowerUse.COLUMN_USE_REFRIGERATOR);
+            mDeviceToCol.put(Device.POW_USE_INDUCTION_STOVE, PowerUse.COLUMN_USE_INDUCTION_STOVE);
+            mDeviceToCol.put(Device.POW_USE_EWH_SOLAR_WATER_HEATER, PowerUse.COLUMN_USE_EWH_SOLAR_WATER_HEATER);
+            mDeviceToCol.put(Device.POW_USE_KITCHEN_RECEPS_1, PowerUse.COLUMN_USE_KITCHEN_RECEPS_1);
+            mDeviceToCol.put(Device.POW_USE_KITCHEN_RECEPS_2, PowerUse.COLUMN_USE_KITCHEN_RECEPS_2);
 
-            mDeviceToCol.put(Device.DEVICE_LIVING_RECEPS, PowerUse.COLUMN_USE_LIVING_RECEPS);
-            mDeviceToCol.put(Device.DEVICE_DINING_RECEPS_1, PowerUse.COLUMN_USE_DINING_RECEPS_1);
-            mDeviceToCol.put(Device.DEVICE_DINING_RECEPS_2, PowerUse.COLUMN_USE_DINING_RECEPS_2);
-            mDeviceToCol.put(Device.DEVICE_BATHROOM_RECEPS, PowerUse.COLUMN_USE_BATHROOM_RECEPS);
-            mDeviceToCol.put(Device.DEVICE_BEDROOM_RECEPS_1, PowerUse.COLUMN_USE_BEDROOM_RECEPS_1);
+            mDeviceToCol.put(Device.POW_USE_LIVING_RECEPS, PowerUse.COLUMN_USE_LIVING_RECEPS);
+            mDeviceToCol.put(Device.POW_USE_DINING_RECEPS_1, PowerUse.COLUMN_USE_DINING_RECEPS_1);
+            mDeviceToCol.put(Device.POW_USE_DINING_RECEPS_2, PowerUse.COLUMN_USE_DINING_RECEPS_2);
+            mDeviceToCol.put(Device.POW_USE_BATHROOM_RECEPS, PowerUse.COLUMN_USE_BATHROOM_RECEPS);
+            mDeviceToCol.put(Device.POW_USE_BEDROOM_RECEPS_1, PowerUse.COLUMN_USE_BEDROOM_RECEPS_1);
 
-            mDeviceToCol.put(Device.DEVICE_BEDROOM_RECEPS_2 , PowerUse.COLUMN_USE_BEDROOM_RECEPS_2);
-            mDeviceToCol.put(Device.DEVICE_MECHANICAL_RECEPS, PowerUse.COLUMN_USE_MECHANICAL_RECEPS);
-            mDeviceToCol.put(Device.DEVICE_ENTRY_RECEPS, PowerUse.COLUMN_USE_ENTRY_RECEPS);
-            mDeviceToCol.put(Device.DEVICE_EXTERIOR_RECEPS, PowerUse.COLUMN_USE_EXTERIOR_RECEPS);
-            mDeviceToCol.put(Device.DEVICE_GREY_WATER_PUMP_RECEP, PowerUse.COLUMN_USE_GREY_WATER_PUMP_RECEP);
+            mDeviceToCol.put(Device.POW_USE_BEDROOM_RECEPS_2, PowerUse.COLUMN_USE_BEDROOM_RECEPS_2);
+            mDeviceToCol.put(Device.POW_USE_MECHANICAL_RECEPS, PowerUse.COLUMN_USE_MECHANICAL_RECEPS);
+            mDeviceToCol.put(Device.POW_USE_ENTRY_RECEPS, PowerUse.COLUMN_USE_ENTRY_RECEPS);
+            mDeviceToCol.put(Device.POW_USE_EXTERIOR_RECEPS, PowerUse.COLUMN_USE_EXTERIOR_RECEPS);
+            mDeviceToCol.put(Device.POW_USE_GREY_WATER_PUMP_RECEP, PowerUse.COLUMN_USE_GREY_WATER_PUMP_RECEP);
 
-            mDeviceToCol.put(Device.DEVICE_BLACK_WATER_PUMP_RECEP, PowerUse.COLUMN_USE_BLACK_WATER_PUMP_RECEP);
-            mDeviceToCol.put(Device.DEVICE_THERMAL_LOOP_PUMP_RECEP, PowerUse.COLUMN_USE_THERMAL_LOOP_PUMP_RECEP);
-            mDeviceToCol.put(Device.DEVICE_WATER_SUPPLY_PUMP_RECEP, PowerUse.COLUMN_USE_WATER_SUPPLY_PUMP_RECEP);
-            mDeviceToCol.put(Device.DEVICE_WATER_SUPPLY_BOOSTER_PUMP_RECEP, PowerUse.COLUMN_USE_WATER_SUPPLY_BOOSTER_PUMP_RECEP);
-            mDeviceToCol.put(Device.DEVICE_VEHICLE_CHARGING_RECEP, PowerUse.COLUMN_USE_VEHICLE_CHARGING_RECEP);
+            mDeviceToCol.put(Device.POW_USE_BLACK_WATER_PUMP_RECEP, PowerUse.COLUMN_USE_BLACK_WATER_PUMP_RECEP);
+            mDeviceToCol.put(Device.POW_USE_THERMAL_LOOP_PUMP_RECEP, PowerUse.COLUMN_USE_THERMAL_LOOP_PUMP_RECEP);
+            mDeviceToCol.put(Device.POW_USE_WATER_SUPPLY_PUMP_RECEP, PowerUse.COLUMN_USE_WATER_SUPPLY_PUMP_RECEP);
+            mDeviceToCol.put(Device.POW_USE_WATER_SUPPLY_BOOSTER_PUMP_RECEP, PowerUse.COLUMN_USE_WATER_SUPPLY_BOOSTER_PUMP_RECEP);
+            mDeviceToCol.put(Device.POW_USE_VEHICLE_CHARGING_RECEP, PowerUse.COLUMN_USE_VEHICLE_CHARGING_RECEP);
 
-            mDeviceToCol.put(Device.DEVICE_HEAT_PUMP_RECEP, PowerUse.COLUMN_USE_HEAT_PUMP_RECEP);
-            mDeviceToCol.put(Device.DEVICE_AIR_HANDLER_RECEP, PowerUse.COLUMN_USE_AIR_HANDLER_RECEP);
+            mDeviceToCol.put(Device.POW_USE_HEAT_PUMP_RECEP, PowerUse.COLUMN_USE_HEAT_PUMP_RECEP);
+            mDeviceToCol.put(Device.POW_USE_AIR_HANDLER_RECEP, PowerUse.COLUMN_USE_AIR_HANDLER_RECEP);
         }
     }
 }

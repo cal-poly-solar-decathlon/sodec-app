@@ -54,9 +54,9 @@ public class PowerCacheIntentService extends IntentService {
         }
 
         while (calDayStart.after(dayToStopBefore)) {
-            dispatchPowerTasks(PowerTask.TYPE_GET_GEN, Device.GEN_DEVICES, dayIncr,
+            dispatchPowerTasks(PowerTask.TYPE_GET_GEN, Device.POW_GEN_DEVICES, dayIncr,
                     calDayStart.getTimeInMillis(), calDayEnd.getTimeInMillis(), numDaysToCache);
-            dispatchPowerTasks(PowerTask.TYPE_GET_USE, Device.USE_DEVICES, dayIncr,
+            dispatchPowerTasks(PowerTask.TYPE_GET_USE, Device.POW_USE_DEVICES, dayIncr,
                     calDayStart.getTimeInMillis(), calDayEnd.getTimeInMillis(), numDaysToCache);
             calDayStart.add(Calendar.DAY_OF_MONTH, -dayIncr);
             calDayEnd.add(Calendar.DAY_OF_MONTH, -dayIncr);

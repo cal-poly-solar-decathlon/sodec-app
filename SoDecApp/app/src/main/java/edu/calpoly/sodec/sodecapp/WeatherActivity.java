@@ -17,13 +17,6 @@ import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOProvid
 
 
 public class WeatherActivity extends ActionBarActivity {
-    private static final String DEVICE_OUTSIDE = "s-temp-out";
-    private static final String DEVICE_TEMP_BED = "s-temp-bed";
-    private static final String DEVICE_TEMP_BATH = "s-temp-bath";
-    private static final String DEVICE_TEMP_LIVINGROOM = "s-temp-lr";
-    private static final String DEVICE_HUM_BED = "s-hum-bed";
-    private static final String DEVICE_HUM_BATH = "s-hum-bath";
-    private static final String DEVICE_HUM_LIVINGROOM = "s-hum-lr";
 
     private TextView mBedroomWeatherView;
     private TextView mBathroomWeatherView;
@@ -130,21 +123,21 @@ public class WeatherActivity extends ActionBarActivity {
     private void loadTempInfo() {
         mWeatherTitleView.setText("Inside Temperature");
 
-        DatabaseUtils.getTempByID(DEVICE_TEMP_BED, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.TEMP_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBedroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_TEMP_BATH, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.TEMP_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBathroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_TEMP_LIVINGROOM, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.TEMP_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mLivingRoomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
@@ -157,21 +150,21 @@ public class WeatherActivity extends ActionBarActivity {
     private void loadHumidityInfo() {
         mWeatherTitleView.setText("Inside Humidity");
 
-        DatabaseUtils.getTempByID(DEVICE_HUM_BED, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.HUM_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBedroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_HUM_BATH, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.HUM_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBathroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_HUM_LIVINGROOM, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.HUM_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mLivingRoomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));

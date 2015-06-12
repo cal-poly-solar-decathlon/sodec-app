@@ -34,9 +34,6 @@ public class WeatherUtils {
                                 public void onWeatherRetrieved(CurrentWeather cWeather) {
                                     onFinish.execute(Double.toString(WeatherUtils.celsiusToFahrenheit(
                                             cWeather.weather.temperature.getTemp())));
-                                    /*mCurrentTemperature.setText(WeatherUtils.celsiusToFahrenheit(
-                                            cWeather.weather.temperature.getTemp()) +
-                                            getString(R.string.degree_notation));*/
                                 }
 
                                 @Override

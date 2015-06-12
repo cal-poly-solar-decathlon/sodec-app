@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,22 +49,22 @@ public class PowerUsedRoomActivity extends ActionBarActivity {
         // need to fix this so it gets ALL devices in a room, not just one
         switch(room) {
             case "Bedroom":
-                device = "s-elec-used-bedroom-receps-1";
+                device = Device.POW_USE_BEDROOM_RECEPS_1;
                 break;
             case "Kitchen":
-                device = "s-elec-used-dishwasher";
+                device = Device.POW_USE_DISHWASHER;
                 break;
             case "Living Room":
-                device = "s-elec-used-living-receps";
+                device = Device.POW_USE_LIVING_RECEPS;
                 break;
             case "Dining Room":
-                device = "s-elec-used-dining-receps-2";
+                device = Device.POW_USE_DINING_RECEPS_2;
                 break;
             case "Bathroom":
-                device = "s-elec-used-bathroom-receps";
+                device = Device.POW_USE_BATHROOM_RECEPS;
                 break;
             case "Mechanical":
-                device = "s-elec-used-heat-pump-recep";
+                device = Device.POW_USE_HEAT_PUMP_RECEP;
                 break;
             default:
         }
