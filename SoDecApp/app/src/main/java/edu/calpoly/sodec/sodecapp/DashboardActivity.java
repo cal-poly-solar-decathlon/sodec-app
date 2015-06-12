@@ -2,11 +2,11 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.survivingwithandroid.weather.lib.WeatherClient;
@@ -15,17 +15,20 @@ import com.survivingwithandroid.weather.lib.client.okhttp.WeatherDefaultClient;
 import com.survivingwithandroid.weather.lib.exception.WeatherProviderInstantiationException;
 import com.survivingwithandroid.weather.lib.provider.yahooweather.YahooProviderType;
 
+import edu.calpoly.sodec.sodecapp.PowerCache.CacheManager;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.view.LineChartView;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class DashboardActivity extends ActionBarActivity {
 
+    private CacheManager mCache;
+
     private PieChartView mPowerPieChart;
     private LineChartView mPowerLineChart;
     private LineChartData mPowerData;
 
-    private RelativeLayout mLightsGroup;
+    private LinearLayout mLightsGroup;
     private TextView mNumLightsOn;
 
     private LinearLayout mInsightsGroup;
@@ -36,12 +39,26 @@ public class DashboardActivity extends ActionBarActivity {
     private TextView mOutsideTemp;
     private WeatherClient mWeather;
 
+    private BannerLayout bannerLayout;
+
     private static final String TAG = "Dashboard";
     private LightingUtils lightUtils = new LightingUtils();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        bannerLayout = new BannerLayout(this);
+        //bannerLayout.addView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_dashboard);
+        View view = findViewById(R.id.toplayout);
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Main Page");
+        //setContentView(bannerLayout);
 
         WeatherClient.ClientBuilder builder = new WeatherClient.ClientBuilder();
         WeatherConfig config = new WeatherConfig();
@@ -65,6 +82,7 @@ public class DashboardActivity extends ActionBarActivity {
         initLayout();
         initListeners();
         initSensorCollection();
+        mCache = CacheManager.getInstance(this);
     }
 
     @Override
@@ -76,10 +94,10 @@ public class DashboardActivity extends ActionBarActivity {
     }
 
     private void initLayout() {
-        setContentView(R.layout.activity_dashboard);
+        //setContentView(R.layout.activity_dashboard);
         mPowerLineChart = (LineChartView) findViewById(R.id.dashPowerLineChart);
         mPowerPieChart = (PieChartView) this.findViewById(R.id.dashPowerPieChart);
-        mLightsGroup = (RelativeLayout) this.findViewById(R.id.dashLightsGroup);
+        mLightsGroup = (LinearLayout) this.findViewById(R.id.dashLightsGroup);
         mNumLightsOn = (TextView) this.findViewById(R.id.dashLightsOnCount);
 
         mTemperatureGroup = (LinearLayout) this.findViewById(R.id.dashTempGroup);
@@ -96,7 +114,7 @@ public class DashboardActivity extends ActionBarActivity {
         String endTime = TimestampUtils.getIsoForNow();
 
         mPowerData = new LineChartData();
-        PowerGraphUtils.initPoints(mPowerData, mPowerLineChart, PowerGeneratedActivity.DEVICE,
+        PowerGraphUtils.initPoints(mPowerData, mPowerLineChart, Device.POW_GEN_MAIN,
                 PowerGraphUtils.BASE_POWER, startTime, endTime);*/
     }
 
@@ -175,7 +193,7 @@ public class DashboardActivity extends ActionBarActivity {
      * */
     private void initSensorCollection() {
         boolean sensorCollectionStarted = (PendingIntent.getBroadcast(this, 0,
-                new Intent(SensorCollectionReceiver.ACTION_COLLECT_SENSOR_DATA),
+                new Intent(PowerCacheIntentService.ACTION_UPDATE),
                 PendingIntent.FLAG_NO_CREATE) != null);
 
         if (!sensorCollectionStarted) {

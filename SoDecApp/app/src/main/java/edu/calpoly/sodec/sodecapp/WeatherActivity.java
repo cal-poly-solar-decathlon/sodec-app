@@ -1,10 +1,12 @@
 package edu.calpoly.sodec.sodecapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,13 +17,6 @@ import com.survivingwithandroid.weather.lib.provider.forecastio.ForecastIOProvid
 
 
 public class WeatherActivity extends ActionBarActivity {
-    private static final String DEVICE_OUTSIDE = "s-temp-out";
-    private static final String DEVICE_TEMP_BED = "s-temp-bed";
-    private static final String DEVICE_TEMP_BATH = "s-temp-bath";
-    private static final String DEVICE_TEMP_LIVINGROOM = "s-temp-lr";
-    private static final String DEVICE_HUM_BED = "s-hum-bed";
-    private static final String DEVICE_HUM_BATH = "s-hum-bath";
-    private static final String DEVICE_HUM_LIVINGROOM = "s-hum-lr";
 
     private TextView mBedroomWeatherView;
     private TextView mBathroomWeatherView;
@@ -30,6 +25,7 @@ public class WeatherActivity extends ActionBarActivity {
 
     private Button mViewTempButton;
     private Button mViewHumidityButton;
+    private BannerLayout bannerLayout;
 
 
     @Override
@@ -90,7 +86,15 @@ public class WeatherActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_weather);
+        bannerLayout = new BannerLayout(this);
 
+        View view = findViewById(R.id.weatherlayout);
+        view.setBackgroundColor(Color.rgb(226, 231, 234));
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Weather");
         mBedroomWeatherView = (TextView) this.findViewById(R.id.bedroomWeather);
         mBathroomWeatherView = (TextView) this.findViewById(R.id.bathroomWeather);
         mLivingRoomWeatherView = (TextView) this.findViewById(R.id.livingRoomWeather);
@@ -119,21 +123,21 @@ public class WeatherActivity extends ActionBarActivity {
     private void loadTempInfo() {
         mWeatherTitleView.setText("Inside Temperature");
 
-        DatabaseUtils.getTempByID(DEVICE_TEMP_BED, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.TEMP_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBedroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_TEMP_BATH, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.TEMP_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBathroomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_TEMP_LIVINGROOM, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.TEMP_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mLivingRoomWeatherView.setText(WeatherUtils.formatTemp(Float.parseFloat(response)));
@@ -146,21 +150,21 @@ public class WeatherActivity extends ActionBarActivity {
     private void loadHumidityInfo() {
         mWeatherTitleView.setText("Inside Humidity");
 
-        DatabaseUtils.getTempByID(DEVICE_HUM_BED, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.HUM_BED, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBedroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_HUM_BATH, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.HUM_BATH, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mBathroomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));
             }
         });
 
-        DatabaseUtils.getTempByID(DEVICE_HUM_LIVINGROOM, new ServerConnection.ResponseCallback() {
+        DatabaseUtils.getTempByID(Device.HUM_LIVINGROOM, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mLivingRoomWeatherView.setText(WeatherUtils.formatHumidity(Float.parseFloat(response)));

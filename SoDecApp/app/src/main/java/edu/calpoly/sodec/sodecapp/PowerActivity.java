@@ -1,51 +1,25 @@
 package edu.calpoly.sodec.sodecapp;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import lecho.lib.hellocharts.listener.PieChartOnValueSelectListener;
-import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.util.ChartUtils;
-import lecho.lib.hellocharts.view.Chart;
 import lecho.lib.hellocharts.view.PieChartView;
 
 public class PowerActivity extends ActionBarActivity {
-
-    private static final String DEVICE_LAUNDRY = "s-elec-used-laundry";
-    private static final String DEVICE_DISHWASHER = "s-elec-used-dishwasher";
-    private static final String DEVICE_REFRIGERATOR = "s-elec-used-refrigerator";
-    private static final String DEVICE_INDUCTION_STOVE = "s-elec-used-induction-stove";
-    private static final String DEVICE_EWH_SOLAR_WATER_HEATER = "s-elec-used-ewh-solar-water-heater";
-    private static final String DEVICE_KITCHEN_RECEPS_1 = "s-elec-used-kitchen-receps-1";
-    private static final String DEVICE_KITCHEN_RECEPS_2 = "s-elec-used-kitchen_receps-2";
-    private static final String DEVICE_LIVING_RECEPS = "s-elec-used-living-receps";
-    private static final String DEVICE_DINING_RECEPS_1 = "s-elec-used-dining-receps-1";
-    private static final String DEVICE_DINING_RECEPS_2 = "s-elec-used-dining-receps-2";
-    private static final String DEVICE_BATHROOM_RECEPS = "s-elec-used-bathroom-receps";
-    private static final String DEVICE_BEDROOM_RECEPS_1 = "s-elec-used-bedroom-receps-1";
-    private static final String DEVICE_BEDROOM_RECEPS_2 = "s-elec-used-bedroom-receps-2";
-    private static final String DEVICE_MECHANICAL_RECEPS = "s-elec-used-mechanical-receps";
-    private static final String DEVICE_ENTRY_RECEPS = "s-elec-used-entry-receps";
-    private static final String DEVICE_EXTERIOR_RECEPS = "s-elec-used-exterior-receps";
-    private static final String DEVICE_GREY_WATER_PUMP_RECEP = "s-elec-used-grey-water-pump-recep";
-    private static final String DEVICE_BLACK_WATER_PUMP_RECEP = "s-elec-used-black-water-pump-recep";
-    private static final String DEVICE_THERMAL_LOOP_PUMP_RECEP = "s-elec-used-thermal-loop-pump-recep";
-    private static final String DEVICE_WATER_SUPPLY_PUMP_RECEP = "s-elec-used-water-supply-pump-recep";
-    private static final String DEVICE_WATER_SUPPLY_BOOSTER_PUMP_RECEP = "s-elec-used-water-supply-booster-pump-recep";
-    private static final String DEVICE_VEHICLE_CHARGING_RECEP = "s-elec-used-vehicle-charging-recep";
-    private static final String DEVICE_HEAT_PUMP_RECEP = "s-elec-used-heat-pump-recep";
-    private static final String DEVICE_AIR_HANDLER_RECEP = "s-elec-used-air-handler-recep";
 
     private Float bedroom_total;
     private Float bathroom_total;
@@ -65,6 +39,7 @@ public class PowerActivity extends ActionBarActivity {
     private PieChartView mChart;
 
     private RelativeLayout mLayout;
+    private BannerLayout bannerLayout;
 
     private String[] mRooms = {"Bedroom", "Kitchen", "Living Room", "Dining Room", "Bathroom",
                                "Mechanical"};
@@ -72,7 +47,6 @@ public class PowerActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Calendar c = Calendar.getInstance();
         super.onCreate(savedInstanceState);
 
         living_total = new Float(0.0);
@@ -107,6 +81,16 @@ public class PowerActivity extends ActionBarActivity {
 
     private void initLayout() {
         setContentView(R.layout.activity_power);
+        bannerLayout = new BannerLayout(this);
+        //bannerLayout.addView(R.layout.activity_main);
+
+        View view = findViewById(R.id.PowerLayout);
+        view.setBackgroundColor(Color.rgb(226, 231, 234));
+        ViewGroup parent = (ViewGroup) view.getParent();
+        parent.removeView(view);
+        bannerLayout.addView(view);
+        parent.addView(bannerLayout);
+        bannerLayout.setPageTitleText("Power");
 
         bedroom_power = (TextView) this.findViewById(R.id.bedroom_power);
         bathroom_power = (TextView) this.findViewById(R.id.bathroom_power);
@@ -146,7 +130,7 @@ public class PowerActivity extends ActionBarActivity {
     }
 
     private void loadPowerInfo() {
-        PowerUtils.getPowerByID(DEVICE_LAUNDRY, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_LAUNDRY, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 //living_power.setText(response);
@@ -156,7 +140,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_DISHWASHER, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_DISHWASHER, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 kitchen_total += Float.parseFloat(response);
@@ -165,7 +149,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_REFRIGERATOR, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_REFRIGERATOR, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 kitchen_total += Float.parseFloat(response);
@@ -174,7 +158,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_INDUCTION_STOVE, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_INDUCTION_STOVE, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 kitchen_total += Float.parseFloat(response);
@@ -183,7 +167,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_EWH_SOLAR_WATER_HEATER, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_EWH_SOLAR_WATER_HEATER, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -192,7 +176,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_KITCHEN_RECEPS_1, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_KITCHEN_RECEPS_1, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 kitchen_total += Float.parseFloat(response);
@@ -201,7 +185,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_KITCHEN_RECEPS_2, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_KITCHEN_RECEPS_2, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 kitchen_total += Float.parseFloat(response);
@@ -210,7 +194,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_LIVING_RECEPS, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_LIVING_RECEPS, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 living_total += Float.parseFloat(response);
@@ -219,7 +203,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_DINING_RECEPS_1, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_DINING_RECEPS_1, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 dining_total += Float.parseFloat(response);
@@ -228,7 +212,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_DINING_RECEPS_2, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_DINING_RECEPS_2, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 dining_total += Float.parseFloat(response);
@@ -237,7 +221,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_BATHROOM_RECEPS, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_BATHROOM_RECEPS, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 bathroom_total += Float.parseFloat(response);
@@ -246,7 +230,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_BEDROOM_RECEPS_1, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_BEDROOM_RECEPS_1, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 bedroom_total += Float.parseFloat(response);
@@ -255,7 +239,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_BEDROOM_RECEPS_2, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_BEDROOM_RECEPS_2, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 bedroom_total += Float.parseFloat(response);
@@ -264,7 +248,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_MECHANICAL_RECEPS, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_MECHANICAL_RECEPS, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -273,28 +257,19 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_ENTRY_RECEPS, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_ENTRY_RECEPS, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_EXTERIOR_RECEPS, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_EXTERIOR_RECEPS, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_GREY_WATER_PUMP_RECEP, new ServerConnection.ResponseCallback() {
-            @Override
-            public void execute(String response) {
-                mech_total += Float.parseFloat(response);
-                mech_power.setText(mech_total.toString());
-                setData();
-            }
-        });
-
-        PowerUtils.getPowerByID(DEVICE_BLACK_WATER_PUMP_RECEP, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_GREY_WATER_PUMP_RECEP, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -303,7 +278,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_THERMAL_LOOP_PUMP_RECEP, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_BLACK_WATER_PUMP_RECEP, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -312,7 +287,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_WATER_SUPPLY_PUMP_RECEP, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_THERMAL_LOOP_PUMP_RECEP, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -321,7 +296,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_WATER_SUPPLY_BOOSTER_PUMP_RECEP, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_WATER_SUPPLY_PUMP_RECEP, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -330,13 +305,7 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_VEHICLE_CHARGING_RECEP, new ServerConnection.ResponseCallback() {
-            @Override
-            public void execute(String response) {
-            }
-        });
-
-        PowerUtils.getPowerByID(DEVICE_HEAT_PUMP_RECEP, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_WATER_SUPPLY_BOOSTER_PUMP_RECEP, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);
@@ -345,7 +314,22 @@ public class PowerActivity extends ActionBarActivity {
             }
         });
 
-        PowerUtils.getPowerByID(DEVICE_AIR_HANDLER_RECEP, new ServerConnection.ResponseCallback() {
+        PowerUtils.getPowerByID(Device.POW_USE_VEHICLE_CHARGING_RECEP, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+            }
+        });
+
+        PowerUtils.getPowerByID(Device.POW_USE_HEAT_PUMP_RECEP, new ServerConnection.ResponseCallback() {
+            @Override
+            public void execute(String response) {
+                mech_total += Float.parseFloat(response);
+                mech_power.setText(mech_total.toString());
+                setData();
+            }
+        });
+
+        PowerUtils.getPowerByID(Device.POW_USE_AIR_HANDLER_RECEP, new ServerConnection.ResponseCallback() {
             @Override
             public void execute(String response) {
                 mech_total += Float.parseFloat(response);

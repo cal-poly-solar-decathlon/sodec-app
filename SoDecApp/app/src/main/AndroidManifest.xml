@@ -10,10 +10,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
+        android:largeHeap="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
             android:name=".DashboardActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,26 +28,10 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="SCHEDULE_COLLECTION" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".SensorCollectionReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="COLLECT_SENSOR_DATA" />
+                <action android:name="edu.calpoly.sodec.sodecapp.action.SCHEDULE_COLLECTION" />
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".PowerGeneratedActivity"
-            android:label="@string/title_activity_power_generated" >
-        </activity>
-        <activity android:name=".PowerGraphDayActivity" />
-        <activity android:name=".PowerGraphMonthActivity" />
-        <activity android:name=".PowerGraphWeekActivity" />
-        <activity android:name=".PowerGraphYearActivity" />
         <activity
             android:name=".WeatherActivity"
             android:label="@string/title_activity_weather" >
@@ -75,6 +60,11 @@
             android:name=".PowerUsedRoomActivity"
             android:label="@string/title_activity_power_used_room" >
         </activity>
+
+        <service
+            android:name=".PowerCacheIntentService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

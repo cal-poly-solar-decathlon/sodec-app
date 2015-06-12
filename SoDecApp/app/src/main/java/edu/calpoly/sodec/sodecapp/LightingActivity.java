@@ -2,6 +2,7 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -9,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -18,8 +18,7 @@ import java.util.List;
 
 public class LightingActivity extends ActionBarActivity {
 
-    private LinearLayout pageLayout;
-    private LinearLayout listLayout;
+    private BannerLayout bannerLayout;
     private FrameLayout floorplanLayout;
 
     private List<TextView> lightTexts = new ArrayList<TextView>();
@@ -64,16 +63,20 @@ public class LightingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bannerLayout = new BannerLayout(this);
+        bannerLayout.setPageTitleText("Lighting");
+        //bannerLayout.setOrientation(LinearLayout.VERTICAL);
+
         floorplanLayout = new FrameLayout(this);
+        floorplanLayout.setBackgroundColor(Color.rgb(226, 231, 234));
 
         floorplanView = new ImageView(floorplanLayout.getContext());
         floorplanView.setImageResource(R.drawable.floorplan);
         floorplanView.setScaleType(ImageView.ScaleType.FIT_XY);
         floorplanLayout.addView(floorplanView);
 
-        setContentView(floorplanLayout);
-
-        initSensorCollection();
+        bannerLayout.addView(floorplanLayout);
+        setContentView(bannerLayout);
     }
 
     public void setupLightList() {
@@ -118,16 +121,6 @@ public class LightingActivity extends ActionBarActivity {
             } else {
                 image.setImageResource(R.drawable.light_off);
             }
-        }
-    }
-
-    private void initSensorCollection() {
-        boolean sensorCollectionStarted = (PendingIntent.getBroadcast(this, 0,
-                new Intent(SensorCollectionReceiver.ACTION_COLLECT_SENSOR_DATA),
-                PendingIntent.FLAG_NO_CREATE) != null);
-
-        if (!sensorCollectionStarted) {
-            sendBroadcast(new Intent(BootReceiver.ACTION_START_COLLECTION));
         }
     }
 

@@ -102,7 +102,11 @@ public class ServerConnection {
 
     /** Retrieve the events between a start time and end time */
     public void getEventsInRange(final ResponseCallback<String, String> onSuccess, final List<NameValuePair> parameter) {
-        sendRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, parameter);
+        sendAsynchRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, parameter);
+    }
+
+    public void getEventsInRangeSynch(final ResponseCallback<String, String> onSuccess, final List<NameValuePair> parameter) {
+        sendSynchRequest(onSuccess, EVENTS_IN_RANGE_ROUTE, parameter);
     }
 
     /** Retrieve the events between a start time and end time */
@@ -110,66 +114,27 @@ public class ServerConnection {
         List params = new ArrayList<NameValuePair>();
 
         params.add(new BasicNameValuePair("device", device));
-        sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
+        sendAsynchRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }
 
     /*public void getAmbientLight(final ResponseCallback<String, String> onSuccess, AmbientLightDevice device) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("device", device.getId()));
-        sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
+        sendAsynchRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }*/
 
     public void getLight(final ResponseCallback<String, String> onSuccess, final edu.calpoly.sodec.sodecapp.LightDevice device) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("device", device.id));
-        sendRequest(onSuccess, LATEST_EVENT_ROUTE, params);
+        sendAsynchRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }
 
-    private void sendRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
+    private void sendAsynchRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
         new AsyncTask<Void, Void, String>() {
 
             @Override
             protected String doInBackground(Void... params) {
-                String url = BASE_SERVER_URI + route;
-                if(!url.endsWith("?"))
-                    url += "?";
-                if(parameters != null) {
-                    String paramString = URLEncodedUtils.format(parameters, "utf-8");
-                    url += paramString;
-                }
-
-                HttpGet request = new HttpGet(url);
-
-                // CloseableHttpResponse response = null;
-                // Map<String, String> jsonResponse = null;
-
-                try (CloseableHttpClient httpClient = HttpClients.createDefault();
-                     CloseableHttpResponse response = httpClient.execute(request);){
-
-                    if (response.getStatusLine().getStatusCode() == SUCCESS) {
-                        BufferedReader r = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-                        StringBuilder responseString = new StringBuilder();
-                        String line;
-                        while ((line = r.readLine()) != null) {
-                            responseString.append(line);
-                        }
-
-                        return responseString.toString();
-                        /*jsonResponse = new ObjectMapper().readValue(
-                                response.getEntity().getContent(), Map.class);
-                         */
-                    }
-                    else {
-                        /* Only 23 characters allowed */
-                        Log.d(TAG + " " + route, "Error: " +
-                                response.getStatusLine().getStatusCode());
-                    }
-
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return "";
+                return sendRequest(onSuccess, route, parameters);
             }
 
             @Override
@@ -179,6 +144,51 @@ public class ServerConnection {
                 }
             }
         }.execute();
+    }
+
+    private void sendSynchRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
+        String response = sendRequest(onSuccess, route, parameters);
+
+        if (response != null) {
+            onSuccess.execute(response);
+        }
+    }
+
+    private String sendRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
+        String url = BASE_SERVER_URI + route;
+        HttpGet request;
+
+        if(!url.endsWith("?")) {
+            url += "?";
+        }
+        if(parameters != null) {
+            String paramString = URLEncodedUtils.format(parameters, "utf-8");
+            url += paramString;
+        }
+
+        request = new HttpGet(url);
+        try {
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            CloseableHttpResponse response = httpClient.execute(request);
+
+            if (response.getStatusLine().getStatusCode() == SUCCESS) {
+                BufferedReader r = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                StringBuilder responseString = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    responseString.append(line);
+                }
+
+                return responseString.toString();
+            }
+            else {
+                Log.d(TAG + " " + route, "Error: " + response.getStatusLine().getStatusCode());
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
 
