@@ -9,7 +9,9 @@ import android.view.MenuItem;
 
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
 
 import android.widget.RelativeLayout;
@@ -21,16 +23,28 @@ import android.view.View;
 
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class PowergraphActivity extends ActionBarActivity {
 
     private LineChartView mChart;
     private LineChartData mData;
     private RelativeLayout mLayout;
     private String pug;
-    private String time;
-    private String startTime;
+    //private String time;
+    private String length = "Day";
+    //private String startTime;
     private String endTime;
-    private String device;
+    //private String device;
+    private String type = "gens";
+
+    private static final int SERIES_INTERVAL = 400;
 
     private String[] gens = {"s-elec-gen-main-array", "s-elec-gen-bifacial"};
     private String[] uses = {"s-elec-used-laundry",
@@ -71,14 +85,18 @@ public class PowergraphActivity extends ActionBarActivity {
         Spinner susegen = (Spinner) findViewById(R.id.usegen);
         Spinner stime = (Spinner) findViewById(R.id.time);
 
-        startTime = TimestampUtils.getStartIsoForDay();
+        //startTime = TimestampUtils.getStartIsoForDay();
         endTime = TimestampUtils.getIsoForNow();
 
         mChart = (LineChartView) findViewById(R.id.powerline);
         mData = new LineChartData();
-        PowerGraphUtils.initPoints(mData, mChart, device, PowerGraphUtils.BASE_POWER, startTime, endTime);
+        //PowerGraphUtils.initPoints(mData, mChart, "s-elec-used-dishwasher", PowerGraphUtils.BASE_POWER, startTime, endTime);
+
+        generator(gens, length);
+
         initStyle(DAY_VIEW);
-        mChart.setLineChartData(mData);
+
+        //mChart.setLineChartData(mData);
 
         String[] items = new String[] { "Power Generated", "Power Used" };
 
@@ -96,16 +114,19 @@ public class PowergraphActivity extends ActionBarActivity {
                 System.out.println("SUSEGEN: " + pug);
 
                 switch(pug) {
-                    case "Power Generated": device = "s-elec-gen-main-array";
+                    case "Power Generated": type = "gens";
                         break;
-                    case "Power Used": device = "s-elec-used-laundry";
+                    case "Power Used": type = "uses";
                         break;
                 }
 
-                PowerGraphUtils.initPoints(mData, mChart, device, PowerGraphUtils.BASE_POWER, startTime, endTime);
+                //PowerGraphUtils.initPoints(mData, mChart, "s-elec-used-dishwasher", PowerGraphUtils.BASE_POWER, startTime, endTime);
+                if (type.equals("gens"))
+                    generator(gens, length);
+                else
+                    generator(uses, length);
                 initStyle(DAY_VIEW);
-                mChart.setLineChartData(mData);
-
+                //mChart.setLineChartData(mData);
             }
 
             @Override
@@ -125,10 +146,9 @@ public class PowergraphActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 Log.v("item", (String) parent.getItemAtPosition(position));
-                time = (String) parent.getItemAtPosition(position);
-                System.out.println(time);
-
-                switch (time) {
+                length = (String) parent.getItemAtPosition(position);
+                //System.out.println(time);
+                /*switch (time) {
                     case "Day":
                         startTime = TimestampUtils.getStartIsoForDay();
                         break;
@@ -141,11 +161,17 @@ public class PowergraphActivity extends ActionBarActivity {
                     case "Year":
                         startTime = TimestampUtils.getStartIsoForYear();
                         break;
-                }
+                }*/
 
-                PowerGraphUtils.initPoints(mData, mChart, device, PowerGraphUtils.BASE_POWER, startTime, endTime);
+                //PowerGraphUtils.initPoints(mData, mChart, "", PowerGraphUtils.BASE_POWER, startTime, endTime);
+                if (type.equals("gens"))
+                    generator(gens, length);
+                else
+                    generator(uses, length);
                 initStyle(DAY_VIEW);
-                mChart.setLineChartData(mData);
+               // mChart.setLineChartData(mData);
+
+                //PowerGraphUtils.initPointsTot();
             }
 
             @Override
@@ -194,6 +220,71 @@ public class PowergraphActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void generator(final String[] source, String time) {
+        String startTime = TimestampUtils.getStartIsoForDay();
+
+        switch (time) {
+            case "Day":
+                startTime = TimestampUtils.getStartIsoForDay();
+                break;
+            case "Week":
+                startTime = TimestampUtils.getStartIsoForWeek();
+                break;
+            case "Month":
+                startTime = TimestampUtils.getStartIsoForMonth();
+                break;
+            case "Year":
+                startTime = TimestampUtils.getStartIsoForYear();
+                break;
+        }
+
+        final List<PointValue> values = new ArrayList<PointValue>();
+        final List<AtomicInteger> dev = new ArrayList<AtomicInteger>();
+        final List<Line> lines = new ArrayList<Line>();
+
+        for (int v=0; v < source.length; v++) {
+            System.out.println(v);
+            PowerGraphUtils.initPointsTot(new ServerConnection.ResponseCallback<String, String>() {
+                @Override
+                public void execute(String response) {
+                    try {
+                        JSONArray jsonResponse = new JSONArray(response);
+                        int numDeltas = jsonResponse.length();
+                        dev.add(new AtomicInteger());
+                        for (int i = 0, j = 0; i < SERIES_INTERVAL && j < numDeltas; i++, j += SERIES_INTERVAL) {
+                            if (values.size() > i) {
+                                values.set(i, new PointValue(i,
+                                        ((JSONArray) jsonResponse.get(j)).getInt(1)+values.get(i).getY()));
+                                System.out.println("CRAP" + values.get(i));
+                            }
+                            else {
+                            values.add(new PointValue(i,
+                                    ((JSONArray) jsonResponse.get(j)).getInt(1)));
+                            System.out.println("POOOP" + values.get(i));
+                            }
+
+                            if (dev.size() == source.length) {
+                                Line line = new Line(values)
+                                        .setColor(Color.BLUE)
+                                        .setCubic(true);
+                                lines.add(line);
+                                mData.setLines(lines);
+                                mChart.setLineChartData(mData);
+                            }
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    // mNumLightsOn.setText(lightUtils.numLightsOn.toString());
+                }
+            }, mData, mChart, source[v], PowerGraphUtils.BASE_POWER, startTime, endTime);
+
+        }
     }
 
     private void initStyle(int viewType) {
