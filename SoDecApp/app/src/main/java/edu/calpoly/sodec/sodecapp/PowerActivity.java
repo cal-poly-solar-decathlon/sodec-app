@@ -123,6 +123,7 @@ public class PowerActivity extends ActionBarActivity {
         //bannerLayout.addView(R.layout.activity_main);
 
         View view = findViewById(R.id.PowerLayout);
+        view.setBackgroundColor(Color.rgb(226, 231, 234));
         ViewGroup parent = (ViewGroup) view.getParent();
         parent.removeView(view);
         bannerLayout.addView(view);

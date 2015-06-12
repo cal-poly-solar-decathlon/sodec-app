@@ -2,4 +2,6 @@
 <resources>
     <color name="dash_title_bg">#E9ECEE</color>
     <color name="dash_bg">#CCF5EB</color>
+    <color name="dash_bg2">#A0A0A0</color>
+    <color name="lightgrey_bg">#E2E7EA</color>
 </resources>

@@ -1,5 +1,6 @@
 package edu.calpoly.sodec.sodecapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -86,6 +87,7 @@ public class SuggestionsActivity extends ActionBarActivity {
         bannerLayout = new BannerLayout(this);
 
         View view = findViewById(R.id.suggestionslayout);
+        view.setBackgroundColor(Color.rgb(226, 231, 234));
         ViewGroup parent = (ViewGroup) view.getParent();
         parent.removeView(view);
         bannerLayout.addView(view);

@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,8 +17,11 @@ public class BannerLayout extends LinearLayout {
 
     private LinearLayout bannerLayout;
     private LinearLayout pageLayout;
+    private LinearLayout logoLayout;
+    private LinearLayout titleLayout;
     private TextView pageTitle;
     private TextView bannerText;
+    private ImageView bannerLogo;
 
     public BannerLayout(Context context) {
         super(context);
@@ -40,64 +44,83 @@ public class BannerLayout extends LinearLayout {
     }
 
     private void initLayout(Context context) {
-        bannerLayout = new LinearLayout(context);
-        bannerLayout.setOrientation(LinearLayout.HORIZONTAL);
-        pageLayout = new LinearLayout(context);
-        pageLayout.setOrientation(LinearLayout.HORIZONTAL);
-        pageLayout.setBackgroundColor(Color.GRAY);
-
         super.setOrientation(LinearLayout.VERTICAL);
-
-        //this.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-
         LayoutParams mainParams = (LayoutParams) this.getLayoutParams();
         if (mainParams == null) {
             mainParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         }
         this.setLayoutParams(mainParams);
-        this.setWeightSum(1.0f);
+        this.setWeightSum(10);
 
-        LayoutParams bannerParams = (LayoutParams) bannerLayout.getLayoutParams();
-        if (bannerParams == null) {
-            bannerParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        }
-        bannerParams.weight = 0.9f;
-        bannerLayout.setLayoutParams(bannerParams);
+        initBanner(context);
 
-        bannerLayout.setBackgroundColor(Color.GREEN);
-        bannerLayout.setBackgroundColor(Color.rgb(0, 102, 51));
-        bannerLayout.setWeightSum(1.0f);
+        pageLayout = new LinearLayout(context);
+        pageLayout.setOrientation(LinearLayout.HORIZONTAL);
+        pageLayout.setBackgroundColor(Color.GRAY);
+        pageLayout.setPadding(25, 25, 25, 25);
+
 
         LayoutParams pageParams = (LayoutParams) pageLayout.getLayoutParams();
         if (pageParams == null) {
             pageParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             //pageParams = new LayoutParams(0, 0);
         }
-        pageParams.weight = 0.1f;
+        pageParams.weight = 1.5f;
         pageLayout.setLayoutParams(pageParams);
 
-        pageTitle = new TextView(bannerLayout.getContext());
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.weight = 0.4f;
-        pageTitle.setLayoutParams(params);
-        pageTitle.setText("Page Title");
-        pageTitle.setGravity(Gravity.CENTER_VERTICAL);
-        pageTitle.setTextColor(Color.WHITE);
-        pageTitle.setTextSize(24);
-
-        bannerText = new TextView(bannerLayout.getContext());
-        params.weight = 0.4f;
-        bannerText.setLayoutParams(params);
-        bannerText.setText("Cal Poly Solar Decathlon App");
-        bannerText.setTextColor(Color.WHITE);
-        bannerText.setGravity(Gravity.CENTER_VERTICAL);
-        bannerText.setTextSize(30);
-        bannerText.setPadding(20, 0, 0, 0);
-
-        bannerLayout.addView(bannerText);
-        bannerLayout.addView(pageTitle);
         super.addView(bannerLayout);
         super.addView(pageLayout);
+    }
+
+    private void initBanner(Context context) {
+        bannerLayout = new LinearLayout(context);
+        bannerLayout.setOrientation(LinearLayout.HORIZONTAL);
+        LayoutParams bannerParams = (LayoutParams) bannerLayout.getLayoutParams();
+        if (bannerParams == null) {
+            bannerParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        }
+        bannerParams.weight = 8.5f;
+        bannerLayout.setLayoutParams(bannerParams);
+
+        bannerLayout.setBackgroundColor(Color.rgb(86, 137, 53));
+        bannerLayout.setWeightSum(10);
+
+        titleLayout = new LinearLayout(bannerLayout.getContext());
+        pageTitle = new TextView(titleLayout.getContext());
+        LayoutParams titleParams = (LayoutParams) titleLayout.getLayoutParams();
+        if (titleParams == null) {
+            titleParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        }
+        //titleParams.weight = 3;
+        titleLayout.setLayoutParams(titleParams);
+
+        pageTitle.setLayoutParams(titleParams);
+        pageTitle.setTextSize(40);
+        pageTitle.setGravity(Gravity.CENTER);
+        pageTitle.setTextColor(Color.WHITE);
+        pageTitle.setPadding(0, 0, 0, 0);
+        titleLayout.setOrientation(HORIZONTAL);
+        titleLayout.addView(pageTitle);
+
+        logoLayout = new LinearLayout(context);
+        LayoutParams logoParams = (LayoutParams) logoLayout.getLayoutParams();
+        if (logoParams == null) {
+            logoParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        }
+        //logoParams.weight = 7;
+        //logoParams.gravity = Gravity.START;
+        logoLayout.setLayoutParams(logoParams);
+
+        bannerLogo = new ImageView(bannerLayout.getContext());
+        bannerLogo.setLayoutParams(logoParams);
+        bannerLogo.setImageResource(R.drawable.cpsolar_logo);
+        bannerLogo.setAdjustViewBounds(true);
+        bannerLogo.setPadding(25, 0, 0, 0);
+
+        logoLayout.addView(bannerLogo);
+
+        bannerLayout.addView(logoLayout);
+        bannerLayout.addView(titleLayout);
     }
 
     @Override

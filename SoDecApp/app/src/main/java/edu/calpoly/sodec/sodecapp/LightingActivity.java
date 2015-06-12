@@ -2,6 +2,7 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -9,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -19,8 +19,6 @@ import java.util.List;
 public class LightingActivity extends ActionBarActivity {
 
     private BannerLayout bannerLayout;
-    private LinearLayout pageLayout;
-    private LinearLayout listLayout;
     private FrameLayout floorplanLayout;
 
     private List<TextView> lightTexts = new ArrayList<TextView>();
@@ -70,6 +68,7 @@ public class LightingActivity extends ActionBarActivity {
         //bannerLayout.setOrientation(LinearLayout.VERTICAL);
 
         floorplanLayout = new FrameLayout(this);
+        floorplanLayout.setBackgroundColor(Color.rgb(226, 231, 234));
 
         floorplanView = new ImageView(floorplanLayout.getContext());
         floorplanView.setImageResource(R.drawable.floorplan);

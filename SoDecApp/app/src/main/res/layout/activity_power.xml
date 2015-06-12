@@ -6,11 +6,12 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="edu.calpoly.sodec.sodecapp.PowerActivity"
     android:id="@+id/PowerLayout"
-    android:focusable="true">
+    android:focusable="true"
+    android:backgroundTint="@color/lightgrey_bg">
 
     <view
-        android:layout_width="231dp"
-        android:layout_height="231dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         class="lecho.lib.hellocharts.view.PieChartView"
         android:id="@+id/roomPowerChart"
         android:layout_row="5"

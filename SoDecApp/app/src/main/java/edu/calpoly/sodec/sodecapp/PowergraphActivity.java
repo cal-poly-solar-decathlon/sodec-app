@@ -71,6 +71,7 @@ public class PowergraphActivity extends ActionBarActivity {
         //bannerLayout.addView(R.layout.activity_main);
 
         View view = findViewById(R.id.powergraphLayout);
+        view.setBackgroundColor(Color.rgb(226, 231, 234));
         ViewGroup parent = (ViewGroup) view.getParent();
         parent.removeView(view);
         bannerLayout.addView(view);

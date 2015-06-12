@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.survivingwithandroid.weather.lib.WeatherClient;
@@ -29,7 +28,7 @@ public class DashboardActivity extends ActionBarActivity {
     private LineChartView mPowerLineChart;
     private LineChartData mPowerData;
 
-    private RelativeLayout mLightsGroup;
+    private LinearLayout mLightsGroup;
     private TextView mNumLightsOn;
 
     private LinearLayout mInsightsGroup;
@@ -98,7 +97,7 @@ public class DashboardActivity extends ActionBarActivity {
         //setContentView(R.layout.activity_dashboard);
         mPowerLineChart = (LineChartView) findViewById(R.id.dashPowerLineChart);
         mPowerPieChart = (PieChartView) this.findViewById(R.id.dashPowerPieChart);
-        mLightsGroup = (RelativeLayout) this.findViewById(R.id.dashLightsGroup);
+        mLightsGroup = (LinearLayout) this.findViewById(R.id.dashLightsGroup);
         mNumLightsOn = (TextView) this.findViewById(R.id.dashLightsOnCount);
 
         mTemperatureGroup = (LinearLayout) this.findViewById(R.id.dashTempGroup);

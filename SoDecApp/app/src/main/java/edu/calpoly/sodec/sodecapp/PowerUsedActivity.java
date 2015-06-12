@@ -2,6 +2,7 @@ package edu.calpoly.sodec.sodecapp;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ public class PowerUsedActivity extends TabActivity {
         //bannerLayout.addView(R.layout.activity_main);
 
         View view = findViewById(R.id.powerUsedLayout);
+        view.setBackgroundColor(Color.rgb(226, 231, 234));
         ViewGroup parent = (ViewGroup) view.getParent();
         parent.removeView(view);
         bannerLayout.addView(view);

@@ -5,7 +5,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:id="@+id/suggestionslayout"
-    tools:context="edu.calpoly.sodec.sodecapp.SuggestionsActivity">
+    tools:context="edu.calpoly.sodec.sodecapp.SuggestionsActivity"
+    android:backgroundTint="@color/lightgrey_bg">
 
     <TextView
         android:layout_width="wrap_content"

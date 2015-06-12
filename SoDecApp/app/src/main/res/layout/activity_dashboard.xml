@@ -4,155 +4,127 @@
     android:id="@+id/toplayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity"
-    android:background="@color/dash_bg">
+    android:weightSum="4">
 
     <!-- Left side -->
-    <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.5"
-        android:orientation="vertical">
-
-        <!-- Power / Top-left of Dashboard -->
-        <LinearLayout
-            android:id="@+id/dashPowerGroup"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:orientation="vertical"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/dash_title_power"
-                android:background="@color/dash_title_bg"
-                android:textSize="@dimen/dash_title_size"
-                android:textStyle="bold"/>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-
-                <lecho.lib.hellocharts.view.PieChartView
-                    android:id="@+id/dashPowerPieChart"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:focusableInTouchMode="true"
-                    android:layout_weight="0.5"
-                    android:layout_margin="10dp"/>
-
-                <lecho.lib.hellocharts.view.LineChartView
-                    android:id="@+id/dashPowerLineChart"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dip"
-                    android:layout_weight="0.5"
-                    android:layout_margin="10dp"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Insights / Bottom-left of Dashboard -->
-        <LinearLayout
-            android:id="@+id/dashInsightsGroup"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:orientation="vertical"
-            android:layout_weight="0.5">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/dash_title_insights"
-                android:background="@color/dash_title_bg"
-                android:textSize="@dimen/dash_title_size"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-    </LinearLayout>
 
     <!-- Right side -->
+
     <LinearLayout
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="0.5"
-        android:orientation="vertical">
+        android:id="@+id/dashPowerGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@drawable/dashbg1"
+        android:baselineAligned="true"
+        android:measureWithLargestChild="false"
+        android:layout_marginBottom="10dp">
 
-        <!-- Lighting / Top-right of Dashboard -->
-        <RelativeLayout
-            android:id="@+id/dashLightsGroup"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:orientation="vertical"
-            android:layout_weight="0.5"
-            android:clickable="true">
-
-            <TextView
-                android:id="@+id/dashLightsTitle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/dash_title_lights"
-                android:background="@color/dash_title_bg"
-                android:textSize="@dimen/dash_title_size"
-                android:textStyle="bold"/>
-
-            <ImageView
-                android:id="@+id/dashLightsImage"
-                android:layout_width="@dimen/dash_light_icon"
-                android:layout_height="@dimen/dash_light_icon"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/dash_light_icon" />
-
-            <TextView
-                android:id="@+id/dashLightsOnCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
-                android:layout_alignTop="@id/dashLightsImage"
-                android:layout_marginTop="@dimen/dash_light_count_margin"
-                android:textSize="@dimen/dash_light_count_size"
-                android:text="@string/dash_default_light_count"
-                android:textColor="@android:color/black"/>
-
-        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dash_title_power"
+            android:textAllCaps="true"
+            android:textSize="@dimen/dash_title_size"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="right|top"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp" />
 
         <LinearLayout
-            android:id="@+id/dashTempGroup"
-            android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:orientation="vertical"
-            android:layout_weight="0.5"
-            android:clickable="true">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="150dp">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/dash_title_temp"
-                android:textAlignment="center"
-                android:textStyle="bold"
-                android:background="@color/dash_title_bg"
-                android:textSize="@dimen/dash_title_size"/>
+            <lecho.lib.hellocharts.view.PieChartView
+                android:id="@+id/dashPowerPieChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusableInTouchMode="true"
+                android:layout_weight="0.5"
+                android:layout_margin="10dp" />
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/dashPowerLineChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dashInsightsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:background="@drawable/dashbg1"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/dash_title_insights"
+            android:textAllCaps="true"
+            android:textSize="@dimen/dash_title_size"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dashTempGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:background="@drawable/dashbg1"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dash_title_temp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="@dimen/dash_title_size"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
             <TextView
                 android:id="@+id/dashTempInside"
                 android:layout_width="wrap_content"
                 android:layout_height="0dip"
                 android:layout_weight="0.3"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/dash_curr_temp_margin"
                 android:textSize="@dimen/dash_curr_temp_size"
                 android:textStyle="bold"
                 android:text="@string/inside_temp_missing"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/dashTempOutside"
@@ -164,7 +136,8 @@
                 android:textSize="@dimen/dash_curr_temp_size"
                 android:textStyle="bold"
                 android:text="@string/outside_temp_missing"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="10dp" />
 
             <TextView
                 android:id="@+id/dashTempGenArea"
@@ -179,5 +152,59 @@
                 android:textColor="@android:color/black"/>
 
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dashLightsGroup"
+        android:layout_weight="1"
+        android:background="@drawable/dashbg1"
+        android:baselineAligned="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/dashLightsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dash_title_lights"
+            android:textAllCaps="true"
+            android:textSize="@dimen/dash_title_size"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="25dp" />
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="100dp">
+
+            <ImageView
+                android:id="@+id/dashLightsImage"
+                android:layout_width="@dimen/dash_light_icon"
+                android:layout_height="@dimen/dash_light_icon"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:layout_toEndOf="@id/dashLightsTitle"
+                android:src="@drawable/dash_light_icon"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/dashLightsOnCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/dashLightsImage"
+                android:layout_alignEnd="@id/dashLightsImage"
+                android:layout_alignTop="@id/dashLightsImage"
+                android:layout_alignBottom="@id/dashLightsImage"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/dash_light_count_size"
+                android:text="@string/dash_default_light_count"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center"
+                android:layout_marginTop="-15dp" />
+        </FrameLayout>
     </LinearLayout>
 </LinearLayout>
