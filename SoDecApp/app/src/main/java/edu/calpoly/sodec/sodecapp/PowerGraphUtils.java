@@ -71,6 +71,35 @@ public class PowerGraphUtils {
         }, params);
     }
 
+    public static void initPointsTot(final ServerConnection.ResponseCallback<String, String> resp, final LineChartData mData, final LineChartView mChart,
+                                     String device, final String usage, String startTime, String endTime) {
+
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("device", device));
+        params.add(new BasicNameValuePair("start", startTime));
+        params.add(new BasicNameValuePair("end", endTime));
+
+        new ServerConnection().getEventsInRange(new ServerConnection.ResponseCallback<String, String>() {
+
+            /**
+             * @param response Should include a base timestamp, base power generated/usage value,
+             *                 and pairs of time deltas and power deltas.
+             */
+            @Override
+            public void execute(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    //Timestamp baseTime = new Timestamp((int) jsonResponse.get(BASE_TIME));
+                    // int basePower = (int) jsonResponse.get(usage);
+                    JSONArray dataDeltas = jsonResponse.getJSONArray(SERIES_DATA);
+                    resp.execute(dataDeltas.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, params);
+    }
+
     public static void initPointsFromCache(LineChartData lineData, LineChartView lineChart,
                                            String device, long startMillis, long endMillis) {
         ArrayList<Long> readings = CacheManager.getInstance(null)
