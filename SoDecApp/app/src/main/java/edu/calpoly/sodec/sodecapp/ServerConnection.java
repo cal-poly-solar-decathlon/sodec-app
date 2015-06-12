@@ -123,6 +123,7 @@ public class ServerConnection {
         sendAsynchRequest(onSuccess, LATEST_EVENT_ROUTE, params);
     }*/
 
+    // maybe replace with call to getLatestEvent?
     public void getLight(final ResponseCallback<String, String> onSuccess, final edu.calpoly.sodec.sodecapp.LightDevice device) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("device", device.id));
@@ -154,6 +155,7 @@ public class ServerConnection {
         }
     }
 
+    // success callback is dead code...
     private String sendRequest(final ResponseCallback<String, String> onSuccess, final String route, final List<NameValuePair> parameters) {
         String url = BASE_SERVER_URI + route;
         HttpGet request;

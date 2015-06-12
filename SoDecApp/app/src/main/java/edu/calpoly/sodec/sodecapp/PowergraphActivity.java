@@ -205,6 +205,7 @@ public class PowergraphActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Draws the line graph
     private void generator(final String[] source, String time) {
         String startTime = TimestampUtils.getStartIsoForDay();
 
