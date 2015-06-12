@@ -42,8 +42,10 @@ public class PowerCacheIntentService extends IntentService {
 
     private void cacheMissingDays() {
         Calendar dayToStopBefore = mCache.getLastCachedDay();
-        // If we need to cache more than two days, we'll fetch a week's worth of data at a time
-        int dayIncr = dayToStopBefore.before(TimestampUtils.getStartOfDay(-2)) ? WEEK_INCREMENT : 1;
+        // If we need to cache more than two days, we'll fetch a week's worth of data at a time.
+        // We're disabling this check for now because fetching by week is hammering the server.
+        // int dayIncr = dayToStopBefore.before(TimestampUtils.getStartOfDay(-2)) ? WEEK_INCREMENT : 1;
+        int dayIncr = 1;
         Calendar calDayStart = TimestampUtils.getStartOfDay(-dayIncr);
         Calendar calDayEnd = TimestampUtils.getEndOfDay(-1);
         int numDaysToCache = calcDaysToCache(dayToStopBefore, TimestampUtils.getStartOfDay(-1));
