@@ -77,8 +77,6 @@ public class LightingActivity extends ActionBarActivity {
 
         bannerLayout.addView(floorplanLayout);
         setContentView(bannerLayout);
-
-        initSensorCollection();
     }
 
     public void setupLightList() {
@@ -123,16 +121,6 @@ public class LightingActivity extends ActionBarActivity {
             } else {
                 image.setImageResource(R.drawable.light_off);
             }
-        }
-    }
-
-    private void initSensorCollection() {
-        boolean sensorCollectionStarted = (PendingIntent.getBroadcast(this, 0,
-                new Intent(SensorCollectionReceiver.ACTION_COLLECT_SENSOR_DATA),
-                PendingIntent.FLAG_NO_CREATE) != null);
-
-        if (!sensorCollectionStarted) {
-            sendBroadcast(new Intent(BootReceiver.ACTION_START_COLLECTION));
         }
     }
 

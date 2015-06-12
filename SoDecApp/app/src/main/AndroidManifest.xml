@@ -31,23 +31,7 @@
                 <action android:name="edu.calpoly.sodec.sodecapp.action.SCHEDULE_COLLECTION" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".SensorCollectionReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="COLLECT_SENSOR_DATA" />
-            </intent-filter>
-        </receiver>
 
-        <activity
-            android:name=".PowerGeneratedActivity"
-            android:label="@string/title_activity_power_generated" >
-        </activity>
-        <activity android:name=".PowerGraphDayActivity" />
-        <activity android:name=".PowerGraphMonthActivity" />
-        <activity android:name=".PowerGraphWeekActivity" />
-        <activity android:name=".PowerGraphYearActivity" />
         <activity
             android:name=".WeatherActivity"
             android:label="@string/title_activity_weather" >
